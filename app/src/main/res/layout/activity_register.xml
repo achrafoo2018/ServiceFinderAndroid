@@ -45,7 +45,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
-        android:text="@string/wanna_create_an_account"
+        android:text="@string/want_to_create_an_account"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
