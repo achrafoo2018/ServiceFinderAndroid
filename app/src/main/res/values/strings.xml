@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">ServiceFinder</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="back_to_sign_in">Back to Sign in</string>
+    <string name="we_just_need_your_registered_email_address">We just need your registered email address</string>
+    <string name="to_send_you_password_reset">to send you password reset</string>
+    <string name="wanna_create_an_account">Wanna Create an Account ?</string>
+    <string name="first_name">First Name</string>
+    <string name="username">Username</string>
+    <string name="lastname">LastName</string>
+
+    <string name="confirm_password">Confirm Password</string>
+    <string name="i_am_a">I am a :</string>
+    <string name="client">Client</string>
+    <string name="provider">Provider</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_an_account">Already Have an account ?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="already_have_account">Already Have an Account?</string>
+    <string name="username_or_email">Username Or Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="todo">TODO</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+    <string name="or">OR</string>
+    <string name="want_to_create_an_account">Want to Create an Account ?</string>
 </resources>
