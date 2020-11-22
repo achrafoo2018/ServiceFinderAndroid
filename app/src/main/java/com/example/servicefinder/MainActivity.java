@@ -2,37 +2,39 @@ package com.example.servicefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.servicefinder.Fragments.SignUpFragment;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView goToRegister = (TextView) findViewById(R.id.goToRegister);
-        goToRegister.setOnClickListener(new View.OnClickListener() {
+
+        //this code will pause the app for 1.5 secs and then any thing in run method will run.
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(myIntent);
+            public void run() {
+                startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                finish();
             }
-        });
-        TextView forgotPass = (TextView) findViewById(R.id.forgotPassword);
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, forgotPassActivity.class);
-                startActivity(myIntent);
-            }
-        });
+        }, 1500);
+    }
 
     }
-}
+
 
 
