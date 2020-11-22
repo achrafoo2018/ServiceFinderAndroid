@@ -10,7 +10,6 @@
     <string name="first_name">First Name</string>
     <string name="username">Username</string>
     <string name="lastname">LastName</string>
-
     <string name="confirm_password">Confirm Password</string>
     <string name="i_am_a">I am a :</string>
     <string name="client">Client</string>
@@ -18,7 +17,6 @@
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account">Already Have an account ?</string>
     <string name="sign_in">Sign in</string>
-    <string name="email">Email</string>
     <string name="already_have_account">Already Have an Account?</string>
     <string name="username_or_email">Username Or Email</string>
     <string name="password">Password</string>
@@ -26,6 +24,11 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="todo">TODO</string>
     <string name="new_user_register_now">New User? Register Now</string>
-    <string name="or">OR</string>
     <string name="want_to_create_an_account">Want to Create an Account ?</string>
+    <string name="or">OR</string>
+    <string name="emailorusername">Email or Username</string>
+    <string name="email">Email</string>
+    <string name="service_finder">Service Finder</string>
+
+
 </resources>
