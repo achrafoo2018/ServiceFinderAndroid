@@ -127,7 +127,7 @@ public class SignInFragment extends Fragment {
                 layoutEmail.setError("Email is Required");
                 return false;
             }
-            if (txtPassword.getText().toString().length()<8){
+            if (txtPassword.getText().toString().length()<7){
                 layoutPassword.setErrorEnabled(true);
                 layoutPassword.setError("Required at least 8 characters");
                 return false;
@@ -148,14 +148,15 @@ public class SignInFragment extends Fragment {
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("token",object.getString("token"));
-                    editor.putString("name",user.getString("name"));
+                    editor.putString("first_name",user.getString("first_name"));
                     editor.putInt("id",user.getInt("id"));
-                    editor.putString("lastname",user.getString("lastname"));
-                    editor.putString("photo",user.getString("photo"));
-
+                    editor.putString("last_name",user.getString("last_name"));
+                    editor.putString("type",user.getString("type"));
                     editor.apply();
                     //if success
                     Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -165,6 +166,7 @@ public class SignInFragment extends Fragment {
             // error if connection not success
             error.printStackTrace();
             dialog.dismiss();
+
         }){
 
             // add parameters

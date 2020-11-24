@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -35,21 +37,51 @@ import java.util.Map;
 
 public class SignUpFragment extends Fragment {
     private View view;
-    private TextInputLayout layoutEmail,layoutPassword,layoutConfirm;
-    private TextInputEditText txtEmail,txtPassword,txtConfirm;
+    private TextInputLayout layoutEmail, layoutPassword, layoutConfirm;
+    private TextInputEditText txtEmail, txtPassword, txtConfirm;
     private TextView signIn;
     private Button btnSignUp;
     private ProgressDialog dialog;
+    private RadioGroup rg;
+    private String value;
 
+    public SignUpFragment() {
+    }
 
-    public SignUpFragment(){}
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_sign_up,container,false);
+        view = inflater.inflate(R.layout.layout_sign_up, container, false);
         init();
         return view;
+
     }
+
+    public void addListenerOnButton() {
+
+        rg= (RadioGroup)findViewById(R.id.radio);
+
+        btnDisplay.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // get selected radio button from radioGroup
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                radioButton = (RadioButton) findViewById(selectedId);
+
+                Toast.makeText(MyAndroidAppActivity.this,
+                        radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+
     private void init() {
         layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignUp);
         layoutEmail = view.findViewById(R.id.txtLayoutEmailSignUp);
@@ -58,7 +90,7 @@ public class SignUpFragment extends Fragment {
         txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
         txtEmail = view.findViewById(R.id.txtEmailSignUp);
         signIn = view.findViewById(R.id.signIn);
-        btnSignUp = view.findViewById(R.id.btnSignUp);
+        btnSignUp =view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
@@ -71,9 +103,10 @@ public class SignUpFragment extends Fragment {
         btnSignUp.setOnClickListener(v -> {
             //validate fields first
             if (validate()) {
-               register();
+                register();
             }
         });
+
 
         txtEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -83,7 +116,7 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!txtEmail.getText().toString().isEmpty()){
+                if (!txtEmail.getText().toString().isEmpty()) {
                     layoutEmail.setErrorEnabled(false);
                 }
             }
@@ -102,7 +135,7 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txtPassword.getText().toString().length()>7){
+                if (txtPassword.getText().toString().length() > 7) {
                     layoutPassword.setErrorEnabled(false);
                 }
             }
@@ -112,6 +145,7 @@ public class SignUpFragment extends Fragment {
 
             }
         });
+
         txtConfirm.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -120,7 +154,7 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (txtConfirm.getText().toString().equals(txtPassword.getText().toString())){
+                if (txtConfirm.getText().toString().equals(txtPassword.getText().toString())) {
                     layoutConfirm.setErrorEnabled(false);
                 }
 
@@ -133,41 +167,46 @@ public class SignUpFragment extends Fragment {
         });
     }
 
+
     private boolean validate() {
-        if (txtEmail.getText().toString().isEmpty()){
+        if (txtEmail.getText().toString().isEmpty()) {
             layoutEmail.setErrorEnabled(true);
             layoutEmail.setError("Email is Required");
             return false;
         }
-        if (txtPassword.getText().toString().length()<8){
+        if (txtPassword.getText().toString().length() < 8) {
             layoutPassword.setErrorEnabled(true);
             layoutPassword.setError("Required at least 8 characters");
             return false;
         }
-        if (!txtConfirm.getText().toString().equals(txtPassword.getText().toString())){
+        if (!txtConfirm.getText().toString().equals(txtPassword.getText().toString())) {
             layoutConfirm.setErrorEnabled(true);
             layoutConfirm.setError("Password does not match");
             return false;
         }
+
+
         return true;
     }
-    private void register(){
+
+
+    private void register() {
         dialog.setMessage("Registering");
         dialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
             //we get response if connection success
             try {
                 JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")){
+                if (object.getBoolean("success")) {
                     JSONObject user = object.getJSONObject("user");
                     //make shared preference user
-                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
+                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("token",object.getString("token"));
-                    editor.putString("name",user.getString("name"));
-                    editor.putInt("id",user.getInt("id"));
-                    editor.putString("lastname",user.getString("lastname"));
-                    editor.putString("photo",user.getString("photo"));
+                    editor.putString("token", object.getString("token"));
+                    editor.putString("first_name", user.getString("first_name"));
+                    editor.putInt("id", user.getInt("id"));
+                    editor.putString("last_name", user.getString("last_name"));
+                    editor.putString("type", user.getString("type"));
                     editor.apply();
                     //if success
                     Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
@@ -177,20 +216,20 @@ public class SignUpFragment extends Fragment {
             }
             dialog.dismiss();
 
-        },error -> {
+        }, error -> {
             // error if connection not success
             error.printStackTrace();
             dialog.dismiss();
-        }){
+        }) {
 
             // add parameters
 
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("email",txtEmail.getText().toString().trim());
-                map.put("password",txtPassword.getText().toString());
+                HashMap<String, String> map = new HashMap<>();
+                map.put("email", txtEmail.getText().toString().trim());
+                map.put("password", txtPassword.getText().toString());
                 return map;
             }
         };
@@ -199,8 +238,6 @@ public class SignUpFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
     }
-
 }
-
 
 
