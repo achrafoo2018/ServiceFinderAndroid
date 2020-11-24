@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class SignUpFragment extends Fragment {
     private Button btnSignUp;
     private ProgressDialog dialog;
     private RadioGroup rg;
-    private String value;
+    private String type;
 
     public SignUpFragment() {
     }
@@ -53,31 +54,8 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.layout_sign_up, container, false);
         init();
+
         return view;
-
-    }
-
-    public void addListenerOnButton() {
-
-        rg= (RadioGroup)findViewById(R.id.radio);
-
-        btnDisplay.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                // get selected radio button from radioGroup
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
-                radioButton = (RadioButton) findViewById(selectedId);
-
-                Toast.makeText(MyAndroidAppActivity.this,
-                        radioButton.getText(), Toast.LENGTH_SHORT).show();
-
-            }
-
-        });
 
     }
 
@@ -94,18 +72,28 @@ public class SignUpFragment extends Fragment {
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
+        rg = (RadioGroup)view.findViewById(R.id.radio);
+
+        btnSignUp.setOnClickListener(v ->{
+                // get selected radio button from radioGroup
+                RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.type);
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioButton = (RadioButton) view.findViewById(selectedId);
+                type = radioButton.getText().toString();
+                //Toast.makeText(view.getContext(), radioButton.getText()).show();
+                //validate fields first
+                if (validate()) {
+                    register();
+                }
+        });
 
         signIn.setOnClickListener(v -> {
             //change fragments
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer, new SignInFragment()).commit();
         });
 
-        btnSignUp.setOnClickListener(v -> {
-            //validate fields first
-            if (validate()) {
-                register();
-            }
-        });
 
 
         txtEmail.addTextChangedListener(new TextWatcher() {
@@ -157,7 +145,6 @@ public class SignUpFragment extends Fragment {
                 if (txtConfirm.getText().toString().equals(txtPassword.getText().toString())) {
                     layoutConfirm.setErrorEnabled(false);
                 }
-
             }
 
             @Override
@@ -230,6 +217,7 @@ public class SignUpFragment extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
+                map.put("type", type);
                 return map;
             }
         };
