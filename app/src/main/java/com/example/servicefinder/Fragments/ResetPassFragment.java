@@ -1,7 +1,6 @@
 package com.example.servicefinder.Fragments;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,7 +14,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,60 +34,45 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpFragment extends Fragment {
+
+public class ResetPassFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail, layoutPassword, layoutConfirm;
     private TextInputEditText txtEmail, txtPassword, txtConfirm;
-    private TextView signIn;
-    private Button btnSignUp;
+    private TextView gotosignIn;
+    private Button btnResetPass;
     private ProgressDialog dialog;
-    private RadioGroup rg;
-    private String type;
 
-    public SignUpFragment() {
-    }
+    public ResetPassFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_sign_up, container, false);
+        view = inflater.inflate(R.layout.layout_reset_password, container, false);
         init();
-
         return view;
-
     }
-
-
+    
     private void init() {
-        layoutPassword = view.findViewById(R.id.txtLayoutPasswordSignUp);
-        layoutEmail = view.findViewById(R.id.txtLayoutEmailSignUp);
-        layoutConfirm = view.findViewById(R.id.txtLayoutConfirmSignUp);
-        txtPassword = view.findViewById(R.id.txtPasswordSignUp);
-        txtConfirm = view.findViewById(R.id.txtConfirmSignUp);
-        txtEmail = view.findViewById(R.id.txtEmailSignUp);
-        signIn = view.findViewById(R.id.signIn);
-        btnSignUp =view.findViewById(R.id.btnSignUp);
+        layoutPassword = view.findViewById(R.id.txtLayoutPasswordReset);
+        layoutEmail = view.findViewById(R.id.txtLayoutEmailReset);
+        layoutConfirm = view.findViewById(R.id.txtLayoutConfirmReset);
+        txtPassword = view.findViewById(R.id.txtPasswordReset);
+        txtConfirm = view.findViewById(R.id.txtConfirmReset);
+        txtEmail = view.findViewById(R.id.txtEmailReset);
+        gotosignIn = view.findViewById(R.id.gotologin2);
+        btnResetPass =view.findViewById(R.id.ResetPassword);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
-        rg = (RadioGroup)view.findViewById(R.id.radio);
-
-        btnSignUp.setOnClickListener(v ->{
-                // get selected radio button from radioGroup
-                RadioGroup radioGroup = (RadioGroup)view.findViewById(R.id.type);
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                // find the radiobutton by returned id
-                RadioButton radioButton = (RadioButton) view.findViewById(selectedId);
-                type = radioButton.getText().toString();
-
-                //validate fields first
-                if (validate()) {
-                    register();
-                }
+        btnResetPass.setOnClickListener(v ->{
+            //validate fields first
+            if (validate()) {
+                ResetPassword();
+            }
         });
 
-        signIn.setOnClickListener(v -> {
+        gotosignIn.setOnClickListener(v -> {
             //change fragments
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer, new SignInFragment()).commit();
         });
@@ -177,10 +160,10 @@ public class SignUpFragment extends Fragment {
     }
 
 
-    private void register() {
-        dialog.setMessage("Registering");
+    private void ResetPassword() {
+        dialog.setMessage("Your Password is resetting");
         dialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.RESETPASSWORD, response -> {
             //we get response if connection success
             try {
                 JSONObject object = new JSONObject(response);
@@ -196,7 +179,7 @@ public class SignUpFragment extends Fragment {
                     editor.putString("type", user.getString("type"));
                     editor.apply();
                     //if success
-                    Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Password was reset successfully", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -217,7 +200,6 @@ public class SignUpFragment extends Fragment {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("email", txtEmail.getText().toString().trim());
                 map.put("password", txtPassword.getText().toString());
-                map.put("type", type);
                 return map;
             }
         };
@@ -227,5 +209,6 @@ public class SignUpFragment extends Fragment {
         queue.add(request);
     }
 }
+
 
 
