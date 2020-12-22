@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Constant;
+import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -154,9 +155,6 @@ public class SignInFragment extends Fragment {
                     editor.putString("type",user.getString("type"));
                     editor.apply();
                     //if success
-                    Toast.makeText(getContext(), "Login Success", Toast.LENGTH_SHORT).show();
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -101,7 +101,7 @@ public class SignUpFragment extends Fragment {
         });
 
         btnSignUp.setOnClickListener(v -> {
-            //validate fields first
+            addListenerOnButton();
             if (validate()) {
                 register();
             }
