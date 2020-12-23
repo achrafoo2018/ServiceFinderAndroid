@@ -33,7 +33,10 @@ local.properties
 # Windows thumbnail db
 Thumbs.db
 
-
+app/.idea
+.idea/
+app/.idea/
+app/.idea/.
 .idea
 build/
 .navigation
