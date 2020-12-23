@@ -7,4 +7,5 @@ public class Constant {
     public static final String REGISTER = HOME+"/register";
     public static final String SENDPASSWORDRESETLINK=HOME+"/sendPasswordResetLink";
     public static final String RESETPASSWORD=HOME+"/resetPassword";
+    public static final String SAVE_USER_INFO = HOME+"/updateAccount";
 }

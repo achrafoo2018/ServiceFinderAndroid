@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".AuthActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
