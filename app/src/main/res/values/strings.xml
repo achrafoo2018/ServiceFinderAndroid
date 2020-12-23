@@ -9,7 +9,7 @@
     <string name="wanna_create_an_account">Wanna Create an Account ?</string>
     <string name="first_name">First Name</string>
     <string name="username">Username</string>
-    <string name="lastname">LastName</string>
+    <string name="last_name">Last Name</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="i_am_a">I am a :</string>
     <string name="client">Client</string>
@@ -30,6 +30,8 @@
     <string name="email">Email</string>
     <string name="service_finder">Service Finder</string>
     <string name="want_to_reset_your_password">Want to Reset your Password?</string>
+    <string name="user_info">User Info</string>
+    <string name="Continue">Continue</string>
 
 
 </resources>

@@ -28,8 +28,18 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                finish();
+
+                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+                boolean isLoggedIn = userPref.getBoolean("isLoggedIn", false);
+
+                if (isLoggedIn){
+                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    finish();
+                }
+                else {
+                    startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                    finish();
+                }
             }
         }, 1500);
     }

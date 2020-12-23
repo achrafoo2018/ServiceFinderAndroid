@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-119551030/ServiceFinder.iml" filepath="$PROJECT_DIR$/.idea/modules/-119551030/ServiceFinder.iml" group="ServiceFinder" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-714858044/ServiceFinder.iml" filepath="$PROJECT_DIR$/.idea/modules/-714858044/ServiceFinder.iml" group="ServiceFinder" />
->>>>>>> cbec40627edca7f400f6bd214aaf39a5f0c75576
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app.iml" group="ServiceFinder/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/app.iml" filepath="$PROJECT_DIR$/.idea/app.iml" group="ServiceFinder/app" />
     </modules>
   </component>
 </project>

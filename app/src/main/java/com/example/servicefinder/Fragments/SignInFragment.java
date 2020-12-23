@@ -23,7 +23,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
+import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -149,12 +151,27 @@ public class SignInFragment extends Fragment {
                     SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user",getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("token",object.getString("token"));
-                    editor.putString("first_name",user.getString("first_name"));
                     editor.putInt("id",user.getInt("id"));
+                    editor.putString("email",object.getString("email"));
+                    editor.putString("first_name",user.getString("first_name"));
                     editor.putString("last_name",user.getString("last_name"));
+                    editor.putString("profile_picture",user.getString("profile_picture"));
                     editor.putString("type",user.getString("type"));
+                    editor.putBoolean("isLoggedIn", true);
+                    if(object.has("provider")){
+                        JSONObject provider = object.getJSONObject("provider");
+                        editor.putString("service",user.getString("service"));
+                        editor.putString("speciality",user.getString("speciality"));
+                        editor.putString("phone_number",user.getString("phone_number"));
+                        editor.putString("description",user.getString("description"));
+                        editor.putString("rating",user.getString("rating"));
+                    }
                     editor.apply();
                     //if success
+                    startActivity(new Intent(((AuthActivity)getContext()), HomeActivity.class));
+                    ((AuthActivity) getContext()).finish();
+                    Toast.makeText(getContext(), "Login Success!", Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
