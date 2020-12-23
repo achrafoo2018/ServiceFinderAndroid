@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,17 +96,6 @@ public class SignUpFragment extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer, new SignInFragment()).commit();
         });
 
-<<<<<<< HEAD
-        btnSignUp.setOnClickListener(v -> {
-            addListenerOnButton();
-            if (validate()) {
-                register();
-            }
-        });
-=======
->>>>>>> cbec40627edca7f400f6bd214aaf39a5f0c75576
-
-
         txtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -167,7 +158,12 @@ public class SignUpFragment extends Fragment {
     private boolean validate() {
         if (txtEmail.getText().toString().isEmpty()) {
             layoutEmail.setErrorEnabled(true);
-            layoutEmail.setError("Email is Required");
+            layoutEmail.setError("Email is required");
+            return false;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(txtEmail.getText().toString()).matches()){
+            layoutEmail.setErrorEnabled(true);
+            layoutEmail.setError("Email not valid");
             return false;
         }
         if (txtPassword.getText().toString().length() < 7) {

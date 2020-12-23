@@ -24,6 +24,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Constant;
+import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -154,7 +155,8 @@ public class SignInFragment extends Fragment {
                     editor.putString("last_name",user.getString("last_name"));
                     editor.putString("type",user.getString("type"));
                     editor.apply();
-                    //if success
+                    Intent intent = new Intent(getActivity().getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
