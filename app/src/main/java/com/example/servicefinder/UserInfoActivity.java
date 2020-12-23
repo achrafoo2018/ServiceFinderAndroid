@@ -15,6 +15,7 @@ import android.util.Base64;
 import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -127,12 +128,15 @@ public class UserInfoActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                     if (object.getBoolean("success")){
+                        Toast.makeText(this, userPref.getString("token", ""), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = userPref.edit();
                         editor.putString("profile_picture", object.getString("profile_picture"));
                         editor.apply();
                         startActivity(new Intent(UserInfoActivity.this, HomeActivity.class));
                         finish();
-                }
+                }else{
+                        Toast.makeText(this, "Failed : " +userPref.getString("token", ""), Toast.LENGTH_SHORT).show();
+                    }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -154,6 +158,7 @@ public class UserInfoActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
+                map.put("id", String.valueOf(userPref.getInt("id", -1)));
                 map.put("first_name", firstName);
                 map.put("last_name", lastName);
                 map.put("profile_picture", bitmapToString(bitmap));

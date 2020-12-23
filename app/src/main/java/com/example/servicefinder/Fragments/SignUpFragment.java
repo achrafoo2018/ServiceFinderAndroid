@@ -193,7 +193,7 @@ public class SignUpFragment extends Fragment {
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("token",object.getString("token"));
                     editor.putInt("id",user.getInt("id"));
-                    editor.putString("email",object.getString("email"));
+                    editor.putString("email",user.getString("email"));
                     editor.putString("first_name",user.getString("first_name"));
                     editor.putString("last_name",user.getString("last_name"));
                     editor.putString("profile_picture",user.getString("profile_picture"));
@@ -201,11 +201,11 @@ public class SignUpFragment extends Fragment {
                     editor.putBoolean("isLoggedIn", true);
                     if(object.has("provider")){
                         JSONObject provider = object.getJSONObject("provider");
-                        editor.putString("service",user.getString("service"));
-                        editor.putString("speciality",user.getString("speciality"));
-                        editor.putString("phone_number",user.getString("phone_number"));
-                        editor.putString("description",user.getString("description"));
-                        editor.putString("rating",user.getString("rating"));
+                        editor.putString("service",provider.getString("service"));
+                        editor.putString("speciality",provider.getString("speciality"));
+                        editor.putString("phone_number",provider.getString("phone_number"));
+                        editor.putString("description",provider.getString("description"));
+                        editor.putString("rating",provider.getString("rating"));
                     }
                     editor.apply();
                     //if success
