@@ -36,6 +36,8 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static java.security.AccessController.getContext;
+
 public class UserInfoActivity extends AppCompatActivity {
 
     private TextInputLayout layoutFirstName, layoutLastName;
@@ -128,15 +130,17 @@ public class UserInfoActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                     if (object.getBoolean("success")){
-                        Toast.makeText(this, userPref.getString("token", ""), Toast.LENGTH_SHORT).show();
                         SharedPreferences.Editor editor = userPref.edit();
-                        editor.putString("profile_picture", object.getString("profile_picture"));
+                        JSONObject user = object.getJSONObject("user");
+                        editor.putString("first_name",user.getString("first_name"));
+                        editor.putString("last_name",user.getString("last_name"));
+                        editor.putString("profile_picture", user.getString("profile_picture"));
                         editor.apply();
-                        startActivity(new Intent(UserInfoActivity.this, HomeActivity.class));
+                        Intent intent = new Intent(UserInfoActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        //Toast.makeText(getApplicationContext(), "Register Success", Toast.LENGTH_SHORT).show();
                         finish();
-                }else{
-                        Toast.makeText(this, "Failed : " +userPref.getString("token", ""), Toast.LENGTH_SHORT).show();
-                    }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

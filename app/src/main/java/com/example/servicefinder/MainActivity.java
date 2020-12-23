@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
                 SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
                 boolean isLoggedIn = userPref.getBoolean("isLoggedIn", false);
-
+                isLoggedIn = false; // delete this when logout done
                 if (isLoggedIn){
                     startActivity(new Intent(MainActivity.this, HomeActivity.class));
                     finish();

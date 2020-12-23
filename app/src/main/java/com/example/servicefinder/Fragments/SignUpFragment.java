@@ -211,7 +211,7 @@ public class SignUpFragment extends Fragment {
                     //if success
                     startActivity(new Intent(((AuthActivity)getContext()), UserInfoActivity.class));
                     ((AuthActivity) getContext()).finish();
-                    Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
