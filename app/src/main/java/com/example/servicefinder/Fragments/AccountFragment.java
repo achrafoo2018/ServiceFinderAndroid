@@ -96,7 +96,7 @@ public class AccountFragment extends Fragment {
                         JSONObject p = posts.getJSONObject(i);
 
                         Post post = new Post();
-                        post.setPhoto(Constant.URL+"storage/posts/"+p.getString("photo"));
+                        post.setPost_picture(Constant.URL+"storage/posts/"+p.getString("photo"));
                         arrayList.add(post);
 
                     }
