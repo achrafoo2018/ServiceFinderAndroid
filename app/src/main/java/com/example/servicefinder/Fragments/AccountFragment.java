@@ -169,7 +169,7 @@ public class AccountFragment extends Fragment {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.clear();
                     editor.apply();
-                    startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class);
+                    startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class));
                     ((HomeActivity)getContext()).finish();
                 }
             } catch (JSONException e) {
