@@ -22,7 +22,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="todo">TODO</string>
     <string name="new_user_register_now">New User? Register Now</string>
     <string name="want_to_create_an_account">Want to Create an Account ?</string>
     <string name="or">OR</string>
@@ -33,5 +32,7 @@
     <string name="user_info">User Info</string>
     <string name="Continue">Continue</string>
     <string name="new_to_servicefinder">New to Service Finder ?</string>
+    <string name="todo">TODO</string>
+    <string name="new_post">New Post</string>
 
 </resources>
