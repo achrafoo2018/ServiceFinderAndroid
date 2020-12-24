@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frameHomeContainer"></FrameLayout>
+        android:id="@+id/frameHomeContainer" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -53,7 +53,8 @@
             app:srcCompat="@drawable/ic_baseline_add_24"
             app:tint="@color/colorWhite"
             app:layout_anchor="@id/bottom_app"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
