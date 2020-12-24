@@ -41,7 +41,7 @@ public class AccountPostAdapter extends RecyclerView.Adapter<AccountPostAdapter.
     @Override
     public void onBindViewHolder(@NonNull AccountPostAdapter.AccountPostHolder holder, int position) {
 
-        Picasso.get().load(arrayList.get(position).getPhoto()).into(holder.imageView);
+        Picasso.get().load(arrayList.get(position).getPost_picture()).into(holder.imageView);
 
     }
 
