@@ -9,4 +9,6 @@ public class Constant {
     public static final String RESETPASSWORD=HOME+"/resetPassword";
     public static final String SAVE_USER_INFO = HOME+"/updateAccount";
     public static final String POSTS = HOME+"/posts";
+    public static final String ADD_POST = POSTS+"/create";
+
 }
