@@ -92,19 +92,19 @@ public class AddPostActivity extends AppCompatActivity {
                     //User
                     User user = new User();
                     user.setId(userObject.getInt("id"));
-                    user.setFirst_name(userObject.getString("name")+" "+userObject.getString("firstname"));
-                    user.setLast_name(userObject.getString("name")+" "+userObject.getString("lastname"));
-                    user.setPhoto(userObject.getString("photo"));
+                    user.setFirst_name(userObject.getString("first_name"));
+                    user.setLast_name(userObject.getString("last_name"));
+                    user.setPhoto(userObject.getString("profile_picture"));
 
                     //Post
                     Post post = new Post();
                     post.setUser(user);
                     post.setId(postObject.getInt("id"));
-                    post.setPhoto(postObject.getString("photo"));
+                    post.setPost_picture(postObject.getString("post_image"));
                     post.setDesc(postObject.getString("desc"));
                     post.setDate(postObject.getString("created_at"));
 
-                    HomeFragment.arrayList.add(0,post);
+                    HomeFragment.arrayList.add(0, post);
                     HomeFragment.recyclerView.getAdapter().notifyItemInserted(0);
                     HomeFragment.recyclerView.getAdapter().notifyDataSetChanged();
                     Toast.makeText(this, "Posted", Toast.LENGTH_SHORT).show();
@@ -136,6 +136,7 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
+                map.put("id", String.valueOf(preferences.getInt("id", -1)));
                 map.put("desc",txtDesc.getText().toString().trim());
                 map.put("photo",bitmapToString(bitmap));
                 return map;
