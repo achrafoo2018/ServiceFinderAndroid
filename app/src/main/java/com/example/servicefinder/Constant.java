@@ -8,4 +8,5 @@ public class Constant {
     public static final String SENDPASSWORDRESETLINK=HOME+"/sendPasswordResetLink";
     public static final String RESETPASSWORD=HOME+"/resetPassword";
     public static final String SAVE_USER_INFO = HOME+"/updateAccount";
+    public static final String POSTS = HOME+"/posts";
 }
