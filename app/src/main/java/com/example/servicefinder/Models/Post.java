@@ -2,7 +2,7 @@ package com.example.servicefinder.Models;
 
 public class Post {
     private int id;
-    private String date, desc, photo;
+    private String date, title, desc, post_picture;
     private User user;
 
     public int getId() {
@@ -29,12 +29,20 @@ public class Post {
         this.desc = desc;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPost_picture() {
+        return post_picture;
+    }
+
+    public void setPost_picture(String post_picture) {
+        this.post_picture = post_picture;
     }
 
     public User getUser() {

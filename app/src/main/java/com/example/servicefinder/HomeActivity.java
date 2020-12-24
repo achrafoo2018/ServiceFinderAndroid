@@ -2,23 +2,29 @@ package com.example.servicefinder;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.servicefinder.Fragments.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private static final int GALLERY_ADD_POST = 2;
     private BottomNavigationView navigationView;
-
+    private FragmentManager fragmentManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.frameHomeContainer,new HomeFragment(), HomeFragment.class.getSimpleName()).commit();
+
         init();
     }
 
@@ -40,5 +46,7 @@ public class HomeActivity extends AppCompatActivity {
             i.setData(imgUri);
             startActivity(i);
         }
+
     }
+
 }
