@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
                         arrayList.add(post);
                     }
 
-                    postsAdapter = new PostsAdapter(arrayList, getContext());
+                    postsAdapter = new PostsAdapter(getContext(), arrayList);
                     recyclerView.setAdapter(postsAdapter);
                 }
             } catch (JSONException e) {

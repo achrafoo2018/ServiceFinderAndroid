@@ -24,9 +24,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
     private ArrayList<Post> list;
     private Context context;
 
-    public PostsAdapter(ArrayList<Post> list, Context context) {
-        this.list = list;
+    public PostsAdapter(Context context, ArrayList<Post> list) {
         this.context = context;
+        this.list = list;
+
     }
 
     static class PostsHolder extends RecyclerView.ViewHolder{
@@ -58,8 +59,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
     public void onBindViewHolder(@NonNull PostsHolder holder, int position) {
         Post post = list.get(position);
         Picasso.get().load(Constant.URL+"storage/profile/"+post.getUser().getPhoto()).into(holder.imgProfile);
-        Picasso.get().load(Constant.URL+"storage/profile/"+post.getPost_picture()).into(holder.imgPost);
-        String full_name = post.getUser().getFirst_name()+post.getUser().getLast_name();
+        Picasso.get().load(Constant.URL+"storage/posts/"+post.getPost_picture()).into(holder.imgPost);
+        String full_name = post.getUser().getFirst_name()+" "+ post.getUser().getLast_name();
         holder.txtName.setText(full_name);
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
