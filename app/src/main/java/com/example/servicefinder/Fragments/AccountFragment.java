@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -57,6 +58,7 @@ public class AccountFragment extends Fragment {
     private CircleImageView imgProfile;
     private TextView txtName, txtPostsCount;
     private Button btnEditAccount;
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private ArrayList<Post> arrayList;
     private SharedPreferences preferences;
@@ -82,13 +84,21 @@ public class AccountFragment extends Fragment {
         txtPostsCount = view.findViewById(R.id.txtAccountPostCount);
         recyclerView = view.findViewById(R.id.recyclerAccount);
         btnEditAccount = view.findViewById(R.id.btnEditAccount);
+        refreshLayout = view.findViewById(R.id.swipeProfile);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         getData();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
     }
 
     private void getData() {
         arrayList = new ArrayList<>();
+        refreshLayout.setRefreshing(true);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST, response -> {
 
             try {
@@ -121,8 +131,14 @@ public class AccountFragment extends Fragment {
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+            refreshLayout.setRefreshing(false);
+
+
         }, error -> {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            refreshLayout.setRefreshing(false);
+
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
