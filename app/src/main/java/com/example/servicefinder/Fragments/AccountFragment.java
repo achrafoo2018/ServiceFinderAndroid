@@ -115,6 +115,9 @@ public class AccountFragment extends Fragment {
                     recyclerView.setAdapter(adapter);
 
                 }
+                else if (object.has("error")){
+                    Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
+                }
             } catch (JSONException e) {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -126,13 +129,6 @@ public class AccountFragment extends Fragment {
                 String token = preferences.getString("token", "");
                 HashMap<String,String> map = new HashMap<>();
                 map.put("Authorization", "Bearer "+token);
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("id", String.valueOf(preferences.getInt("id", -1)));
                 return map;
             }
         };
@@ -154,17 +150,9 @@ public class AccountFragment extends Fragment {
             case R.id.item_logout: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Do you want ot logout?");
-                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        logout();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                builder.setPositiveButton("Logout", (dialog, which) -> logout());
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
 
-                    }
                 });
                 builder.show();
                 break;
@@ -180,11 +168,15 @@ public class AccountFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
+                    Toast.makeText(getActivity(), "Logging out!", Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.clear();
                     editor.apply();
                     startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class));
                     ((HomeActivity)getContext()).finish();
+                }
+                else if(object.has("error")){
+                    Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -196,13 +188,6 @@ public class AccountFragment extends Fragment {
                 String token = preferences.getString("token", "");
                 HashMap<String,String> map = new HashMap<>();
                 map.put("Authorization", "Bearer "+token);
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("id", String.valueOf(preferences.getInt("id", -1)));
                 return map;
             }
         };
