@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,7 +51,22 @@ public class AddPostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_post);
         init();
     }
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
 
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, true);
+        bm.recycle();
+        return resizedBitmap;
+    }
     private void init() {
         preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         btnPost = findViewById(R.id.btnAddPost);
@@ -63,6 +79,7 @@ public class AddPostActivity extends AppCompatActivity {
         imgPost.setImageURI(getIntent().getData());
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), getIntent().getData());
+            bitmap = getResizedBitmap(bitmap,680, 560);
         } catch (IOException e) {
             e.printStackTrace();
         }
