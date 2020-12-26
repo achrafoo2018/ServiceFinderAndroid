@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="50dp"
+    tools:context=".EditUserInfoActivity">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_horizontal"
+        android:text="Edit Info"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@color/colorLightGrey"
+        android:id="@+id/imgEditUserInfo"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select photo"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:id="@+id/txtEditSelectPhoto"
+        android:textSize="16sp"
+        android:layout_marginBottom="20dp"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/txtEditLayoutFirstNameUserInfo"
+        android:layout_marginBottom="6dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtEditFirstNameUserInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/first_name"
+            android:inputType="text"
+            android:textSize="15sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/txtEditLayoutLastNameUserInfo"
+        android:layout_marginBottom="6dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEditLastNameUserInfo"
+            android:hint="@string/last_name"
+            android:inputType="text"
+            android:textSize="15sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:id="@+id/txtEditLayoutEmailUserInfo"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEditEmailUserInfo"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            android:textSize="15sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="Save"
+        android:id="@+id/btnEditSave"
+        android:background="@drawable/btn_round"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="60dp"
+        android:textSize="17dp"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="Change Password"
+        android:id="@+id/btnChangePassword"
+        android:background="@drawable/btn_round"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="10dp"
+        android:textSize="17dp"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="@string/edit_description"
+        android:id="@+id/btnChangeDescription"
+        android:background="@drawable/btn_round"
+        android:textColor="@color/colorWhite"
+        android:textSize="17dp"
+        android:textAllCaps="false"/>
+
+
+
+
+
+</LinearLayout>
+
