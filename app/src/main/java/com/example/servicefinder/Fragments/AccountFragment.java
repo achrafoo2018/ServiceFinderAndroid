@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Adapters.AccountPostAdapter;
 import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
+import com.example.servicefinder.EditUserInfoActivity;
 import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
@@ -63,6 +64,7 @@ public class AccountFragment extends Fragment {
     private ArrayList<Post> arrayList;
     private SharedPreferences preferences;
     private AccountPostAdapter adapter;
+    private String imgUrl = "";
 
     public AccountFragment(){}
 
@@ -94,6 +96,12 @@ public class AccountFragment extends Fragment {
                 getData();
             }
         });
+
+        btnEditAccount.setOnClickListener(v -> {
+            Intent intent = new Intent((HomeActivity)getContext(), EditUserInfoActivity.class);
+            intent.putExtra("imgUrl", imgUrl);
+            startActivity(intent);
+        });
     }
 
     private void getData() {
@@ -123,6 +131,8 @@ public class AccountFragment extends Fragment {
                     Picasso.get().load(Constant.URL+"storage/profile/"+userObject.getString("profile_picture")).into(imgProfile);
                     adapter = new AccountPostAdapter(getContext(),arrayList);
                     recyclerView.setAdapter(adapter);
+                    imgUrl = Constant.URL+"storage/profile/"+userObject.getString("profile_picture");
+
 
                 }
                 else if (object.has("error")){
