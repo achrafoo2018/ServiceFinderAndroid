@@ -27,10 +27,6 @@ public class AccountPostAdapter extends RecyclerView.Adapter<AccountPostAdapter.
         this.arrayList = arrayList;
     }
 
-
-
-
-
     @NonNull
     @Override
     public AccountPostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,8 +35,8 @@ public class AccountPostAdapter extends RecyclerView.Adapter<AccountPostAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AccountPostAdapter.AccountPostHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull AccountPostHolder holder, int position) {
+        Post post = arrayList.get(position);
         Picasso.get().load(arrayList.get(position).getPost_picture()).into(holder.imageView);
 
     }
@@ -50,7 +46,7 @@ public class AccountPostAdapter extends RecyclerView.Adapter<AccountPostAdapter.
         return arrayList.size();
     }
 
-    class AccountPostHolder extends RecyclerView.ViewHolder{
+    static class AccountPostHolder extends RecyclerView.ViewHolder{
 
         private ImageView imageView;
 

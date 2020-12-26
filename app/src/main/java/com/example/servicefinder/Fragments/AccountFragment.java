@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +34,7 @@ import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.Models.Post;
+import com.example.servicefinder.Models.User;
 import com.example.servicefinder.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -80,6 +82,7 @@ public class AccountFragment extends Fragment {
         txtPostsCount = view.findViewById(R.id.txtAccountPostCount);
         recyclerView = view.findViewById(R.id.recyclerAccount);
         btnEditAccount = view.findViewById(R.id.btnEditAccount);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         getData();
     }
@@ -92,26 +95,31 @@ public class AccountFragment extends Fragment {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
                     JSONArray posts = object.getJSONArray("posts");
+                    JSONObject userObject = object.getJSONObject("user");
+                    User user = new User();
+                    user.setId(userObject.getInt("id"));
+                    user.setFirst_name(userObject.getString("first_name"));
+                    user.setLast_name(userObject.getString("last_name"));
+                    user.setPhoto(userObject.getString("profile_picture"));
+                    txtName.setText(user.getFirst_name()+" "+user.getLast_name());
+                    txtPostsCount.setText(""+posts.length());
                     for (int i = 0; i < posts.length(); i++){
                         JSONObject p = posts.getJSONObject(i);
-
                         Post post = new Post();
-                        post.setPost_picture(Constant.URL+"storage/posts/"+p.getString("photo"));
+                        post.setPost_picture(Constant.URL+"storage/posts/"+p.getString("post_image"));
                         arrayList.add(post);
 
                     }
-                    JSONObject user = object.getJSONObject("user");
-                    txtName.setText(user.getString("first_name")+ " "+user.getString("last_name"));
-                    txtPostsCount.setText(arrayList.size()+"");
-                    Picasso.get().load(Constant.URL+"storage/profiles/"+user.getString("photo")).into(imgProfile);
+                    Picasso.get().load(Constant.URL+"storage/profile/"+userObject.getString("profile_picture")).into(imgProfile);
                     adapter = new AccountPostAdapter(getContext(),arrayList);
                     recyclerView.setAdapter(adapter);
+
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        },error -> {
-
+        }, error -> {
+            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -146,14 +154,20 @@ public class AccountFragment extends Fragment {
             case R.id.item_logout: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Do you want ot logout?");
-                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener(){
-
+                builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 });
                 builder.show();
+                break;
             }
         }
 
@@ -176,11 +190,7 @@ public class AccountFragment extends Fragment {
                 e.printStackTrace();
             }
 
-        }, error -> {
-
-            error.printStackTrace();
-
-        }){
+        }, Throwable::printStackTrace){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 String token = preferences.getString("token", "");

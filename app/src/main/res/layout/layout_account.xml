@@ -89,7 +89,7 @@
         android:layout_marginLeft="70dp"
         android:layout_marginRight="70dp"
         android:background="@drawable/round_bg"
-        android:text="Edit Account"
+        android:text="@string/edit_account"
         android:textColor="@color/colorWhite"
         android:textAllCaps="false"
         android:id="@+id/btnEditAccount"/>
