@@ -39,5 +39,6 @@
     <string name="edit_account">Edit Account</string>
     <string name="Email">Email</string>
     <string name="edit_description">Edit Description</string>
+    <string name="new_password">New Password</string>
 
 </resources>

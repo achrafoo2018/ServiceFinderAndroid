@@ -6,9 +6,13 @@ public class Constant {
     public static final String LOGIN = HOME+"/login";
     public static final String REGISTER = HOME+"/register";
     public static final String LOGOUT = HOME+"/logout";
+
     public static final String SENDPASSWORDRESETLINK=HOME+"/sendPasswordResetLink";
     public static final String RESETPASSWORD=HOME+"/resetPassword";
+
     public static final String SAVE_USER_INFO = HOME+"/updateAccount";
+    public static final String CHANGE_PASSWORD = HOME+"/changePassword";
+
     public static final String POSTS = HOME+"/posts";
 
     public static final String MY_POST = POSTS+"/myPosts";
