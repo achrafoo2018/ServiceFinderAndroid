@@ -45,7 +45,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private TextInputLayout layoutName,layoutLastname,layoutEmail;
     private TextInputEditText txtName,txtLastname,txtEmail;
     private TextView txtSelectPhoto;
-    private Button btnSave;
+    private Button btnSave, btnEditDescription;
     private CircleImageView circleImageView;
     private static final int GALLERY_CHANGE_PROFILE = 5;
     private Bitmap bitmap = null;
@@ -78,6 +78,11 @@ public class EditUserInfoActivity extends AppCompatActivity {
         txtSelectPhoto = findViewById(R.id.txtEditSelectPhoto);
         btnSave = findViewById(R.id.btnEditSave);
         circleImageView = findViewById(R.id.imgEditUserInfo);
+        btnEditDescription = findViewById(R.id.btnEditDescription);
+
+        if(userPref.getString("type","").equals("Provider")){
+            btnEditDescription.setVisibility(View.VISIBLE);
+        }
 
         Picasso.get().load(getIntent().getStringExtra("imgUrl")).into(circleImageView);
         txtName.setText(userPref.getString("first_name",""));
@@ -193,11 +198,6 @@ public class EditUserInfoActivity extends AppCompatActivity {
         return "";
     }
 
-    public void onChangePasswordClick(View view) {
-        Intent intent = new Intent(this, ChangePasswordActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -207,4 +207,14 @@ public class EditUserInfoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onChangePasswordClick(View view) {
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        startActivity(intent);
+    }
+
+
+    public void onEditDescriptionClick(View view) {
+        Intent intent = new Intent(this, EditDescriptionActivity.class);
+        startActivity(intent);
+    }
 }

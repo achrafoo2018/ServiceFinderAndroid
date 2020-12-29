@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditDescriptionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbarHome"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="Back"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary"/>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="50dp"
+            android:paddingEnd="30dp"
+            android:paddingStart="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/edit_description"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/LayoutServiceProviderInfo"
+                android:layout_marginBottom="6dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtEditServiceProviderInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/service"
+                    android:inputType="text"
+                    android:textSize="15sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/LayoutSpecialityProviderInfo"
+                android:layout_marginBottom="6dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtEditSpecialityProviderInfo"
+                    android:hint="@string/speciality"
+                    android:inputType="text"
+                    android:textSize="15sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/LayoutPhoneNumberProviderInfo"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtEditPhoneNumberProviderInfo"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone"
+                    android:textSize="15sp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/LayoutDescriptionProviderInfo"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:paddingStart="10dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:inputType="textMultiLine"
+                    android:gravity="start"
+                    android:textSize="15sp"
+                    android:id="@+id/txtEditDescriptionProviderInfo"
+                    android:background="@drawable/txt_background"
+                    android:hint="@string/description"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="0dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:text="@string/save"
+                android:id="@+id/btnEditSave"
+                android:background="@drawable/btn_round"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp"
+                android:textAllCaps="false"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+

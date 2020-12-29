@@ -143,11 +143,13 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:text="@string/edit_description"
-            android:id="@+id/btnChangeDescription"
+            android:id="@+id/btnEditDescription"
             android:background="@drawable/btn_round"
             android:textColor="@color/colorWhite"
             android:textSize="17dp"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false"
+            android:onClick="onEditDescriptionClick"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

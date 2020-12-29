@@ -38,7 +38,12 @@
     <string name="new_post">New Post</string>
     <string name="edit_account">Edit Account</string>
     <string name="Email">Email</string>
-    <string name="edit_description">Edit Description</string>
     <string name="new_password">New Password</string>
+    <string name="service">Service</string>
+    <string name="edit_description">Edit Description</string>
+    <string name="description">Description</string>
+    <string name="speciality">Speciality</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="save">Save</string>
 
 </resources>
