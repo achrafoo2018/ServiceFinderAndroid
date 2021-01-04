@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -64,7 +65,22 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
         init();
     }
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
 
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, true);
+        bm.recycle();
+        return resizedBitmap;
+    }
     private void init() {
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
@@ -161,6 +177,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                bitmap = getResizedBitmap(bitmap,250, 200);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -14,9 +14,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -75,15 +77,6 @@ public class AddPostActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
-
-        imgPost.setImageURI(getIntent().getData());
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), getIntent().getData());
-            bitmap = getResizedBitmap(bitmap,680, 560);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         btnPost.setOnClickListener(v->{
             if(!txtDesc.getText().toString().isEmpty()){
                 post();
@@ -194,8 +187,12 @@ public class AddPostActivity extends AppCompatActivity {
         if (requestCode == GALLERY_CHANGE_POST && resultCode == RESULT_OK) {
             Uri imgUri = data.getData();
             imgPost.setImageURI(imgUri);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1200);
+            imgPost.setLayoutParams(layoutParams);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
+                bitmap = getResizedBitmap(bitmap,680, 560);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

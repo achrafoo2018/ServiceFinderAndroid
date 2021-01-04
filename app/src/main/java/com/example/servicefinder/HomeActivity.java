@@ -38,9 +38,8 @@ public class HomeActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.bottom_nav);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
-            Intent i = new Intent(Intent.ACTION_PICK);
-            i.setType("image/*");
-            startActivityForResult(i, GALLERY_ADD_POST);
+            Intent i = new Intent(getApplicationContext(), AddPostActivity.class);
+            startActivity(i);
         });
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
