@@ -63,8 +63,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
     @Override
     public void onBindViewHolder(@NonNull PostsHolder holder, int position) {
         Post post = list.get(position);
-        Picasso.get().load(Constant.URL+"storage/profile/"+post.getUser().getPhoto()).into(holder.imgProfile);
-        Picasso.get().load(Constant.URL+"storage/posts/"+post.getPost_picture()).into(holder.imgPost);
+        Picasso.get().load(Constant.URL+post.getUser().getPhoto()).into(holder.imgProfile);
+        Picasso.get().load(Constant.URL+post.getPost_picture()).into(holder.imgPost);
         String full_name = post.getUser().getFirst_name()+" "+ post.getUser().getLast_name();
         holder.txtName.setText(full_name);
         holder.imgProfile.setOnClickListener(v -> {

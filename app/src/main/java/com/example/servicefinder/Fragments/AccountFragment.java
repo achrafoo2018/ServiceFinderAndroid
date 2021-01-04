@@ -124,14 +124,14 @@ public class AccountFragment extends Fragment {
                     for (int i = 0; i < posts.length(); i++){
                         JSONObject p = posts.getJSONObject(i);
                         Post post = new Post();
-                        post.setPost_picture(Constant.URL+"storage/posts/"+p.getString("post_image"));
+                        post.setPost_picture(Constant.URL+p.getString("post_image"));
                         arrayList.add(post);
 
                     }
-                    Picasso.get().load(Constant.URL+"storage/profile/"+userObject.getString("profile_picture")).into(imgProfile);
+                    Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
                     adapter = new AccountPostAdapter(getContext(),arrayList);
                     recyclerView.setAdapter(adapter);
-                    imgUrl = Constant.URL+"storage/profile/"+userObject.getString("profile_picture");
+                    imgUrl = Constant.URL+userObject.getString("profile_picture");
 
 
                 }
