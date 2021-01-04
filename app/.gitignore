@@ -1,6 +1,7 @@
 /build
 *.iml
 .gradle
+src/main/java/com/example/servicefinder/Constant.java
 /local.properties
 /.idea/caches
 /.idea/libraries
