@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -87,8 +88,13 @@ public class AccountFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerAccount);
         btnEditAccount = view.findViewById(R.id.btnEditAccount);
         refreshLayout = view.findViewById(R.id.swipeProfile);
+
+        if(preferences.getString("type","").equals("Provider")){
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getData();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -107,12 +113,12 @@ public class AccountFragment extends Fragment {
     private void getData() {
         arrayList = new ArrayList<>();
         refreshLayout.setRefreshing(true);
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.MY_POST, response -> {
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.COMMENTS_ON_MY_PROFILE, response -> {
 
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
-                    JSONArray posts = object.getJSONArray("posts");
+                    JSONArray posts = object.getJSONArray("comments");
                     JSONObject userObject = object.getJSONObject("user");
                     User user = new User();
                     user.setId(userObject.getInt("id"));
