@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/bottom_nav"
-                android:background="@android:color/transparent"
+                android:background="@drawable/background_transparent"
                 app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/menu_main"
                 android:outlineAmbientShadowColor="@android:color/transparent"
