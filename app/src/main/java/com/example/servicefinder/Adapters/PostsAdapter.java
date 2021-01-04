@@ -1,9 +1,11 @@
 package com.example.servicefinder.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,21 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.Models.Post;
+import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder> {
     private ArrayList<Post> list;
+    private ArrayList<Post> listAll;
     private Context context;
 
     public PostsAdapter(Context context, ArrayList<Post> list) {
         this.context = context;
         this.list = list;
-
+        this.listAll =new ArrayList<>(list);
     }
 
     static class PostsHolder extends RecyclerView.ViewHolder{
@@ -58,10 +63,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
     @Override
     public void onBindViewHolder(@NonNull PostsHolder holder, int position) {
         Post post = list.get(position);
-        Picasso.get().load(Constant.URL+"storage/profile/"+post.getUser().getPhoto()).into(holder.imgProfile);
-        Picasso.get().load(Constant.URL+"storage/posts/"+post.getPost_picture()).into(holder.imgPost);
+        Picasso.get().load(Constant.URL+post.getUser().getPhoto()).into(holder.imgProfile);
+        Picasso.get().load(Constant.URL+post.getPost_picture()).into(holder.imgPost);
         String full_name = post.getUser().getFirst_name()+" "+ post.getUser().getLast_name();
         holder.txtName.setText(full_name);
+        holder.imgProfile.setOnClickListener(v -> {
+            Intent i = new Intent(context, ProfileActivity.class);
+            context.startActivity(i);
+        });
+        holder.txtName.setOnClickListener(v -> {
+            Intent i = new Intent(context, ProfileActivity.class);
+            context.startActivity(i);
+        });
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
     }
@@ -70,4 +83,40 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
     public int getItemCount() {
         return this.list.size();
     }
-}
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            ArrayList<Post> filteredList = new ArrayList<>();
+            if (constraint.toString().isEmpty()){
+                filteredList.addAll(listAll);
+            } else {
+                for (Post post : listAll){
+                    if(post.getDesc().toLowerCase().contains(constraint.toString().toLowerCase())
+                            || post.getUser().getFirst_name().toLowerCase().contains(constraint.toString().toLowerCase())
+                            || post.getUser().getLast_name().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredList.add(post);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return  results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((Collection<? extends Post>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+    public Filter getFilter() {
+        return filter;
+    }
+
+    }
+
