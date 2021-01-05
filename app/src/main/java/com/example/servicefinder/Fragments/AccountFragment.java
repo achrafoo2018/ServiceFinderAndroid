@@ -158,10 +158,10 @@ public class AccountFragment extends Fragment {
 
         }){
             @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-                String id = String.valueOf(preferences.getInt("id", 0));
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String email = preferences.getString("email", null);
                 HashMap<String,String> map = new HashMap<>();
-                map.put("id",id);
+                map.put("Authorization","Bearer "+email);
                 return map;
             }
 
@@ -183,7 +183,7 @@ public class AccountFragment extends Fragment {
         switch(item.getItemId()){
             case R.id.item_logout: {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Do you want ot logout?");
+                builder.setMessage("Do you want to logout?");
                 builder.setPositiveButton("Logout", (dialog, which) -> logout());
                 builder.setNegativeButton("Cancel", (dialog, which) -> {
 
@@ -218,10 +218,10 @@ public class AccountFragment extends Fragment {
 
         }, Throwable::printStackTrace){
             @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-                String email = preferences.getString("email", "");
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = preferences.getString("token", "");
                 HashMap<String,String> map = new HashMap<>();
-                map.put("email", email);
+                map.put("Authorization", "Bearer "+token);
                 return map;
             }
         };
