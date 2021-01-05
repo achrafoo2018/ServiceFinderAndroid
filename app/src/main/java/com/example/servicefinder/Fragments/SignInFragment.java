@@ -40,7 +40,7 @@ public class SignInFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail,layoutPassword;
     private TextInputEditText txtEmail,txtPassword;
-    private TextView goToRegister,forgotPassword;
+    private TextView goToRegister,forgotPassword, loginFailed;
     private Button btnLogin;
     private ProgressDialog dialog;
 
@@ -63,6 +63,7 @@ public class SignInFragment extends Fragment {
         btnLogin = view.findViewById(R.id.btnLogin);
         forgotPassword =view.findViewById(R.id.forgotPassword);
         dialog = new ProgressDialog(getContext());
+        loginFailed = view.findViewById(R.id.loginFailed);
         dialog.setCancelable(false);
 
 
@@ -173,7 +174,7 @@ public class SignInFragment extends Fragment {
 
 
                 }else{
-                    Toast.makeText(getContext(), "Login failed!", Toast.LENGTH_SHORT).show();
+                    loginFailed.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
