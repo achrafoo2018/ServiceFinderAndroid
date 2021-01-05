@@ -18,7 +18,6 @@
         <activity android:name=".AddPostActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".UserInfoActivity" />
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".AuthActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

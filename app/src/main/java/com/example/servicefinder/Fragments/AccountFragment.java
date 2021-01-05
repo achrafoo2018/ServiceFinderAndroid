@@ -136,6 +136,7 @@ public class AccountFragment extends Fragment {
                         arrayList.add(comment);
 
                     }
+                    Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
                     adapter = new AccountCommentAdapter(getContext(),arrayList);
                     recyclerView.setAdapter(adapter);
                     imgUrl = Constant.URL+userObject.getString("profile_picture");
@@ -210,7 +211,11 @@ public class AccountFragment extends Fragment {
                     ((HomeActivity)getContext()).finish();
                 }
                 else if(object.has("error")){
-                    Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class));
+                    ((HomeActivity)getContext()).finish();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
