@@ -38,8 +38,9 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
     @Override
     public void onBindViewHolder(@NonNull AccountCommentHolder holder, int position) {
-//        Comment comment = arrayList.get(position);
-//        Picasso.get().load(arrayList.get(position).getPost_picture()).into(holder.imageView);
+        Comment comment = arrayList.get(position);
+        holder.commentorName.setText(comment.getCommenterName());
+        holder.comment.setText(comment.getComment());
 
     }
 
@@ -54,10 +55,8 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
         public AccountCommentHolder(@NonNull View itemView) {
             super(itemView);
-//            commentorName = itemView.findViewById(R.id.commenterName);
-//            comment = itemView.findViewById(R.id.comment);
-//            commentorName.setText();
-//            comment.setText();
+            commentorName = itemView.findViewById(R.id.commenterName);
+            comment = itemView.findViewById(R.id.comment);
         }
 
     }
