@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.Models.Post;
-import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.squareup.picasso.Picasso;
 
@@ -67,14 +66,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
         Picasso.get().load(Constant.URL+post.getPost_picture()).into(holder.imgPost);
         String full_name = post.getUser().getFirst_name()+" "+ post.getUser().getLast_name();
         holder.txtName.setText(full_name);
-        holder.imgProfile.setOnClickListener(v -> {
-            Intent i = new Intent(context, ProfileActivity.class);
-            context.startActivity(i);
-        });
-        holder.txtName.setOnClickListener(v -> {
-            Intent i = new Intent(context, ProfileActivity.class);
-            context.startActivity(i);
-        });
+
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
     }
