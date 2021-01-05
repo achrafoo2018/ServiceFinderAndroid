@@ -218,10 +218,10 @@ public class AccountFragment extends Fragment {
 
         }, Throwable::printStackTrace){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = preferences.getString("token", "");
+            public Map<String, String> getParams() throws AuthFailureError {
+                String email = preferences.getString("email", "");
                 HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization", "Bearer "+token);
+                map.put("email", email);
                 return map;
             }
         };
