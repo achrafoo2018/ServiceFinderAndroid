@@ -26,7 +26,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.HomeActivity;
-import com.example.servicefinder.ProfileActivity;
 import com.example.servicefinder.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
