@@ -158,12 +158,13 @@ public class AccountFragment extends Fragment {
 
         }){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = preferences.getString("token", "");
+            public Map<String, String> getParams() throws AuthFailureError {
+                String id = String.valueOf(preferences.getInt("id", 0));
                 HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization", "Bearer "+token);
+                map.put("id",id);
                 return map;
             }
+
         };
 
         RequestQueue queue = Volley.newRequestQueue(getContext());
