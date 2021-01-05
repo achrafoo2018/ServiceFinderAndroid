@@ -31,11 +31,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.servicefinder.Adapters.AccountPostAdapter;
+import com.example.servicefinder.Adapters.AccountCommentAdapter;
 import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.EditUserInfoActivity;
 import com.example.servicefinder.HomeActivity;
+import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
 import com.example.servicefinder.R;
@@ -62,9 +63,9 @@ public class AccountFragment extends Fragment {
     private Button btnEditAccount;
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-    private ArrayList<Post> arrayList;
+    private ArrayList<Comment> arrayList;
     private SharedPreferences preferences;
-    private AccountPostAdapter adapter;
+    private AccountCommentAdapter adapter;
     private String imgUrl = "";
 
     public AccountFragment(){}
@@ -118,7 +119,7 @@ public class AccountFragment extends Fragment {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
-                    JSONArray posts = object.getJSONArray("comments");
+                    JSONArray comments = object.getJSONArray("comments");
                     JSONObject userObject = object.getJSONObject("user");
                     User user = new User();
                     user.setId(userObject.getInt("id"));
@@ -126,16 +127,16 @@ public class AccountFragment extends Fragment {
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
-                    txtPostsCount.setText(""+posts.length());
-                    for (int i = 0; i < posts.length(); i++){
-                        JSONObject p = posts.getJSONObject(i);
-                        Post post = new Post();
-                        post.setPost_picture(Constant.URL+p.getString("post_image"));
-                        arrayList.add(post);
+//                    Rating here idk
+                    for (int i = 0; i < comments.length(); i++){
+                        JSONObject c = comments.getJSONObject(i);
+                        Comment comment = new Comment();
+                        comment.setComment(c.getString("comment"));
+                        comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
+                        arrayList.add(comment);
 
                     }
-                    Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
-                    adapter = new AccountPostAdapter(getContext(),arrayList);
+                    adapter = new AccountCommentAdapter(getContext(),arrayList);
                     recyclerView.setAdapter(adapter);
                     imgUrl = Constant.URL+userObject.getString("profile_picture");
 
