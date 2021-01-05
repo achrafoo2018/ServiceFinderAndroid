@@ -23,6 +23,20 @@
             android:textColor="@color/colorBlack"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/noDataFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="36dp"
+        android:gravity="center"
+        android:text="No data found"
+        android:textSize="18sp"
+        android:visibility="invisible" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
@@ -37,6 +51,6 @@
             android:clipToPadding="false"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

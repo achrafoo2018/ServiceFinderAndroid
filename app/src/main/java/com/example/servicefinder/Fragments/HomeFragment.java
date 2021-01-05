@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -157,18 +158,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                postsAdapter.getFilter().filter(newText);
-                if (postsAdapter.getFilter()==null) {
-                    TextView textView = new TextView(getContext());
-                    myLayout = view.findViewById(R.id.myLayout);
-                    textView.setText("No data found");
-                    textView.setLayoutParams(new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT
-
-                    ));
-                    myLayout.addView(textView);
-                }
+                postsAdapter.getFilter().filter(newText, count -> {
+                    if (count == 0){
+                        TextView textView = view.findViewById(R.id.noDataFound);
+                        textView.setVisibility(View.VISIBLE);
+                    }
+                });
 
                 return false;
             }
