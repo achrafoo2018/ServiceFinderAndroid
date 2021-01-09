@@ -38,6 +38,7 @@ import com.example.servicefinder.EditUserInfoActivity;
 import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
+import com.example.servicefinder.Models.Provider;
 import com.example.servicefinder.Models.User;
 import com.example.servicefinder.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -59,9 +60,9 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName, txtPostsCount;
+    private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
     private Button btnEditAccount;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout refreshLayout,swipeProfile2;
     private RecyclerView recyclerView;
     private ArrayList<Comment> arrayList;
     private SharedPreferences preferences;
@@ -89,6 +90,12 @@ public class AccountFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerAccount);
         btnEditAccount = view.findViewById(R.id.btnEditAccount);
         refreshLayout = view.findViewById(R.id.swipeProfile);
+        swipeProfile2 = view.findViewById(R.id.swipeProfile2);
+        service = view.findViewById(R.id.service);
+        speciality = view.findViewById(R.id.speciality);
+        phone_number = view.findViewById(R.id.phone_number);
+        description = view.findViewById(R.id.description);
+
 
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
@@ -98,6 +105,12 @@ public class AccountFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getData();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
+        swipeProfile2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
@@ -121,13 +134,21 @@ public class AccountFragment extends Fragment {
                 if (object.getBoolean("success")){
                     JSONArray comments = object.getJSONArray("comments");
                     JSONObject userObject = object.getJSONObject("user");
+
                     User user = new User();
                     user.setId(userObject.getInt("id"));
                     user.setFirst_name(userObject.getString("first_name"));
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
+
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
-//                    Rating here idk
+                    //                    Rating here idk
+
+                    service.setText(" " +preferences.getString("service", ""));
+                    speciality.setText(" " +preferences.getString("speciality", ""));
+                    phone_number.setText(" " +preferences.getString("phone_number", ""));
+                    description.setText(" "+preferences.getString("description", ""));
+
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
@@ -153,11 +174,14 @@ public class AccountFragment extends Fragment {
             }
 
             refreshLayout.setRefreshing(false);
+            swipeProfile2.setRefreshing(false);
 
 
         }, error -> {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false);
+            swipeProfile2.setRefreshing(false);
+
 
         }){
             @Override

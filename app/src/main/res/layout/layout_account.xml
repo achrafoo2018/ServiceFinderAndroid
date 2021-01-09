@@ -1,111 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:id="@+id/swipeProfile2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/toolbarAccount"
-        app:elevation="1dp"
-        app:title= " "
-        android:theme="@style/AppTheme.BottomAppbar">
+<androidx.core.widget.NestedScrollView
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:textSize="20sp"
-            android:text="@string/service_finder"
-            android:fontFamily="@font/leckerlione_regular"/>
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp">
-        
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/toolbarAccount"
+            app:elevation="1dp"
+            app:title= " "
+            android:theme="@style/AppTheme.BottomAppbar">
 
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:id="@+id/imgAccountProfile"/>
-            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:textColor="@color/colorBlack"
-                android:text="Ghassen Ben Ghorbal"
-                android:textStyle="bold"
-                android:id="@+id/txtAccountName"/>
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@color/colorBlack"
-                android:text="0"
-                android:id="@+id/txtAccountPostCount"/>
+                android:text="@string/service_finder"
+                android:fontFamily="@font/leckerlione_regular"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                android:text="Posts"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/imgAccountProfile"
+                    android:src="@color/colorLightGrey"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Ghassen Ben Ghorbal"
+                    android:textStyle="bold"
+                    android:id="@+id/txtAccountName"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="0"
+                    android:id="@+id/txtAccountPostCount"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorBlack"
+                    android:text="Posts"/>
+            </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="25dp"
+            android:paddingLeft="25dp"
+            android:layout_marginBottom="10dp">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/service2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:id="@+id/service"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/speciality2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:id="@+id/speciality"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phone_number2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:id="@+id/phone_number"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:id="@+id/description"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/round_bg"
+            android:text="@string/edit_account"
+            android:textColor="@color/colorWhite"
+            android:textAllCaps="false"
+            android:id="@+id/btnEditAccount"/>
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeProfile"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerAccount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/round_bg"
+            android:text="@string/Comment"
+            android:textColor="@color/colorWhite"
+            android:textAllCaps="false"
+            android:id="@+id/btnComment"/>
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
-        android:background="@drawable/round_bg"
-        android:text="@string/edit_account"
-        android:textColor="@color/colorWhite"
-        android:textAllCaps="false"
-        android:id="@+id/btnEditAccount"/>
+</androidx.core.widget.NestedScrollView>
 
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeProfile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerAccount"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-</LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
