@@ -170,7 +170,7 @@ public class AccountFragment extends Fragment {
                         description.setText(preferences.getString("description",""));
 
                     }
-                    
+
                     if (comments.length() != 0)
                         refreshLayout.setVisibility(View.VISIBLE);
                     for (int i = 0; i < comments.length(); i++){
