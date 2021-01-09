@@ -15,10 +15,13 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,11 +33,13 @@ import com.example.servicefinder.Fragments.HomeFragment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +51,17 @@ public class AddPostActivity extends AppCompatActivity {
     private static final int GALLERY_CHANGE_POST = 3;
     private ProgressDialog dialog;
     private SharedPreferences preferences;
+    private Spinner spinner;
+    private ArrayList<String> specialities = new ArrayList<>();
+
+    public AddPostActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
+        spinner = findViewById(R.id.spinner);
         init();
     }
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -84,6 +95,25 @@ public class AddPostActivity extends AppCompatActivity {
                 Toast.makeText(this, "Post description is required", Toast.LENGTH_SHORT).show();
             }
         });
+        StringRequest request = new StringRequest(Request.Method.GET,Constant.SPECIALITIES, response ->{
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray array = new JSONArray(object.getString("specialities"));
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject speciality = array.getJSONObject(i);
+                        specialities.add(speciality.getString("speciality"));
+                    }
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(AddPostActivity.this, android.R.layout.simple_spinner_item, specialities);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                }
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, Throwable::printStackTrace);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
     }
 
     private void post(){
@@ -149,6 +179,7 @@ public class AddPostActivity extends AppCompatActivity {
                 map.put("id", String.valueOf(preferences.getInt("id", -1)));
                 map.put("desc",txtDesc.getText().toString().trim());
                 map.put("photo",bitmapToString(bitmap));
+                map.put("speciality", spinner.getSelectedItem().toString());
                 return map;
             }
         };
