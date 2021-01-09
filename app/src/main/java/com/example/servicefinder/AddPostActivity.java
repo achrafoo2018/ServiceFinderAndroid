@@ -219,7 +219,7 @@ public class AddPostActivity extends AppCompatActivity {
         if (requestCode == GALLERY_CHANGE_POST && resultCode == RESULT_OK) {
             Uri imgUri = data.getData();
             imgPost.setImageURI(imgUri);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1200);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 640);
             imgPost.setLayoutParams(layoutParams);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
