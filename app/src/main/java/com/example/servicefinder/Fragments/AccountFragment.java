@@ -133,6 +133,8 @@ public class AccountFragment extends Fragment {
                         Comment comment = new Comment();
                         comment.setComment(c.getString("comment"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
+                        comment.setCommentDate(c.getString("created_at"));
+                        comment.setCommenterProfilePicture(c.getJSONObject("user").getString("profile_picture"));
                         arrayList.add(comment);
 
                     }

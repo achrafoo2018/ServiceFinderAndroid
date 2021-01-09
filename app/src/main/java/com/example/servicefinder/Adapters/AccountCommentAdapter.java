@@ -16,8 +16,11 @@ import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAdapter.AccountCommentHolder> {
 
@@ -41,6 +44,8 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         Comment comment = arrayList.get(position);
         holder.commentorName.setText(comment.getCommenterName());
         holder.comment.setText(comment.getComment());
+        holder.txtCommentDate.setText(comment.getCommentDate());
+        Picasso.get().load(Constant.URL+comment.getCommenterProfilePicture()).into(holder.commenterProfilePicture);
 
     }
 
@@ -51,12 +56,15 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
     static class AccountCommentHolder extends RecyclerView.ViewHolder{
 
-        private TextView commentorName,comment;
-
+        private TextView commentorName,comment,txtCommentDate;
+        private CircleImageView commenterProfilePicture;
         public AccountCommentHolder(@NonNull View itemView) {
             super(itemView);
             commentorName = itemView.findViewById(R.id.commenterName);
             comment = itemView.findViewById(R.id.comment);
+            txtCommentDate = itemView.findViewById(R.id.txtCommentDate);
+            commenterProfilePicture = itemView.findViewById(R.id.commenterProfilePicture);
+
         }
 
     }
