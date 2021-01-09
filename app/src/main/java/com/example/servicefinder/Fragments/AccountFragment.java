@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +48,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,12 +144,11 @@ public class AccountFragment extends Fragment {
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
 
-                    if(TextUtils.isEmpty(service.getText()) && TextUtils.isEmpty(speciality.getText()) && TextUtils.isEmpty(phone_number.getText()) && TextUtils.isEmpty(description.getText())) {
-                        service.setText(service.getText() + " " + preferences.getString("service", ""));
-                        speciality.setText(speciality.getText() + " " + preferences.getString("speciality", ""));
-                        phone_number.setText(phone_number.getText() + " " + preferences.getString("phone_number", ""));
-                        description.setText(description.getText() + preferences.getString("description", ""));
-                    }
+                    service.setText(" " +preferences.getString("service", ""));
+                    speciality.setText(" " +preferences.getString("speciality", ""));
+                    phone_number.setText(" " +preferences.getString("phone_number", ""));
+                    description.setText(" "+preferences.getString("description", ""));
+
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();

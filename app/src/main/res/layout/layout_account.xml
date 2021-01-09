@@ -14,6 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -178,8 +179,9 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeProfile"
             android:layout_width="match_parent"
-            android:layout_height="287dp"
-            android:layout_marginTop="20dp">
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerAccount"
@@ -188,6 +190,17 @@
                 android:visibility="gone" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:background="@drawable/round_bg"
+            android:text="@string/Comment"
+            android:textColor="@color/colorWhite"
+            android:textAllCaps="false"
+            android:id="@+id/btnComment"/>
 
     </LinearLayout>
 
