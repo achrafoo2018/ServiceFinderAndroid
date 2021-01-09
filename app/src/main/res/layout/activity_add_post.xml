@@ -75,10 +75,10 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="4dp" />
 
-                <Spinner
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
                     android:id="@+id/spinner"
-                    android:layout_width="fill_parent"
-                    android:layout_height="28dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
