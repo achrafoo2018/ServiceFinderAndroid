@@ -144,11 +144,35 @@ public class AccountFragment extends Fragment {
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
 
-                    service.setText(" " +preferences.getString("service", ""));
-                    speciality.setText(" " +preferences.getString("speciality", ""));
-                    phone_number.setText(" " +preferences.getString("phone_number", ""));
-                    description.setText(" "+preferences.getString("description", ""));
+                    if(preferences.getString("service","").equals("null")){
+                        service.setText("");
+                    }
+                    else{
+                        service.setText(preferences.getString("service",""));
+                    }
+                    if(preferences.getString("speciality","").equals("null")){
+                        speciality.setText("");
 
+                    }
+                    else{
+                        speciality.setText(preferences.getString("speciality",""));
+                    }
+                    if(preferences.getString("phone_number","").equals("null")){
+                        phone_number.setText("");
+                    }
+                    else{
+                        phone_number.setText(preferences.getString("phone_number",""));
+                    }
+                    if(preferences.getString("description","").equals("null")){
+                        description.setText("");
+                    }
+                    else{
+                        description.setText(preferences.getString("description",""));
+
+                    }
+                    
+                    if (comments.length() != 0)
+                        refreshLayout.setVisibility(View.VISIBLE);
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
