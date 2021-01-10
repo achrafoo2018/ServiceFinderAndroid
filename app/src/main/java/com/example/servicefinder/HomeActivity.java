@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toolbar;
 
 import com.example.servicefinder.Fragments.AccountFragment;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.servicefinder.Fragments.HomeFragment;
@@ -24,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int GALLERY_ADD_POST = 2;
     private BottomNavigationView navigationView;
     private FragmentManager fragmentManager;
+    private MaterialToolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

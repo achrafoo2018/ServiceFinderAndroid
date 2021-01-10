@@ -1,6 +1,8 @@
 package com.example.servicefinder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -9,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +64,8 @@ public class ViewPostActivity extends AppCompatActivity {
         providerImg = findViewById(R.id.imgPostProfile);
         postImg = findViewById(R.id.imgPostPhoto);
         userImg = findViewById(R.id.currentUserImg);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarHome);
+        setSupportActionBar(toolbar);
         providerName = findViewById(R.id.txtPostName);
         postDesc = findViewById(R.id.txtPostDesc);
         PostDate = findViewById(R.id.txtPostDate);
@@ -224,5 +229,12 @@ public class ViewPostActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 }
