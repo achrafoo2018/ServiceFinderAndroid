@@ -1,20 +1,26 @@
 package com.example.servicefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.servicefinder.Adapters.AccountCommentAdapter;
 import com.example.servicefinder.Adapters.PostsAdapter;
+import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
 import com.squareup.picasso.Picasso;
@@ -32,10 +38,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ViewPostActivity extends AppCompatActivity {
-    private ImageView providerImg, postImg, userImg;
+    private ImageView providerImg, postImg, userImg, btnComment;
     private TextView providerName, postDesc, PostDate;
     private SwipeRefreshLayout refreshLayout;
     private SharedPreferences userPref;
+    private EditText txtComment;
+    private AccountCommentAdapter adapter;
+    private ArrayList<Comment> arrayList;
+    private RecyclerView recyclerView;
+
+    private Post post = new Post();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +60,34 @@ public class ViewPostActivity extends AppCompatActivity {
         providerName = findViewById(R.id.txtPostName);
         postDesc = findViewById(R.id.txtPostDesc);
         PostDate = findViewById(R.id.txtPostDate);
+        btnComment = findViewById(R.id.btnComment);
+        recyclerView = findViewById(R.id.recyclerPost);
+        txtComment = findViewById(R.id.txtComment);
         refreshLayout = findViewById(R.id.swipePost);
         refreshLayout.setOnRefreshListener(() -> getPost());
         getPost();
+        getData();
+        btnComment.setOnClickListener(v -> {
+            StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_POST_COMMENT, response -> {
+            },error -> {
+
+            }){
+                @Override
+                public Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    map.put("user_id", String.valueOf(userPref.getInt("id",0)));
+                    map.put("post_id", String.valueOf(post.getId()));
+                    map.put("comment", txtComment.getText().toString().trim());
+                    return map;
+                }
+
+            };
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            queue.add(request);
+
+        });
+
+        //Commenting on post
     }
 
     private void getPost() {
@@ -69,7 +106,6 @@ public class ViewPostActivity extends AppCompatActivity {
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
 
-                    Post post = new Post();
                     post.setId(postObject.getInt("id"));
                     post.setUser(user);
                     PrettyTime p = new PrettyTime();
@@ -113,4 +149,62 @@ public class ViewPostActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
+    private void getData() {
+        arrayList = new ArrayList<>();
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.COMMENTS_ON_POST, response -> {
+
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")){
+                    JSONArray comments = object.getJSONArray("comments");
+                    if (comments.length() != 0)
+                        recyclerView.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < comments.length(); i++){
+                        JSONObject c = comments.getJSONObject(i);
+                        Comment comment = new Comment();
+                        comment.setComment(c.getString("comment"));
+                        comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
+                        PrettyTime p = new PrettyTime();
+                        String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                        DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                        String created_at = c.getString("created_at");
+                        try{
+                            created_at = p.format(formatter.parse(c.getString("created_at")));
+                        }catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                        comment.setCommentDate(created_at);
+                        comment.setCommenterProfilePicture(c.getJSONObject("user").getString("profile_picture"));
+                        arrayList.add(comment);
+
+                    }
+                    adapter = new AccountCommentAdapter(getApplicationContext(),arrayList);
+                    recyclerView.setAdapter(adapter);
+
+                }
+
+            } catch (JSONException e) {
+            }
+
+            refreshLayout.setRefreshing(false);
+
+
+        }, error -> {
+            refreshLayout.setRefreshing(false);
+
+
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer "+ getIntent().getExtras().getString("postId"));
+                return map;
+            }
+
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
+
 }
