@@ -10,15 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +42,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -112,7 +113,16 @@ public class HomeFragment extends Fragment {
                         Post post = new Post();
                         post.setId(postObject.getInt("id"));
                         post.setUser(user);
-                        post.setDate(postObject.getString("created_at"));
+                        PrettyTime p = new PrettyTime();
+                        String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                        DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                        String created_at = postObject.getString("created_at");
+                        try{
+                             created_at = p.format(formatter.parse(postObject.getString("created_at")));
+                        }catch(ParseException e){
+                             e.printStackTrace();
+                        }
+                        post.setDate(created_at);
                         post.setDesc(postObject.getString("desc"));
                         post.setPost_picture(postObject.getString("post_image"));
 
