@@ -110,12 +110,6 @@ public class AccountFragment extends Fragment {
 
         getData();
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-            }
-        });
         swipeProfile2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -139,8 +133,7 @@ public class AccountFragment extends Fragment {
 
                     JSONObject object = new JSONObject(response);
                     if(object.getBoolean("success")){
-                        swipeProfile2.refreshDrawableState();
-                        swipeProfile2.setRefreshing(false);
+                        Toast.makeText(getActivity(), "Comment successfully created!", Toast.LENGTH_LONG).show();
                     }
                     else if (object.has("error")){
                         Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
@@ -163,6 +156,10 @@ public class AccountFragment extends Fragment {
                 }
 
             };
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(request);
+
         });
 
         //Commenting on profile
@@ -171,7 +168,6 @@ public class AccountFragment extends Fragment {
 
     private void getData() {
         arrayList = new ArrayList<>();
-        refreshLayout.setRefreshing(true);
         StringRequest request = new StringRequest(Request.Method.GET, Constant.COMMENTS_ON_MY_PROFILE, response -> {
 
             try {
@@ -193,26 +189,26 @@ public class AccountFragment extends Fragment {
                         service.setText("");
                     }
                     else{
-                        service.setText(preferences.getString("service",""));
+                        service.setText(" " + preferences.getString("service",""));
                     }
                     if(preferences.getString("speciality","").equals("null")){
                         speciality.setText("");
 
                     }
                     else{
-                        speciality.setText(preferences.getString("speciality",""));
+                        speciality.setText(" " + preferences.getString("speciality",""));
                     }
                     if(preferences.getString("phone_number","").equals("null")){
                         phone_number.setText("");
                     }
                     else{
-                        phone_number.setText(preferences.getString("phone_number",""));
+                        phone_number.setText(" " + preferences.getString("phone_number",""));
                     }
                     if(preferences.getString("description","").equals("null")){
                         description.setText("");
                     }
                     else{
-                        description.setText(preferences.getString("description",""));
+                        description.setText(" " + preferences.getString("description",""));
 
                     }
 
