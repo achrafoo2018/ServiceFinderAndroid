@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -61,13 +62,14 @@ public class AccountFragment extends Fragment {
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
     private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
-    private Button btnEditAccount;
+    private Button btnEditAccount,btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
     private RecyclerView recyclerView;
     private ArrayList<Comment> arrayList;
     private SharedPreferences preferences;
     private AccountCommentAdapter adapter;
     private String imgUrl = "";
+    private EditText txtComment;
 
     public AccountFragment(){}
 
@@ -95,6 +97,8 @@ public class AccountFragment extends Fragment {
         speciality = view.findViewById(R.id.speciality);
         phone_number = view.findViewById(R.id.phone_number);
         description = view.findViewById(R.id.description);
+        btnComment = view.findViewById(R.id.btnComment);
+        txtComment = view.findViewById(R.id.txtComment);
 
 
         if(preferences.getString("type","").equals("Provider")){
@@ -103,7 +107,9 @@ public class AccountFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         getData();
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -122,6 +128,45 @@ public class AccountFragment extends Fragment {
             intent.putExtra("imgUrl", imgUrl);
             startActivity(intent);
         });
+
+        //Commenting on profile
+
+        btnComment.setOnClickListener(v -> {
+
+            StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
+
+                try {
+
+                    JSONObject object = new JSONObject(response);
+                    if(object.getBoolean("success")){
+                        swipeProfile2.refreshDrawableState();
+                        swipeProfile2.setRefreshing(false);
+                    }
+                    else if (object.has("error")){
+                        Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            },error -> {
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }){
+
+                @Override
+                public Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String,String> map = new HashMap<>();
+                    map.put("user_id", String.valueOf(preferences.getInt("id",0)));
+                    map.put("provider_id", String.valueOf(preferences.getInt("id",0)));
+                    map.put("comment", txtComment.getText().toString().trim());
+                    return map;
+                }
+
+            };
+        });
+
+        //Commenting on profile
+
     }
 
     private void getData() {
@@ -197,13 +242,11 @@ public class AccountFragment extends Fragment {
                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
-            refreshLayout.setRefreshing(false);
             swipeProfile2.setRefreshing(false);
 
 
         }, error -> {
             Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-            refreshLayout.setRefreshing(false);
             swipeProfile2.setRefreshing(false);
 
 

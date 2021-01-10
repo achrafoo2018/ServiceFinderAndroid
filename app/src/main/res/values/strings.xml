@@ -50,5 +50,6 @@
     <string name="phone_number2">Phone Number:</string>
     <string name="description2">Description:</string>
     <string name="Comment">Comment</string>
+    <string name="comment">Comment</string>
 
 </resources>
