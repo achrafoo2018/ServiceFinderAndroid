@@ -3,6 +3,7 @@ package com.example.servicefinder.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -184,7 +185,7 @@ public class HomeFragment extends Fragment {
         }, Throwable::printStackTrace);
         RequestQueue queue = Volley.newRequestQueue(getContext());
         queue.add(request);
-        // End SPinner
+        // End Spinner
         SearchView searchView = (SearchView)item.getActionView();
         searchView.setQueryHint("Search...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
