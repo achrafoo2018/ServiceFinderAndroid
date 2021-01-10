@@ -173,7 +173,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp">
 
                 <EditText
                     android:id="@+id/txtComment"
@@ -186,7 +187,8 @@
                     android:id="@+id/btnComment"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_send_comment" />
+                    app:srcCompat="@drawable/ic_send_comment"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 

@@ -50,7 +50,7 @@
     <string name="phone_number2">Phone Number:</string>
     <string name="description2">Description:</string>
     <string name="Comment">Comment</string>
-    <string name="comment">Comment</string>
+    <string name="comment">Comment your feedback!</string>
     <string name="review">Review</string>
 
 </resources>
