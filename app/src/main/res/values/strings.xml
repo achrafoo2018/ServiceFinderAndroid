@@ -51,5 +51,6 @@
     <string name="description2">Description:</string>
     <string name="Comment">Comment</string>
     <string name="comment">Comment</string>
+    <string name="review">Review</string>
 
 </resources>
