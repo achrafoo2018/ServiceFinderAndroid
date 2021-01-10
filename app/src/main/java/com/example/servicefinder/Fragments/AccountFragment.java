@@ -139,7 +139,7 @@ public class AccountFragment extends Fragment {
 
                     JSONObject object = new JSONObject(response);
                     if(object.getBoolean("success")){
-                        Toast.makeText(getActivity(), "Comment successfully created!", Toast.LENGTH_LONG).show();
+                        
                     }
                     else if (object.has("error")){
                         Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
