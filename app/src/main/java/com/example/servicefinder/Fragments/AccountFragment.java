@@ -147,6 +147,8 @@ public class AccountFragment extends Fragment {
                 } catch (JSONException e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+                swipeProfile2.setRefreshing(true);
             },error -> {
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -165,6 +167,12 @@ public class AccountFragment extends Fragment {
 
             RequestQueue queue = Volley.newRequestQueue(getContext());
             queue.add(request);
+            txtComment.setText("");
+            swipeProfile2.post(() -> {
+                swipeProfile2.setRefreshing(true);
+                getData();
+                swipeProfile2.setRefreshing(false);
+            });
 
         });
 
