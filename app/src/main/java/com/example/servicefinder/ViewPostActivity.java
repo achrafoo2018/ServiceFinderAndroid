@@ -1,9 +1,11 @@
 package com.example.servicefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,6 +46,8 @@ public class ViewPostActivity extends AppCompatActivity {
     private SharedPreferences userPref;
     private EditText txtComment;
     private AccountCommentAdapter adapter;
+    private ProgressDialog dialog;
+
     private ArrayList<Comment> arrayList;
     private RecyclerView recyclerView;
 
@@ -64,13 +68,23 @@ public class ViewPostActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerPost);
         txtComment = findViewById(R.id.txtComment);
         refreshLayout = findViewById(R.id.swipePost);
-        refreshLayout.setOnRefreshListener(() -> getPost());
+        dialog = new ProgressDialog(this);
+        dialog.setCancelable(false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        refreshLayout.setOnRefreshListener(() ->{
+                getPost();
+                getData();
+        });
         getPost();
         getData();
         btnComment.setOnClickListener(v -> {
+            dialog.setMessage("Commenting");
+            dialog.show();
             StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_POST_COMMENT, response -> {
             },error -> {
-
+                dialog.dismiss();
             }){
                 @Override
                 public Map<String, String> getParams() throws AuthFailureError {
@@ -84,7 +98,11 @@ public class ViewPostActivity extends AppCompatActivity {
             };
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             queue.add(request);
-
+            txtComment.setText("");
+            dialog.dismiss();
+            refreshLayout.setRefreshing(true);
+            getData();
+            refreshLayout.setRefreshing(false);
         });
 
         //Commenting on post
