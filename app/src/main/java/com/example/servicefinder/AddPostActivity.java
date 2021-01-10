@@ -32,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Fragments.HomeFragment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +52,7 @@ public class AddPostActivity extends AppCompatActivity {
     private static final int GALLERY_CHANGE_POST = 3;
     private ProgressDialog dialog;
     private SharedPreferences preferences;
-    private Spinner spinner;
+    private SearchableSpinner spinner;
     private ArrayList<String> specialities = new ArrayList<>();
 
     public AddPostActivity() {
@@ -218,7 +219,7 @@ public class AddPostActivity extends AppCompatActivity {
         if (requestCode == GALLERY_CHANGE_POST && resultCode == RESULT_OK) {
             Uri imgUri = data.getData();
             imgPost.setImageURI(imgUri);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1200);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 640);
             imgPost.setLayoutParams(layoutParams);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
