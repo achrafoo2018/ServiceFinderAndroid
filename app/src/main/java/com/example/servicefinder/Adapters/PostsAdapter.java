@@ -2,6 +2,7 @@ package com.example.servicefinder.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
+import com.example.servicefinder.ViewPostActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,7 +69,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
         Picasso.get().load(Constant.URL+post.getPost_picture()).into(holder.imgPost);
         String full_name = post.getUser().getFirst_name()+" "+ post.getUser().getLast_name();
         holder.txtName.setText(full_name);
-
+        holder.imgPost.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewPostActivity.class);
+            intent.putExtra("postId", String.valueOf(post.getId()));
+            context.startActivity(intent);
+        });
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
     }
