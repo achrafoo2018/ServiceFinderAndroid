@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -50,6 +51,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +66,8 @@ public class AccountFragment extends Fragment {
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
     private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
-    private Button btnEditAccount,btnComment;
+    private Button btnEditAccount;
+    private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
     private RecyclerView recyclerView;
     private ArrayList<Comment> arrayList;
@@ -219,7 +224,16 @@ public class AccountFragment extends Fragment {
                         Comment comment = new Comment();
                         comment.setComment(c.getString("comment"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
-                        comment.setCommentDate(c.getString("created_at"));
+                        PrettyTime p = new PrettyTime();
+                        String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                        DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                        String created_at = c.getString("created_at");
+                        try{
+                            created_at = p.format(formatter.parse(c.getString("created_at")));
+                        }catch(ParseException e){
+                            e.printStackTrace();
+                        }
+                        comment.setCommentDate(created_at);
                         comment.setCommenterProfilePicture(c.getJSONObject("user").getString("profile_picture"));
                         arrayList.add(comment);
 
