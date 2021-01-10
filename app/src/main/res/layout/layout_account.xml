@@ -100,8 +100,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="25dp"
-            android:paddingLeft="25dp"
-            android:layout_marginBottom="10dp">
+            android:paddingLeft="25dp">
 
 
             <LinearLayout
@@ -164,18 +163,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="70dp"
-            android:background="@drawable/round_bg"
-            android:text="@string/edit_account"
-            android:textColor="@color/colorWhite"
-            android:textAllCaps="false"
-            android:id="@+id/btnEditAccount"/>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -200,20 +187,13 @@
 
             </LinearLayout>
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeProfile"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_marginTop="20dp"
-                android:visibility="gone">
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerAccount"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="20dp"
                     android:visibility="gone" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </LinearLayout>
     </LinearLayout>
 

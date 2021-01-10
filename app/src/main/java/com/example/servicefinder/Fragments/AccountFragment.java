@@ -90,8 +90,8 @@ public class AccountFragment extends Fragment {
         txtName = view.findViewById(R.id.txtAccountName);
         txtPostsCount = view.findViewById(R.id.txtAccountPostCount);
         recyclerView = view.findViewById(R.id.recyclerAccount);
-        btnEditAccount = view.findViewById(R.id.btnEditAccount);
-        refreshLayout = view.findViewById(R.id.swipeProfile);
+//        btnEditAccount = view.findViewById(R.id.btnEditAccount);
+//        refreshLayout = view.findViewById(R.id.swipeProfile);
         swipeProfile2 = view.findViewById(R.id.swipeProfile2);
         service = view.findViewById(R.id.service);
         speciality = view.findViewById(R.id.speciality);
@@ -117,11 +117,11 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        btnEditAccount.setOnClickListener(v -> {
-            Intent intent = new Intent((HomeActivity)getContext(), EditUserInfoActivity.class);
-            intent.putExtra("imgUrl", imgUrl);
-            startActivity(intent);
-        });
+//        btnEditAccount.setOnClickListener(v -> {
+//            Intent intent = new Intent((HomeActivity)getContext(), EditUserInfoActivity.class);
+//            intent.putExtra("imgUrl", imgUrl);
+//            startActivity(intent);
+//        });
 
         //Commenting on profile
 
@@ -213,7 +213,7 @@ public class AccountFragment extends Fragment {
                     }
 
                     if (comments.length() != 0)
-                        refreshLayout.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
@@ -279,6 +279,13 @@ public class AccountFragment extends Fragment {
 
                 });
                 builder.show();
+                break;
+            }
+            case R.id.item_account_settings: {
+                Intent intent = new Intent((HomeActivity)getContext(), EditUserInfoActivity.class);
+                intent.putExtra("imgUrl", imgUrl);
+                startActivity(intent);
+
                 break;
             }
         }
