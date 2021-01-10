@@ -25,21 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
         //this code will pause the app for 1.5 secs and then any thing in run method will run.
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(() -> {
 
-                SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-                boolean isLoggedIn = userPref.getBoolean("isLoggedIn", false);
-                //isLoggedIn = false; // delete this when logout done
-                if (isLoggedIn){
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                    finish();
-                }
-                else {
-                    startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                    finish();
-                }
+            SharedPreferences userPref = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+            boolean isLoggedIn = userPref.getBoolean("isLoggedIn", false);
+            //isLoggedIn = false; // delete this when logout done
+            if (isLoggedIn){
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
+            }
+            else {
+                startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                finish();
             }
         }, 1500);
     }

@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,12 +32,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Adapters.PostsAdapter;
+import com.example.servicefinder.AddPostActivity;
 import com.example.servicefinder.Constant;
 import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
 import com.example.servicefinder.R;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment {
     private MaterialToolbar toolbar;
     private SharedPreferences sharedPreferences;
     RelativeLayout myLayout =null;
+    private ArrayList<String> specialities = new ArrayList<>();
 
     public HomeFragment(){}
 
@@ -147,6 +151,30 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_search,menu);
         MenuItem item = menu.findItem(R.id.search);
+        // Spinner
+        MenuItem spinnerItem = menu.findItem(R.id.spinnerTop);
+        SearchableSpinner spinner = (SearchableSpinner) spinnerItem.getActionView();
+
+        StringRequest request = new StringRequest(Request.Method.GET,Constant.SPECIALITIES, response ->{
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray array = new JSONArray(object.getString("specialities"));
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject speciality = array.getJSONObject(i);
+                        specialities.add(speciality.getString("speciality"));
+                    }
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, specialities);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                }
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, Throwable::printStackTrace);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+        // End SPinner
         SearchView searchView = (SearchView)item.getActionView();
         searchView.setQueryHint("Search...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

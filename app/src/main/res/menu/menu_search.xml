@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        app:showAsAction="always|collapseActionView"
+        android:id="@+id/spinnerTop"
+        app:actionViewClass="com.toptoche.searchablespinnerlibrary.SearchableSpinner"
+        android:title="Speciality" />
+    <item
         android:id="@+id/search" android:title=""
         android:icon="@drawable/ic_search_black_24dp"
         app:iconTint="@color/colorBlack"
+
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
