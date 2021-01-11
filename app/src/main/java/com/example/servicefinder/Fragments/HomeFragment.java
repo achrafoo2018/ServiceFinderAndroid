@@ -105,6 +105,7 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject postObject = array.getJSONObject(i);
                         JSONObject userObject = postObject.getJSONObject("user");
+                        JSONArray commentObject = new JSONArray(postObject.getString("comments"));
                         User user = new User();
                         user.setId(userObject.getInt("id"));
                         user.setFirst_name(userObject.getString("first_name"));
@@ -115,6 +116,7 @@ public class HomeFragment extends Fragment {
                         Post post = new Post();
                         post.setId(postObject.getInt("id"));
                         post.setUser(user);
+                        post.setComments(commentObject.length());
                         PrettyTime p = new PrettyTime();
                         String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
                         DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
