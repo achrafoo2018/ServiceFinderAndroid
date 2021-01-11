@@ -1,9 +1,11 @@
 package com.example.servicefinder.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +48,12 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         holder.comment.setText(comment.getComment());
         holder.txtCommentDate.setText(comment.getCommentDate());
         Picasso.get().load(Constant.URL+comment.getCommenterProfilePicture()).into(holder.commenterProfilePicture);
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        String name = preferences.getString("first_name",null) + " " + preferences.getString("last_name",null);
+        if(comment.getCommenterName().equals(name)){
+            holder.btnPostOption.setVisibility(View.VISIBLE);
+
+        }
 
     }
 
@@ -58,12 +66,15 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
         private TextView commentorName,comment,txtCommentDate;
         private CircleImageView commenterProfilePicture;
+        private ImageButton btnPostOption;
         public AccountCommentHolder(@NonNull View itemView) {
             super(itemView);
             commentorName = itemView.findViewById(R.id.commenterName);
             comment = itemView.findViewById(R.id.comment);
             txtCommentDate = itemView.findViewById(R.id.txtCommentDate);
             commenterProfilePicture = itemView.findViewById(R.id.commenterProfilePicture);
+            btnPostOption = itemView.findViewById(R.id.btnPostOption);
+
 
         }
 

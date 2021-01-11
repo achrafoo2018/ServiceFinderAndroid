@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/swipeProfile2"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/swipeProfile2"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context=".ViewProfileActivity">
 
 <androidx.core.widget.NestedScrollView
-    android:id="@+id/profileScrollView"
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -175,9 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingRight="20dp"
-                android:paddingLeft="20dp"
-                android:id="@+id/commentLayout"
-                android:visibility="gone">
+                android:paddingLeft="20dp">
 
                 <EditText
                     android:id="@+id/txtComment"
@@ -195,12 +194,12 @@
 
             </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginTop="20dp"
-                    android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerAccount"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>
