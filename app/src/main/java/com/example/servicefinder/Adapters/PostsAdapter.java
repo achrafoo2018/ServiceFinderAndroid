@@ -39,7 +39,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
 
     static class PostsHolder extends RecyclerView.ViewHolder{
 
-        private TextView txtName,txtDate,txtDesc;
+        private TextView txtName,txtDate,txtDesc, txtComments;
         private CircleImageView imgProfile;
         private ImageView imgPost;
         private ImageButton btnPostOption;
@@ -48,6 +48,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
             super(itemView);
             txtName = itemView.findViewById(R.id.txtPostName);
             txtDate = itemView.findViewById(R.id.txtPostDate);
+            txtComments = itemView.findViewById(R.id.txtPostComments);
             txtDesc = itemView.findViewById(R.id.txtPostDesc);
             imgProfile = itemView.findViewById(R.id.imgPostProfile);
             imgPost = itemView.findViewById(R.id.imgPostPhoto);
@@ -74,8 +75,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
             intent.putExtra("postId", String.valueOf(post.getId()));
             context.startActivity(intent);
         });
+        holder.txtComments.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewPostActivity.class);
+            intent.putExtra("postId", String.valueOf(post.getId()));
+            context.startActivity(intent);
+        });
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
+        holder.txtComments.setText("View all "+post.getComments()+" comments");
     }
 
     @Override

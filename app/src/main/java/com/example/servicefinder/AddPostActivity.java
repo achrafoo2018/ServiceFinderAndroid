@@ -32,6 +32,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Fragments.HomeFragment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import org.json.JSONArray;
@@ -52,6 +54,7 @@ public class AddPostActivity extends AppCompatActivity {
     private static final int GALLERY_CHANGE_POST = 3;
     private ProgressDialog dialog;
     private SharedPreferences preferences;
+    private SlidrInterface slidr;
     private SearchableSpinner spinner;
     private ArrayList<String> specialities = new ArrayList<>();
 
@@ -63,6 +66,7 @@ public class AddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
         spinner = findViewById(R.id.spinner);
+        slidr = Slidr.attach(this);
         init();
     }
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -144,7 +148,7 @@ public class AddPostActivity extends AppCompatActivity {
                     post.setPost_picture(postObject.getString("post_image"));
                     post.setDesc(postObject.getString("desc"));
                     post.setDate(postObject.getString("created_at"));
-
+                    post.setComments(0);
                     HomeFragment.arrayList.add(0, post);
                     HomeFragment.recyclerView.getAdapter().notifyItemInserted(0);
                     HomeFragment.recyclerView.getAdapter().notifyDataSetChanged();
@@ -223,7 +227,7 @@ public class AddPostActivity extends AppCompatActivity {
             imgPost.setLayoutParams(layoutParams);
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
-                bitmap = getResizedBitmap(bitmap,680, 560);
+                bitmap = getResizedBitmap(bitmap,760, 560);
 
             } catch (IOException e) {
                 e.printStackTrace();
