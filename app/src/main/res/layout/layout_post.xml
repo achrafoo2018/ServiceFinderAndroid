@@ -64,16 +64,15 @@
             android:id="@+id/txtPostDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24px"
-            android:layout_marginLeft="24px"
-            android:layout_marginEnd="24px"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginRight="24px"
-            android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingBottom="8dp"
             android:text="sdkfljsdkfjklsdjflksd"
             android:textColor="@color/colorGrey"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/imgPostPhoto"
@@ -81,10 +80,16 @@
             android:layout_height="280dp"
             android:adjustViewBounds="true"
             android:src="@color/colorLightGrey" />
-
-
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View All 3 comments"
+            android:id="@+id/txtPostComments"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="14sp"
+            />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

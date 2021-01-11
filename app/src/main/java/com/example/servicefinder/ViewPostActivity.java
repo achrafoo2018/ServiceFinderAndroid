@@ -28,6 +28,8 @@ import com.example.servicefinder.Adapters.PostsAdapter;
 import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.User;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -50,7 +52,7 @@ public class ViewPostActivity extends AppCompatActivity {
     private EditText txtComment;
     private AccountCommentAdapter adapter;
     private ProgressDialog dialog;
-
+    private SlidrInterface slidr;
     private ArrayList<Comment> arrayList;
     private RecyclerView recyclerView;
 
@@ -60,6 +62,7 @@ public class ViewPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_post);
+        slidr = Slidr.attach(this);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         providerImg = findViewById(R.id.imgPostProfile);
         postImg = findViewById(R.id.imgPostPhoto);

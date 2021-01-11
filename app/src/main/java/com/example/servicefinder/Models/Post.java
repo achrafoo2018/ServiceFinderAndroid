@@ -2,6 +2,7 @@ package com.example.servicefinder.Models;
 
 public class Post {
     private int id;
+    private int comments;
     private String date, title, desc, post_picture;
     private User user;
 
@@ -51,5 +52,12 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    public int getComments() {
+        return comments;
+    }
+
+    public void setComments(int comments) {
+        this.comments = comments;
     }
 }
