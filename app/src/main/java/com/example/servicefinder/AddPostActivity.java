@@ -39,9 +39,13 @@ import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -147,7 +151,16 @@ public class AddPostActivity extends AppCompatActivity {
                     post.setId(postObject.getInt("id"));
                     post.setPost_picture(postObject.getString("post_image"));
                     post.setDesc(postObject.getString("desc"));
-                    post.setDate(postObject.getString("created_at"));
+                    PrettyTime p = new PrettyTime();
+                    String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                    DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                    String created_at = postObject.getString("created_at");
+                    try{
+                        created_at = p.format(formatter.parse(postObject.getString("created_at")));
+                    }catch(ParseException e){
+                        e.printStackTrace();
+                    }
+                    post.setDate(created_at);
                     post.setComments(0);
                     HomeFragment.arrayList.add(0, post);
                     HomeFragment.recyclerView.getAdapter().notifyItemInserted(0);
