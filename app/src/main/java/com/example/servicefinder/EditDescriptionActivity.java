@@ -123,7 +123,6 @@ public class EditDescriptionActivity extends AppCompatActivity {
                     editor.putString("phone_number",txtEditPhoneNumberProviderInfo.getText().toString().trim());
                     editor.putString("description",txtEditDescriptionProviderInfo.getText().toString().trim());
                     editor.apply();
-                    Toast.makeText(this, "Description Updated!", Toast.LENGTH_LONG).show();
                     finish();
                 }
             } catch (JSONException e) {
