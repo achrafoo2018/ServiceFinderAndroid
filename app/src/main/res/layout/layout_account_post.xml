@@ -56,7 +56,8 @@
                             android:id="@+id/btnPostOption"
                             android:background="@android:color/transparent"
                             android:layout_gravity="center_vertical"
-                            app:srcCompat="@drawable/ic_baseline_more_vert_24"/>
+                            app:srcCompat="@drawable/ic_baseline_more_vert_24"
+                            android:visibility="gone"/>
 
 
                 </LinearLayout>

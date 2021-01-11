@@ -1,8 +1,10 @@
 package com.example.servicefinder.Models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int id;
-    private String first_name, last_name, photo;
+    private String first_name, last_name, photo, email;
 
     public int getId() {
         return id;
@@ -34,5 +36,13 @@ public class User {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

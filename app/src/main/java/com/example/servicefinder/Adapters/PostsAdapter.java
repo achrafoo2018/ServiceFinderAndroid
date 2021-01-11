@@ -3,6 +3,7 @@ package com.example.servicefinder.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.servicefinder.Constant;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
 import com.example.servicefinder.ViewPostActivity;
+import com.example.servicefinder.ViewProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -82,6 +84,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
         });
         holder.txtDate.setText(post.getDate());
         holder.txtDesc.setText(post.getDesc());
+        holder.imgProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewProfileActivity.class);
+            intent.putExtra("user", post.getUser());
+            context.startActivity(intent);
+        });
+        holder.txtName.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewProfileActivity.class);
+            intent.putExtra("user", post.getUser());
+            context.startActivity(intent);
+        });
         holder.txtComments.setText("View all "+post.getComments()+" comments");
     }
 

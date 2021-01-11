@@ -1,35 +1,25 @@
-package com.example.servicefinder.Fragments;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
+package com.example.servicefinder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.LayoutInflater;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,16 +27,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Adapters.AccountCommentAdapter;
-import com.example.servicefinder.AuthActivity;
-import com.example.servicefinder.Constant;
-import com.example.servicefinder.EditUserInfoActivity;
-import com.example.servicefinder.HomeActivity;
 import com.example.servicefinder.Models.Comment;
-import com.example.servicefinder.Models.Post;
-import com.example.servicefinder.Models.Provider;
 import com.example.servicefinder.Models.User;
-import com.example.servicefinder.R;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.squareup.picasso.Picasso;
 
@@ -64,7 +46,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AccountFragment extends Fragment {
+public class ViewProfileActivity extends AppCompatActivity {
 
     private View view;
     private MaterialToolbar toolbar;
@@ -79,45 +61,37 @@ public class AccountFragment extends Fragment {
     private AccountCommentAdapter adapter;
     private String imgUrl = "";
     private EditText txtComment;
-    private LinearLayout commentLayout;
-    private NestedScrollView profileScrollView;
+    private User commenter;
 
-    public AccountFragment(){}
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_account, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_profile);
         init();
-        return view;
     }
 
     private void init() {
-        preferences = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-        toolbar = view.findViewById(R.id.toolbarAccount);
-        ((HomeActivity)getContext()).setSupportActionBar(toolbar);
-        setHasOptionsMenu(true);
-        imgProfile = view.findViewById(R.id.imgAccountProfile);
-        txtName = view.findViewById(R.id.txtAccountName);
-        txtPostsCount = view.findViewById(R.id.txtAccountPostCount);
-        recyclerView = view.findViewById(R.id.recyclerAccount);
-        swipeProfile2 = view.findViewById(R.id.swipeProfile2);
-        service = view.findViewById(R.id.service);
-        speciality = view.findViewById(R.id.speciality);
-        phone_number = view.findViewById(R.id.phone_number);
-        description = view.findViewById(R.id.description);
-        btnComment = view.findViewById(R.id.btnComment);
-        txtComment = view.findViewById(R.id.txtComment);
-        commentLayout = view.findViewById(R.id.commentLayout);
-        profileScrollView = view.findViewById(R.id.profileScrollView);
+        preferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        toolbar = findViewById(R.id.toolbarAccount);
+//        ViewProfileActivity.this.setSupportActionBar(toolbar);
+//        setHasOptionsMenu(true);
+        imgProfile = findViewById(R.id.imgAccountProfile);
+        txtName = findViewById(R.id.txtAccountName);
+        txtPostsCount = findViewById(R.id.txtAccountPostCount);
+        recyclerView = findViewById(R.id.recyclerAccount);
+        swipeProfile2 = findViewById(R.id.swipeProfile2);
+        service = findViewById(R.id.service);
+        speciality = findViewById(R.id.speciality);
+        phone_number = findViewById(R.id.phone_number);
+        description = findViewById(R.id.description);
+        btnComment = findViewById(R.id.btnComment);
+        txtComment = findViewById(R.id.txtComment);
+        commenter = (User) getIntent().getSerializableExtra("user");
 
-        if(preferences.getString("type","").equals("Provider")){
-            recyclerView.setVisibility(View.VISIBLE);
-            commentLayout.setVisibility(View.VISIBLE);
-        }
 
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(ViewProfileActivity.this));
 
         getData();
 
@@ -142,15 +116,15 @@ public class AccountFragment extends Fragment {
 
                     }
                     else if (object.has("error")){
-                        Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ViewProfileActivity.this, object.getString("error"), Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 swipeProfile2.setRefreshing(true);
             },error -> {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }){
 
@@ -158,14 +132,14 @@ public class AccountFragment extends Fragment {
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String,String> map = new HashMap<>();
                     map.put("user_id", String.valueOf(preferences.getInt("id",0)));
-                    map.put("provider_id", String.valueOf(preferences.getInt("id",0)));
+                    map.put("provider_id", String.valueOf(commenter.getId()));
                     map.put("comment", txtComment.getText().toString().trim());
                     return map;
                 }
 
             };
 
-            RequestQueue queue = Volley.newRequestQueue(getContext());
+            RequestQueue queue = Volley.newRequestQueue(ViewProfileActivity.this);
             queue.add(request);
             txtComment.setText("");
             swipeProfile2.post(() -> {
@@ -248,31 +222,31 @@ public class AccountFragment extends Fragment {
 
                     }
                     Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
-                    adapter = new AccountCommentAdapter(getContext(),arrayList);
+                    adapter = new AccountCommentAdapter(ViewProfileActivity.this,arrayList);
                     recyclerView.setAdapter(adapter);
                     imgUrl = Constant.URL+userObject.getString("profile_picture");
 
 
                 }
                 else if (object.has("error")){
-                    Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ViewProfileActivity.this, object.getString("error"), Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             swipeProfile2.setRefreshing(false);
 
 
         }, error -> {
-            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ViewProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             swipeProfile2.setRefreshing(false);
 
 
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                String email = preferences.getString("email", null);
+                String email = commenter.getEmail();
                 HashMap<String,String> map = new HashMap<>();
                 map.put("Authorization","Bearer "+email);
                 return map;
@@ -280,78 +254,7 @@ public class AccountFragment extends Fragment {
 
         };
 
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(ViewProfileActivity.this);
         queue.add(request);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_account, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch(item.getItemId()){
-            case R.id.item_logout: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Do you want to logout?");
-                builder.setPositiveButton("Logout", (dialog, which) -> logout());
-                builder.setNegativeButton("Cancel", (dialog, which) -> {
-
-                });
-                builder.show();
-                break;
-            }
-            case R.id.item_account_settings: {
-                Intent intent = new Intent((HomeActivity)getContext(), EditUserInfoActivity.class);
-                intent.putExtra("imgUrl", imgUrl);
-                startActivity(intent);
-
-                break;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void logout(){
-        StringRequest request = new StringRequest(Request.Method.GET, Constant.LOGOUT,response -> {
-
-            try {
-                JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")){
-                    Toast.makeText(getActivity(), "Logging out!", Toast.LENGTH_SHORT).show();
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.clear();
-                    editor.apply();
-                    startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class));
-                    ((HomeActivity)getContext()).finish();
-                }
-                else if(object.has("error")){
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.clear();
-                    editor.apply();
-                    startActivity(new Intent((HomeActivity)getContext(), AuthActivity.class));
-                    ((HomeActivity)getContext()).finish();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }, Throwable::printStackTrace){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = preferences.getString("token", "");
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization", "Bearer "+token);
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-        queue.add(request);
-
     }
 }
