@@ -3,7 +3,11 @@ package com.example.servicefinder.Models;
 public class Post {
     private int id;
     private int comments;
-    private String date, title, desc, post_picture;
+    private String date;
+    private String title;
+    private String desc;
+    private String post_picture;
+    private String speciality;
     private User user;
 
     public int getId() {
@@ -60,4 +64,12 @@ public class Post {
     public void setComments(int comments) {
         this.comments = comments;
     }
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
 }
