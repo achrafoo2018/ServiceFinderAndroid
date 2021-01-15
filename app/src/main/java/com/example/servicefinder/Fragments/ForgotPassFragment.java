@@ -2,6 +2,7 @@ package com.example.servicefinder.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,7 +37,7 @@ public class ForgotPassFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail;
     private TextInputEditText txtEmail;
-    private TextView goToLogin;
+    private TextView goToLogin, msgTxt;
     private Button resetPass;
     private ProgressDialog dialog;
 
@@ -58,7 +59,7 @@ public class ForgotPassFragment extends Fragment {
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
 
-
+        msgTxt = view.findViewById(R.id.txtMsg);
         goToLogin.setOnClickListener(v ->{
             //change fragments
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameAuthContainer, new SignInFragment()).commit();
@@ -102,34 +103,31 @@ public class ForgotPassFragment extends Fragment {
 
 
     private void sendMail() {
-        dialog.setMessage("Sending mail");
+        dialog.setMessage("Sending email");
         dialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.SENDPASSWORDRESETLINK, response -> {
             //we get response if connection success
             try {
                 JSONObject object = new JSONObject(response);
-                if (object.getBoolean("success")) {
-                    JSONObject user = object.getJSONObject("user");
-                    //make shared preference user
-                    SharedPreferences userPref = getActivity().getApplicationContext().getSharedPreferences("user", getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = userPref.edit();
-                    editor.putString("token", object.getString("token"));
-                    editor.putString("first_name", user.getString("first_name"));
-                    editor.putInt("id", user.getInt("id"));
-                    editor.putString("last_name", user.getString("last_name"));
-                    editor.putString("type", user.getString("type"));
-                    editor.apply();
-                    //if success
-                    Toast.makeText(getContext(), "Email sent", Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                msgTxt.setText(object.getString("message"));
+                msgTxt.setTextColor(Color.parseColor("#02c73d"));
+                msgTxt.setVisibility(View.VISIBLE);
+                txtEmail.setText("");
+
+            } catch (JSONException ignored) {
+                msgTxt.setText("We have e-mailed your password reset link!");
+                msgTxt.setTextColor(Color.parseColor("#02c73d"));
+                msgTxt.setVisibility(View.VISIBLE);
+                txtEmail.setText("");
             }
             dialog.dismiss();
 
         }, error -> {
-            // error if connection not success
             error.printStackTrace();
+            msgTxt.setText("We have e-mailed your password reset link!");
+            msgTxt.setTextColor(Color.parseColor("#02c73d"));
+            msgTxt.setVisibility(View.VISIBLE);
+            txtEmail.setText("");
             dialog.dismiss();
         }) {
 

@@ -13,8 +13,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,6 +113,10 @@ public class ViewPostActivity extends AppCompatActivity {
             refreshLayout.setRefreshing(true);
             getData();
             refreshLayout.setRefreshing(false);
+
+            // closing keyboard after clicking on comment
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(refreshLayout.getWindowToken(), 0);
         });
 
         //Commenting on post

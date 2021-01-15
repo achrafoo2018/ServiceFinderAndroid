@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -70,9 +71,8 @@ public class AccountFragment extends Fragment {
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
     private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
-    private Button btnEditAccount;
     private ImageView btnComment;
-    private SwipeRefreshLayout refreshLayout,swipeProfile2;
+    private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
     private ArrayList<Comment> arrayList;
     private SharedPreferences preferences;
@@ -135,23 +135,8 @@ public class AccountFragment extends Fragment {
 
             StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
 
-                try {
-
-                    JSONObject object = new JSONObject(response);
-                    if(object.getBoolean("success")){
-
-                    }
-                    else if (object.has("error")){
-                        Toast.makeText(getActivity(), object.getString("error"), Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
                 swipeProfile2.setRefreshing(true);
             },error -> {
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-
             }){
 
                 @Override
@@ -173,6 +158,8 @@ public class AccountFragment extends Fragment {
                 getData();
                 swipeProfile2.setRefreshing(false);
             });
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(swipeProfile2.getWindowToken(), 0);
 
         });
 

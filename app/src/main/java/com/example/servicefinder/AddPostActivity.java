@@ -165,7 +165,6 @@ public class AddPostActivity extends AppCompatActivity {
                     HomeFragment.arrayList.add(0, post);
                     HomeFragment.recyclerView.getAdapter().notifyItemInserted(0);
                     HomeFragment.recyclerView.getAdapter().notifyDataSetChanged();
-                    Toast.makeText(this, "Posted", Toast.LENGTH_SHORT).show();
                     finish();
 
 

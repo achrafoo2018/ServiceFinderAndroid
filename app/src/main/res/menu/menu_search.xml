@@ -8,9 +8,4 @@
         app:iconTint="@color/colorBlack"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
-    <item
-        app:showAsAction="always|collapseActionView"
-        android:id="@+id/spinnerTop"
-        app:actionViewClass="com.toptoche.searchablespinnerlibrary.SearchableSpinner"
-        android:title="Speciality" />
 </menu>

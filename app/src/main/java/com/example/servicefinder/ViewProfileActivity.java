@@ -30,6 +30,8 @@ import com.example.servicefinder.Adapters.AccountCommentAdapter;
 import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.User;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -62,11 +64,13 @@ public class ViewProfileActivity extends AppCompatActivity {
     private String imgUrl = "";
     private EditText txtComment;
     private User commenter;
+    private SlidrInterface slidr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
+        slidr = Slidr.attach(this);
         init();
     }
 

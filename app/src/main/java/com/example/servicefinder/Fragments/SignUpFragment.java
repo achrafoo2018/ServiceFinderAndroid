@@ -33,6 +33,7 @@ import com.example.servicefinder.UserInfoActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +44,7 @@ public class SignUpFragment extends Fragment {
     private View view;
     private TextInputLayout layoutEmail, layoutPassword, layoutConfirm;
     private TextInputEditText txtEmail, txtPassword, txtConfirm;
-    private TextView signIn;
+    private TextView signIn, registerFailed;
     private Button btnSignUp;
     private ProgressDialog dialog;
     private RadioGroup rg;
@@ -74,6 +75,7 @@ public class SignUpFragment extends Fragment {
         btnSignUp =view.findViewById(R.id.btnSignUp);
         dialog = new ProgressDialog(getContext());
         dialog.setCancelable(false);
+        registerFailed = view.findViewById(R.id.registerFailed);
 
         rg = (RadioGroup)view.findViewById(R.id.radio);
 
@@ -212,6 +214,9 @@ public class SignUpFragment extends Fragment {
                     startActivity(new Intent(((AuthActivity)getContext()), UserInfoActivity.class));
                     ((AuthActivity) getContext()).finish();
                     //Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
+                }else{
+                    registerFailed.setText("The email has already been taken.");
+                    registerFailed.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
