@@ -3,16 +3,20 @@ package com.example.servicefinder.Adapters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.servicefinder.Constant;
+import com.example.servicefinder.MainActivity;
 import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
@@ -52,8 +56,27 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         String name = preferences.getString("first_name",null) + " " + preferences.getString("last_name",null);
         if(comment.getCommenterName().equals(name)){
             holder.btnPostOption.setVisibility(View.VISIBLE);
-
         }
+        holder.btnPostOption.setOnClickListener(v -> {
+            PopupMenu menuComment = new PopupMenu(context, holder.btnPostOption);
+            menuComment.getMenuInflater().inflate(R.menu.menu_comment, menuComment.getMenu());
+
+            menuComment.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch(item.getItemId()){
+
+                        case 0:
+                            Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show();
+                            break;
+                        case 1:
+                            Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    return true;
+                }
+            });
+        });
 
     }
 
