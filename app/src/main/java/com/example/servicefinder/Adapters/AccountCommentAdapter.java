@@ -36,6 +36,7 @@ import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
 
+import com.example.servicefinder.ViewPostActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -86,6 +87,8 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
                         case R.id.item_edit:
 
+                            Toast.makeText(context, ""+ context.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
+
 
                             break;
                         case R.id.item_delete:
@@ -96,8 +99,14 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
-                                            StringRequest request = new StringRequest(Request.Method.GET, Constant.DELETE_COMMENT,response -> {
+                                            String uri;
+                                            if(context.getClass().getSimpleName().equals(HomeActivity.class.getSimpleName())){
+                                                uri = Constant.DELETE_COMMENT;
+                                            }
+                                            else{
+                                                uri = Constant.DELETE_POST_COMMENT;
+                                            }
+                                                StringRequest request = new StringRequest(Request.Method.GET, uri,response -> {
 
                                                 try {
                                                     JSONObject object = new JSONObject(response);

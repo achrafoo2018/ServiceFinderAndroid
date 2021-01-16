@@ -194,6 +194,7 @@ public class ViewPostActivity extends AppCompatActivity {
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
+                        comment.setId(c.getInt("id"));
                         comment.setComment(c.getString("comment"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
                         PrettyTime p = new PrettyTime();
@@ -210,7 +211,7 @@ public class ViewPostActivity extends AppCompatActivity {
                         arrayList.add(comment);
 
                     }
-                    adapter = new AccountCommentAdapter(getApplicationContext(),arrayList);
+                    adapter = new AccountCommentAdapter(this,arrayList);
                     recyclerView.setAdapter(adapter);
 
                 }
