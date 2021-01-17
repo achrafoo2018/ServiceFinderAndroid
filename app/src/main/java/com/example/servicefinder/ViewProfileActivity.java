@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -161,7 +162,9 @@ public class ViewProfileActivity extends AppCompatActivity {
                 getData();
                 swipeProfile2.setRefreshing(false);
             });
-
+            // closing keyboard after clicking on comment
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(swipeProfile2.getWindowToken(), 0);
         });
 
         //Commenting on profile
@@ -220,6 +223,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
+                        comment.setId(c.getInt("id"));
                         comment.setComment(c.getString("comment"));
                         comment.setRating(c.getInt("rating"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));

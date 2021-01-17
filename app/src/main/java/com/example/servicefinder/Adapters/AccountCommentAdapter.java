@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,6 +43,7 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
     private Context context;
     private ArrayList<Comment> arrayList;
     private int layout;
+
     public AccountCommentAdapter(Context context, ArrayList<Comment> arrayList, int layout) {
         this.context = context;
         this.arrayList = arrayList;
@@ -82,26 +84,38 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
                             break;
                         case R.id.item_delete:
-
+                            String message, title;
+                            if(layout == R.layout.layout_account_comment){
+                                message = "Are you sure you want to delete this review ?";
+                                title = "Delete Review";
+                            }
+                            else{
+                                message = "Are you sure you want to delete this comment ?";
+                                title = "Delete Comment";
+                            }
                             new AlertDialog.Builder(context)
-                                    .setTitle("Delete comment")
-                                    .setMessage("Are you sure you want to delete this review")
+                                    .setTitle(title)
+                                    .setMessage(message)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String uri;
-                                            if(context.getClass().getSimpleName().equals(HomeActivity.class.getSimpleName())){
+                                            if(layout == R.layout.layout_account_comment){
                                                 uri = Constant.DELETE_COMMENT;
                                             }
                                             else{
                                                 uri = Constant.DELETE_POST_COMMENT;
                                             }
                                                 StringRequest request = new StringRequest(Request.Method.GET, uri,response -> {
-
                                                 try {
                                                     JSONObject object = new JSONObject(response);
                                                     if (object.has("success")){
-                                                        Toast.makeText(context, "Comment deleted successfully!", Toast.LENGTH_SHORT).show();
+                                                        if(layout == R.layout.layout_account_comment){
+                                                            Toast.makeText(context, "Review Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            Toast.makeText(context, "Comment Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+
                                                     }
                                                     else if(object.has("error")){
                                                         Toast.makeText(context, object.getString("error"), Toast.LENGTH_SHORT).show();
@@ -124,7 +138,6 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
                                                     return map;
                                                 }
                                             };
-
                                             RequestQueue queue = Volley.newRequestQueue(context);
                                             queue.add(request);
 
@@ -132,6 +145,7 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
                                     })
                                     .setNegativeButton(android.R.string.no,null)
                                     .show();
+
                             break;
                     }
                     return true;
