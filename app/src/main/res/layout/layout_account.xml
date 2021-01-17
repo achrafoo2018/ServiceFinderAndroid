@@ -41,8 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="30dp"
-            android:paddingBottom="30dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -53,48 +53,61 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
 
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:id="@+id/imgAccountProfile"
                     android:src="@color/colorLightGrey"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textColor="@color/colorBlack"
                     android:text="Ghassen Ben Ghorbal"
                     android:textStyle="bold"
                     android:id="@+id/txtAccountName"/>
 
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center">
-
                 <TextView
+                    android:id="@+id/description"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:text="Professional Voice Over Artist, Audio Engineer, and Composer"
+                    android:textColor="@color/colorGrey" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                <RatingBar
+                    android:id="@+id/rating_bar_moy"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/colorBlack"
-                    android:text="@string/review"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@color/colorBlack"
-                    android:text="0"
-                    android:id="@+id/txtAccountPostCount"/>
-
+                    android:layout_gravity="center"
+                    android:isIndicator="false"
+                    android:layout_marginRight="5dp"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:rating="3"/>
+                    <TextView
+                        android:id="@+id/rating_moy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginRight="5dp"
+                        android:text="5.0"/>
+                    <TextView
+                        android:id="@+id/numberReviews"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorLightGrey"
+                        android:textStyle="bold"
+                        android:text="(600 reviews)"/>
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -112,6 +125,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="17dp"
                     android:textStyle="bold"
                     android:text="@string/service2"/>
                 <TextView
@@ -128,6 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textSize="17dp"
                     android:text="@string/speciality2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,6 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textSize="17dp"
                     android:text="@string/phone_number2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -150,30 +166,13 @@
                     android:textColor="@color/colorBlack"
                     android:id="@+id/phone_number"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/description2"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlack"
-                    android:id="@+id/description"/>
-            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerAccount"

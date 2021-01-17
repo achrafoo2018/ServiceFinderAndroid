@@ -56,7 +56,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
-    private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
+    private TextView txtName,service,speciality,phone_number,description;
     private Button btnEditAccount;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
@@ -86,7 +86,6 @@ public class ViewProfileActivity extends AppCompatActivity {
 //        setHasOptionsMenu(true);
         imgProfile = findViewById(R.id.imgAccountProfile);
         txtName = findViewById(R.id.txtAccountName);
-        txtPostsCount = findViewById(R.id.txtAccountPostCount);
         recyclerView = findViewById(R.id.recyclerAccount);
         swipeProfile2 = findViewById(R.id.swipeProfile2);
         service = findViewById(R.id.service);

@@ -70,7 +70,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
+    private TextView txtName,service,speciality,phone_number,description;
     private ImageView btnComment;
     private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
@@ -97,7 +97,6 @@ public class AccountFragment extends Fragment {
         setHasOptionsMenu(true);
         imgProfile = view.findViewById(R.id.imgAccountProfile);
         txtName = view.findViewById(R.id.txtAccountName);
-        txtPostsCount = view.findViewById(R.id.txtAccountPostCount);
         recyclerView = view.findViewById(R.id.recyclerAccount);
         swipeProfile2 = view.findViewById(R.id.swipeProfile2);
         service = view.findViewById(R.id.service);
@@ -178,6 +177,7 @@ public class AccountFragment extends Fragment {
                         Comment comment = new Comment();
                         comment.setId(c.getInt("id"));
                         comment.setComment(c.getString("comment"));
+                        comment.setRating(c.getInt("rating"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
                         PrettyTime p = new PrettyTime();
                         String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
