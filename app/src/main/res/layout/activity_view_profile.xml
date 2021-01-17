@@ -18,26 +18,17 @@ tools:context=".ViewProfileActivity">
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
         android:orientation="vertical">
-
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarViewProfile"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:id="@+id/toolbarAccount"
-            app:elevation="1dp"
-            app:title= " "
-            android:theme="@style/AppTheme.BottomAppbar">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:text="@string/service_finder"
-                android:fontFamily="@font/leckerlione_regular"/>
-
-        </com.google.android.material.appbar.MaterialToolbar>
-
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            android:fontFamily="@font/leckerlione_regular"
+            app:title="Achraf Ben Soltane's Profile"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,6 +104,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/service2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -127,6 +119,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/speciality2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,6 +134,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/phone_number2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -156,6 +150,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/description2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,13 +166,36 @@ tools:context=".ViewProfileActivity">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="20dp">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="Rate This Provider"/>
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:isIndicator="false"
+                android:layout_marginTop="10dp"
+                android:numStars="5"
+                android:stepSize="1"
+                android:rating="3"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingRight="20dp"
                 android:paddingLeft="20dp">
-
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/currentUserImgProfile"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@color/colorLightGrey" />
                 <EditText
                     android:id="@+id/txtComment"
                     android:layout_width="0dp"
