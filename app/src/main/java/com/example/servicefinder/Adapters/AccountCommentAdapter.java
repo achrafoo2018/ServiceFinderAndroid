@@ -1,43 +1,32 @@
 package com.example.servicefinder.Adapters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.Layout;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.servicefinder.AuthActivity;
 import com.example.servicefinder.Constant;
-import com.example.servicefinder.HomeActivity;
-import com.example.servicefinder.MainActivity;
 import com.example.servicefinder.Models.Comment;
-import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.R;
 
+import com.example.servicefinder.ViewPostActivity;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,17 +41,17 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
 
     private Context context;
     private ArrayList<Comment> arrayList;
-
-    public AccountCommentAdapter(Context context, ArrayList<Comment> arrayList) {
+    private int layout;
+    public AccountCommentAdapter(Context context, ArrayList<Comment> arrayList, int layout) {
         this.context = context;
         this.arrayList = arrayList;
-
+        this.layout = layout;
     }
 
     @NonNull
     @Override
     public AccountCommentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_account_post, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         return new AccountCommentHolder(v);
     }
 
@@ -72,6 +61,8 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         holder.commentorName.setText(comment.getCommenterName());
         holder.comment.setText(comment.getComment());
         holder.txtCommentDate.setText(comment.getCommentDate());
+        if(this.layout == R.layout.layout_account_comment)
+            holder.ratingBar.setRating(comment.getRating());
         Picasso.get().load(Constant.URL+comment.getCommenterProfilePicture()).into(holder.commenterProfilePicture);
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = preferences.getString("first_name",null) + " " + preferences.getString("last_name",null);
@@ -154,7 +145,7 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         private TextView commentorName,comment,txtCommentDate;
         private CircleImageView commenterProfilePicture;
         private ImageButton btnPostOption;
-
+        private RatingBar ratingBar;
         public AccountCommentHolder(@NonNull View itemView) {
             super(itemView);
             commentorName = itemView.findViewById(R.id.commenterName);
@@ -162,7 +153,7 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
             txtCommentDate = itemView.findViewById(R.id.txtCommentDate);
             commenterProfilePicture = itemView.findViewById(R.id.commenterProfilePicture);
             btnPostOption = itemView.findViewById(R.id.btnPostOption);
-
+            ratingBar = itemView.findViewById(R.id.comment_rating_bar);
 
 
 

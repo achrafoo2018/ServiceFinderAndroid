@@ -2,7 +2,7 @@ package com.example.servicefinder.Models;
 
 public class Comment {
     private int id;
-    private int provider_id;
+    private int provider_id, rating;
     private String comment,commenterName,commentDate,commenterProfilePicture;
 
     public int getId() {
@@ -51,5 +51,13 @@ public class Comment {
 
     public void setCommenterProfilePicture(String commenterProfilePicture) {
         this.commenterProfilePicture = commenterProfilePicture;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

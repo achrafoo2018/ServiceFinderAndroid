@@ -2,6 +2,7 @@ package com.example.servicefinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +54,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     private View view;
     private MaterialToolbar toolbar;
-    private CircleImageView imgProfile;
+    private CircleImageView imgProfile, userImg;
     private TextView txtName, txtPostsCount,service,speciality,phone_number,description;
     private Button btnEditAccount;
     private ImageView btnComment;
@@ -65,7 +67,9 @@ public class ViewProfileActivity extends AppCompatActivity {
     private EditText txtComment;
     private User commenter;
     private SlidrInterface slidr;
-
+    private SharedPreferences userPref;
+    private RatingBar rBar;
+    private Toolbar profileToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +95,12 @@ public class ViewProfileActivity extends AppCompatActivity {
         btnComment = findViewById(R.id.btnComment);
         txtComment = findViewById(R.id.txtComment);
         commenter = (User) getIntent().getSerializableExtra("user");
-
+        userImg = findViewById(R.id.currentUserImgProfile);
+        userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        rBar = (RatingBar) findViewById(R.id.rating_bar);
+        profileToolBar = findViewById(R.id.toolbarViewProfile);
+        profileToolBar.setTitle(commenter.getFirst_name()+" "+commenter.getLast_name()+"'s Profile");
+        setSupportActionBar(profileToolBar);
 
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
@@ -138,6 +147,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                     map.put("user_id", String.valueOf(preferences.getInt("id",0)));
                     map.put("provider_id", String.valueOf(commenter.getId()));
                     map.put("comment", txtComment.getText().toString().trim());
+                    map.put("rating", String.valueOf(rBar.getRating()));
                     return map;
                 }
 
@@ -176,6 +186,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
+                    Picasso.get().load(Constant.URL+userPref.getString("profile_picture", "")).into(userImg);
 
                     if(preferences.getString("service","").equals("null")){
                         service.setText("");
@@ -210,6 +221,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();
                         comment.setComment(c.getString("comment"));
+                        comment.setRating(c.getInt("rating"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
                         PrettyTime p = new PrettyTime();
                         String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
@@ -226,7 +238,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                     }
                     Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
-                    adapter = new AccountCommentAdapter(ViewProfileActivity.this,arrayList);
+                    adapter = new AccountCommentAdapter(ViewProfileActivity.this,arrayList, R.layout.layout_account_comment);
                     recyclerView.setAdapter(adapter);
                     imgUrl = Constant.URL+userObject.getString("profile_picture");
 
@@ -260,5 +272,13 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(ViewProfileActivity.this);
         queue.add(request);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -112,6 +112,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/service2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -126,6 +127,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/speciality2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,6 +142,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/phone_number2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -155,6 +158,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="@string/description2"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,30 +174,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="20dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
-                android:id="@+id/commentLayout"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/txtComment"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/comment"/>
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/btnComment"
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/ic_send_comment"
-                    android:layout_marginStart="10dp" />
-
-            </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerAccount"

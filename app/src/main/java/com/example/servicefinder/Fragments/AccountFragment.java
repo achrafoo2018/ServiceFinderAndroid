@@ -78,8 +78,6 @@ public class AccountFragment extends Fragment {
     private SharedPreferences preferences;
     private AccountCommentAdapter adapter;
     private String imgUrl = "";
-    private EditText txtComment;
-    private LinearLayout commentLayout;
     private NestedScrollView profileScrollView;
 
     public AccountFragment(){}
@@ -106,14 +104,10 @@ public class AccountFragment extends Fragment {
         speciality = view.findViewById(R.id.speciality);
         phone_number = view.findViewById(R.id.phone_number);
         description = view.findViewById(R.id.description);
-        btnComment = view.findViewById(R.id.btnComment);
-        txtComment = view.findViewById(R.id.txtComment);
-        commentLayout = view.findViewById(R.id.commentLayout);
         profileScrollView = view.findViewById(R.id.profileScrollView);
 
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
-            commentLayout.setVisibility(View.VISIBLE);
         }
 
         recyclerView.setHasFixedSize(true);
@@ -128,42 +122,6 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
-        //Commenting on profile
-
-        btnComment.setOnClickListener(v -> {
-
-            StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
-
-                swipeProfile2.setRefreshing(true);
-            },error -> {
-            }){
-
-                @Override
-                public Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String,String> map = new HashMap<>();
-                    map.put("user_id", String.valueOf(preferences.getInt("id",0)));
-                    map.put("provider_id", String.valueOf(preferences.getInt("id",0)));
-                    map.put("comment", txtComment.getText().toString().trim());
-                    return map;
-                }
-
-            };
-
-            RequestQueue queue = Volley.newRequestQueue(getContext());
-            queue.add(request);
-            txtComment.setText("");
-            swipeProfile2.post(() -> {
-                swipeProfile2.setRefreshing(true);
-                getData();
-                swipeProfile2.setRefreshing(false);
-            });
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(swipeProfile2.getWindowToken(), 0);
-
-        });
-
-        //Commenting on profile
 
     }
 
@@ -236,7 +194,7 @@ public class AccountFragment extends Fragment {
 
                     }
                     Picasso.get().load(Constant.URL+userObject.getString("profile_picture")).into(imgProfile);
-                    adapter = new AccountCommentAdapter(getContext(),arrayList);
+                    adapter = new AccountCommentAdapter(getContext(),arrayList, R.layout.layout_account_comment);
                     recyclerView.setAdapter(adapter);
                     imgUrl = Constant.URL+userObject.getString("profile_picture");
 

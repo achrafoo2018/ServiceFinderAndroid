@@ -210,7 +210,7 @@ public class ViewPostActivity extends AppCompatActivity {
                         arrayList.add(comment);
 
                     }
-                    adapter = new AccountCommentAdapter(getApplicationContext(),arrayList);
+                    adapter = new AccountCommentAdapter(getApplicationContext(),arrayList, R.layout.layout_post_comment);
                     recyclerView.setAdapter(adapter);
 
                 }
