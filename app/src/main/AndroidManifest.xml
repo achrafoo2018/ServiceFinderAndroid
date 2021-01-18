@@ -12,13 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".EditPostActivity"></activity>
         <activity android:name=".ViewProfileActivity" />
         <activity android:name=".ViewPostActivity" />
         <activity android:name=".EditDescriptionActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".EditUserInfoActivity" />
         <activity android:name=".AddPostActivity" />
-        <activity android:name=".HomeActivity"
+        <activity
+            android:name=".HomeActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".UserInfoActivity" />
         <activity android:name=".AuthActivity" />
