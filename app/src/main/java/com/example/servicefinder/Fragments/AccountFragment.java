@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -70,7 +71,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName,service,speciality,phone_number,description;
+    private TextView txtName,service,speciality,phone_number,description, totalReviews, avgRating;
     private ImageView btnComment;
     private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
@@ -79,6 +80,7 @@ public class AccountFragment extends Fragment {
     private AccountCommentAdapter adapter;
     private String imgUrl = "";
     private NestedScrollView profileScrollView;
+    private RatingBar avgBar;
 
     public AccountFragment(){}
 
@@ -104,26 +106,60 @@ public class AccountFragment extends Fragment {
         phone_number = view.findViewById(R.id.phone_number);
         description = view.findViewById(R.id.description);
         profileScrollView = view.findViewById(R.id.profileScrollView);
-
+        avgBar = (RatingBar) view.findViewById(R.id.rating_bar_moy);
+        totalReviews = view.findViewById(R.id.numberReviews);
+        avgRating = view.findViewById(R.id.rating_moy);
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
         }
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        getUserRating();
         getData();
 
         swipeProfile2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
+                getUserRating();
             }
         });
 
 
     }
+    private void getUserRating(){
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_RATING, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    float AvgRating;
+                    if(object.getString("rate").equals("null")){
+                        AvgRating = 0;
+                    }else{
+                        AvgRating = (float) (Math.round(Float.parseFloat(object.getString("rate")) * 10.0) / 10.0);
+                    }
+                    int totalRev = object.getInt("total");
+                    avgBar.setRating(AvgRating);
+                    totalReviews.setText("(" + totalRev + " reviews)");
+                    avgRating.setText(""+AvgRating);
 
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        },error -> {
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer "+ preferences.getInt("id", -1));
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
     private void getData() {
         arrayList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.COMMENTS_ON_MY_PROFILE, response -> {

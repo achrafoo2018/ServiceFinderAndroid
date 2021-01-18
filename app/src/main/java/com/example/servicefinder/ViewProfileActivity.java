@@ -56,7 +56,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
-    private TextView txtName,service,speciality,phone_number,description;
+    private TextView txtName,service,speciality,phone_number,description, totalReviews, avgRating;
     private Button btnEditAccount;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
@@ -69,7 +69,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private User commenter;
     private SlidrInterface slidr;
     private SharedPreferences userPref;
-    private RatingBar rBar;
+    private RatingBar rBar, avgBar;
     private Toolbar profileToolBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +101,21 @@ public class ViewProfileActivity extends AppCompatActivity {
         profileToolBar = findViewById(R.id.toolbarViewProfile);
         profileToolBar.setTitle(commenter.getFirst_name()+" "+commenter.getLast_name()+"'s Profile");
         setSupportActionBar(profileToolBar);
-
+        avgBar = (RatingBar) findViewById(R.id.rating_bar_moy);
+        totalReviews = findViewById(R.id.numberReviews);
+        avgRating = findViewById(R.id.rating_moy);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ViewProfileActivity.this));
 
         getData();
+        getUserRating();
 
         swipeProfile2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getData();
+                getUserRating();
             }
         });
 
@@ -159,6 +163,7 @@ public class ViewProfileActivity extends AppCompatActivity {
             swipeProfile2.post(() -> {
                 swipeProfile2.setRefreshing(true);
                 getData();
+                getUserRating();
                 swipeProfile2.setRefreshing(false);
             });
             // closing keyboard after clicking on comment
@@ -169,7 +174,38 @@ public class ViewProfileActivity extends AppCompatActivity {
         //Commenting on profile
 
     }
+    private void getUserRating(){
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_RATING, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    float AvgRating;
+                    if(object.getString("rate").equals("null")){
+                        AvgRating = 0;
+                    }else{
+                        AvgRating = (float) (Math.round(Float.parseFloat(object.getString("rate")) * 10.0) / 10.0);
+                    }
+                    int totalRev = object.getInt("total");
+                    avgBar.setRating(AvgRating);
+                    totalReviews.setText("(" + totalRev + " reviews)");
+                    avgRating.setText(""+AvgRating);
 
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        },error -> {
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer "+ commenter.getId());
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+    }
     private void getData() {
         arrayList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, Constant.COMMENTS_ON_MY_PROFILE, response -> {
