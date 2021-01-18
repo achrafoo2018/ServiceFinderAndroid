@@ -193,7 +193,15 @@ public class ViewPostActivity extends AppCompatActivity {
                         recyclerView.setVisibility(View.VISIBLE);
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
+                        JSONObject uObject = c.getJSONObject("user");
+                        User u = new User();
+                        u.setId(uObject.getInt("id"));
+                        u.setFirst_name(uObject.getString("first_name"));
+                        u.setLast_name(uObject.getString("last_name"));
+                        u.setPhoto(uObject.getString("profile_picture"));
+                        u.setEmail(uObject.getString("email"));
                         Comment comment = new Comment();
+                        comment.setUser(u);
                         comment.setId(c.getInt("id"));
                         comment.setComment(c.getString("comment"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
