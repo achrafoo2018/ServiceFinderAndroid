@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ServiceFinder</string>
+    <string name="app_name">Service Finder</string>
     <string name="forgot_your_password">Forgot Your Password?</string>
     <string name="e_mail_address">E-mail address</string>
     <string name="reset_password">Reset Password</string>
