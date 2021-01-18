@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +72,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private SharedPreferences userPref;
     private RatingBar rBar;
     private Toolbar profileToolBar;
+    private LinearLayout commentLinearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarAccount);
 //        ViewProfileActivity.this.setSupportActionBar(toolbar);
 //        setHasOptionsMenu(true);
+        commentLinearLayout = findViewById(R.id.commentLinearLayout);
         imgProfile = findViewById(R.id.imgAccountProfile);
         txtName = findViewById(R.id.txtAccountName);
         recyclerView = findViewById(R.id.recyclerAccount);
@@ -95,6 +98,9 @@ public class ViewProfileActivity extends AppCompatActivity {
         btnComment = findViewById(R.id.btnComment);
         txtComment = findViewById(R.id.txtComment);
         commenter = (User) getIntent().getSerializableExtra("user");
+        if(commenter.getId() == preferences.getInt("id",0)){
+            commentLinearLayout.setVisibility(View.GONE);
+        }
         userImg = findViewById(R.id.currentUserImgProfile);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         rBar = (RatingBar) findViewById(R.id.rating_bar);
@@ -102,7 +108,6 @@ public class ViewProfileActivity extends AppCompatActivity {
         profileToolBar.setTitle(commenter.getFirst_name()+" "+commenter.getLast_name()+"'s Profile");
         setSupportActionBar(profileToolBar);
 
-        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ViewProfileActivity.this));
 
@@ -217,8 +222,9 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                     }
 
-                    if (comments.length() != 0)
+                    if (comments.length() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
+                    }
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         Comment comment = new Comment();

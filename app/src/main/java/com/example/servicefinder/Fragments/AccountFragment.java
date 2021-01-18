@@ -79,6 +79,7 @@ public class AccountFragment extends Fragment {
     private AccountCommentAdapter adapter;
     private String imgUrl = "";
     private NestedScrollView profileScrollView;
+    private LinearLayout commentsLinearLayout;
 
     public AccountFragment(){}
 
@@ -104,6 +105,7 @@ public class AccountFragment extends Fragment {
         phone_number = view.findViewById(R.id.phone_number);
         description = view.findViewById(R.id.description);
         profileScrollView = view.findViewById(R.id.profileScrollView);
+        commentsLinearLayout = view.findViewById(R.id.commentsLinearLayout);
 
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
@@ -170,11 +172,21 @@ public class AccountFragment extends Fragment {
 
                     }
 
-                    if (comments.length() != 0)
+                    if (comments.length() != 0) {
                         recyclerView.setVisibility(View.VISIBLE);
+                        commentsLinearLayout.setVisibility(View.VISIBLE);
+                    }
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
+                        JSONObject uObject = c.getJSONObject("user");
+                        User u = new User();
+                        u.setId(uObject.getInt("id"));
+                        u.setFirst_name(uObject.getString("first_name"));
+                        u.setLast_name(uObject.getString("last_name"));
+                        u.setPhoto(uObject.getString("profile_picture"));
+                        u.setEmail(uObject.getString("email"));
                         Comment comment = new Comment();
+                        comment.setUser(u);
                         comment.setId(c.getInt("id"));
                         comment.setComment(c.getString("comment"));
                         comment.setRating(c.getInt("rating"));

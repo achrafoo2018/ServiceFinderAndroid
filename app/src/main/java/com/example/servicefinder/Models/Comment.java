@@ -4,6 +4,15 @@ public class Comment {
     private int id;
     private int provider_id, rating;
     private String comment,commenterName,commentDate,commenterProfilePicture;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;

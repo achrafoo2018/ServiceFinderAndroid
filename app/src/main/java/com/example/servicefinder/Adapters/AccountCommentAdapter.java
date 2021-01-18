@@ -3,6 +3,7 @@ package com.example.servicefinder.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.R;
 
 import com.example.servicefinder.ViewPostActivity;
+import com.example.servicefinder.ViewProfileActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -68,6 +70,16 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
         Picasso.get().load(Constant.URL+comment.getCommenterProfilePicture()).into(holder.commenterProfilePicture);
         SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = preferences.getString("first_name",null) + " " + preferences.getString("last_name",null);
+        holder.commenterProfilePicture.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewProfileActivity.class);
+            intent.putExtra("user", comment.getUser());
+            context.startActivity(intent);
+        });
+        holder.commentorName.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewProfileActivity.class);
+            intent.putExtra("user", comment.getUser());
+            context.startActivity(intent);
+        });
         if(comment.getCommenterName().equals(name)){
             holder.btnPostOption.setVisibility(View.VISIBLE);
             holder.btnPostOption.setOnClickListener(v -> {
@@ -77,12 +89,6 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
                 menuComment.setOnMenuItemClickListener(item -> {
                     switch(item.getItemId()){
 
-                        case R.id.item_edit:
-
-                            Toast.makeText(context, ""+ context.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
-
-
-                            break;
                         case R.id.item_delete:
                             String message, title;
                             if(layout == R.layout.layout_account_comment){
