@@ -1,13 +1,17 @@
 package com.example.servicefinder;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +35,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Adapters.AccountCommentAdapter;
+import com.example.servicefinder.Fragments.ReviewAlertDialogFragment;
 import com.example.servicefinder.Models.Comment;
 import com.example.servicefinder.Models.User;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -125,22 +130,49 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         btnComment.setOnClickListener(v -> {
 
+            String newComment = txtComment.getText().toString().trim();
+
             StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
 
                 try {
 
                     JSONObject object = new JSONObject(response);
-                    if(object.getBoolean("success")){
-
+                    if(object.has("success")){
                     }
                     else if (object.has("error")){
-                        Toast.makeText(ViewProfileActivity.this, object.getString("error"), Toast.LENGTH_LONG).show();
+                        swipeProfile2.setRefreshing(false);
+//                        Toast.makeText(ViewProfileActivity.this, object.getString("error"), Toast.LENGTH_LONG).show();
+                        if(object.has("counter")){
+
+                            JSONArray cArrayObject = object.getJSONArray("comment");
+                            JSONObject cObject = cArrayObject.getJSONObject(0);
+                            Comment c = new Comment();
+                            c.setId(cObject.getInt("id"));
+                            c.setComment(cObject.getString("comment"));
+                            c.setRating(cObject.getInt("rating"));
+                            c.setCommenterName(object.getJSONObject("user").getString("first_name")+" "+object.getJSONObject("user").getString("last_name"));
+                            PrettyTime p = new PrettyTime();
+                            String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                            DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                            String created_at = cObject.getString("created_at");
+                            try{
+                                created_at = p.format(formatter.parse(cObject.getString("created_at")));
+                            }catch(ParseException e){
+                                e.printStackTrace();
+                            }
+                            c.setCommentDate(created_at);
+                            c.setCommenterProfilePicture(object.getJSONObject("user").getString("profile_picture"));
+
+                            DialogFragment reviewDialog = new ReviewAlertDialogFragment(c);
+                            reviewDialog
+                                    .show(getSupportFragmentManager(),"Review");
+                            txtComment.setText(newComment);
+                        }
                     }
                 } catch (JSONException e) {
                     Toast.makeText(ViewProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                swipeProfile2.setRefreshing(true);
             },error -> {
                 Toast.makeText(ViewProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 

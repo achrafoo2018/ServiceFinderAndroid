@@ -20,4 +20,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#666666</color>
+    
+    <color name="colorDanger">#df4759</color>
 </resources>
