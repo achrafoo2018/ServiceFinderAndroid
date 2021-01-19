@@ -31,6 +31,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Fragments.HomeFragment;
 import com.example.servicefinder.Models.Post;
+import com.r0adkll.slidr.Slidr;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.squareup.picasso.Picasso;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
@@ -57,11 +59,14 @@ public class EditPostActivity extends AppCompatActivity {
     private static final int GALLERY_CHANGE_POST = 3;
     private SearchableSpinner spinner;
     private ArrayList<String> specialities = new ArrayList<>();
+    private Bundle extras;
+    private SlidrInterface slidr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_post);
+        slidr = Slidr.attach(this);
         init();
     }
 
@@ -93,8 +98,9 @@ public class EditPostActivity extends AppCompatActivity {
         position = getIntent().getIntExtra("position",0);
         id = getIntent().getIntExtra("postId",0);
         txtDesc.setText(getIntent().getStringExtra("text"));
-
-        Picasso.get().load(Constant.URL+getIntent().getStringExtra("post_picture")).into(imgPost);
+        extras = getIntent().getExtras();
+        Picasso.get().load(Constant.URL+extras.getString("post_picture")).into(imgPost);
+        specialities.add(extras.getString("speciality"));
 
         btnSave.setOnClickListener(v->{
             if (!txtDesc.getText().toString().isEmpty()){
@@ -110,18 +116,18 @@ public class EditPostActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
                     JSONArray array = new JSONArray(object.getString("specialities"));
-                    int selectedIndex=0;
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject speciality = array.getJSONObject(i);
-                        specialities.add(speciality.getString("speciality"));
-                        if(speciality.getString("speciality").equals(getIntent().getStringExtra("speciality"))){
-                            selectedIndex=i;
+                        if(speciality.getString("speciality").equals(extras.getString("speciality"))){
+                            continue;
                         }
+                        specialities.add(speciality.getString("speciality"));
+
                     }
                     ArrayAdapter<String> adapter=new ArrayAdapter<>(EditPostActivity.this, android.R.layout.simple_spinner_item, specialities);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setSelection(selectedIndex);
                     spinner.setAdapter(adapter);
+
                 }
             }catch (JSONException e) {
                 e.printStackTrace();
@@ -143,6 +149,7 @@ public class EditPostActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), ViewPostActivity.class);
                     intent.putExtra("postId", String.valueOf(id));
                     startActivity(intent);
+                    finish();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -174,7 +181,7 @@ public class EditPostActivity extends AppCompatActivity {
                 return map;
             }
         };
-
+        dialog.dismiss();
         RequestQueue queue = Volley.newRequestQueue(EditPostActivity.this);
         queue.add(request);
     }
