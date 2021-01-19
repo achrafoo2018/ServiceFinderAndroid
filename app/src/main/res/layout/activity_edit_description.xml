@@ -39,22 +39,6 @@
                 android:gravity="center_horizontal"
                 android:text="@string/edit_description"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:id="@+id/LayoutServiceProviderInfo"
-                android:layout_marginBottom="6dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtEditServiceProviderInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/service"
-                    android:inputType="text"
-                    android:textSize="15sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

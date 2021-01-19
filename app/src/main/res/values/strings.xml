@@ -45,10 +45,8 @@
     <string name="speciality">Speciality</string>
     <string name="phone_number">Phone Number</string>
     <string name="save">Save</string>
-    <string name="service2">Service:</string>
-    <string name="speciality2">Speciality:</string>
-    <string name="phone_number2">Phone Number:</string>
-    <string name="description2">Description:</string>
+    <string name="speciality2">Speciality :</string>
+    <string name="phone_number2">Phone Number :</string>
     <string name="Comment">Comment</string>
     <string name="comment"><font size="14">Comment your feedback</font></string>
     <string name="review">Review</string>

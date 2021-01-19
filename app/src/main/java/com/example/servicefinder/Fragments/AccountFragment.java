@@ -71,7 +71,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName,service,speciality,phone_number,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,description, totalReviews, avgRating;
     private ImageView btnComment;
     private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
@@ -102,7 +102,6 @@ public class AccountFragment extends Fragment {
         txtName = view.findViewById(R.id.txtAccountName);
         recyclerView = view.findViewById(R.id.recyclerAccount);
         swipeProfile2 = view.findViewById(R.id.swipeProfile2);
-        service = view.findViewById(R.id.service);
         speciality = view.findViewById(R.id.speciality);
         phone_number = view.findViewById(R.id.phone_number);
         description = view.findViewById(R.id.description);
@@ -182,12 +181,6 @@ public class AccountFragment extends Fragment {
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
 
-                    if(preferences.getString("service","").equals("null")){
-                        service.setText("");
-                    }
-                    else{
-                        service.setText(" " + preferences.getString("service",""));
-                    }
                     if(preferences.getString("speciality","").equals("null")){
                         speciality.setText("");
 

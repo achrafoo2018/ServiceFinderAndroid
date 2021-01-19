@@ -157,12 +157,11 @@ public class SignInFragment extends Fragment {
                     editor.putString("last_name",user.getString("last_name"));
                     editor.putString("profile_picture",user.getString("profile_picture"));
                     editor.putString("type",user.getString("type"));
+                    editor.putString("phone_number", user.getString("phone_number"));
                     editor.putBoolean("isLoggedIn", true);
                     if(object.has("provider")){
                         JSONObject provider = object.getJSONObject("provider");
-                        editor.putString("service",provider.getString("service"));
                         editor.putString("speciality",provider.getString("speciality"));
-                        editor.putString("phone_number",provider.getString("phone_number"));
                         editor.putString("description",provider.getString("description"));
                         editor.putString("rating",provider.getString("rating"));
                     }

@@ -182,7 +182,7 @@ public class SignUpFragment extends Fragment {
 
 
     private void register() {
-        dialog.setMessage("Registering");
+        dialog.setMessage("Signing up");
         dialog.show();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.REGISTER, response -> {
             //we get response if connection success
@@ -196,26 +196,15 @@ public class SignUpFragment extends Fragment {
                     editor.putString("token",object.getString("token"));
                     editor.putInt("id",user.getInt("id"));
                     editor.putString("email",user.getString("email"));
-                    editor.putString("first_name",user.getString("first_name"));
-                    editor.putString("last_name",user.getString("last_name"));
-                    editor.putString("profile_picture",user.getString("profile_picture"));
                     editor.putString("type",user.getString("type"));
                     editor.putBoolean("isLoggedIn", true);
-                    if(object.has("provider")){
-                        JSONObject provider = object.getJSONObject("provider");
-                        editor.putString("service",provider.getString("service"));
-                        editor.putString("speciality",provider.getString("speciality"));
-                        editor.putString("phone_number",provider.getString("phone_number"));
-                        editor.putString("description",provider.getString("description"));
-                        editor.putString("rating",provider.getString("rating"));
-                    }
                     editor.apply();
                     //if success
                     startActivity(new Intent(((AuthActivity)getContext()), UserInfoActivity.class));
                     ((AuthActivity) getContext()).finish();
-                    //Toast.makeText(getContext(), "Register Success", Toast.LENGTH_SHORT).show();
                 }else{
-                    registerFailed.setText("The email has already been taken.");
+                    String error = object.getString("error");
+                    registerFailed.setText(error);
                     registerFailed.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {

@@ -32,13 +32,12 @@ public class MainActivity extends AppCompatActivity {
             //isLoggedIn = false; // delete this when logout done
             if (isLoggedIn){
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                finish();
             }
             else {
                 startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                finish();
             }
-        }, 1500);
+            finish();
+        }, 500);
     }
 
     }
