@@ -154,6 +154,7 @@ public class AddPostActivity extends AppCompatActivity {
                     post.setId(postObject.getInt("id"));
                     post.setPost_picture(postObject.getString("post_image"));
                     post.setDesc(postObject.getString("desc"));
+                    post.setSpeciality(postObject.getString("speciality"));
                     PrettyTime p = new PrettyTime();
                     String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
                     DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);

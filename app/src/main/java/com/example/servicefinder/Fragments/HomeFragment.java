@@ -166,6 +166,7 @@ public class HomeFragment extends Fragment {
                         post.setId(postObject.getInt("id"));
                         post.setUser(user);
                         post.setComments(commentObject.length());
+                        post.setSpeciality(postObject.getString("speciality"));
                         PrettyTime p = new PrettyTime();
                         String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
                         DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
