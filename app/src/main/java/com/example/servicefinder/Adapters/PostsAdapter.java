@@ -133,6 +133,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
                             Intent i = new Intent(((HomeActivity)context), EditPostActivity.class);
                             i.putExtra("postId",post.getId());
                             i.putExtra("text",post.getDesc());
+                            i.putExtra("position",position);
+                            i.putExtra("post_picture",post.getPost_picture());
+                            i.putExtra("speciality",post.getSpeciality());
                             context.startActivity(i);
                             return true;
                         }

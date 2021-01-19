@@ -104,6 +104,9 @@ public class AddPostActivity extends AppCompatActivity {
                 Toast.makeText(this, "Post description is required", Toast.LENGTH_SHORT).show();
             }
         });
+        getSpecialities();
+    }
+    private void getSpecialities(){
         StringRequest request = new StringRequest(Request.Method.GET,Constant.SPECIALITIES, response ->{
             try {
                 JSONObject object = new JSONObject(response);

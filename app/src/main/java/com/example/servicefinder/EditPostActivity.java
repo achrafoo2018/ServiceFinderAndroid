@@ -14,8 +14,10 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,12 +31,17 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.servicefinder.Fragments.HomeFragment;
 import com.example.servicefinder.Models.Post;
+import com.squareup.picasso.Picasso;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +55,8 @@ public class EditPostActivity extends AppCompatActivity {
     private ImageView imgPost;
     private SharedPreferences sharedPreferences;
     private static final int GALLERY_CHANGE_POST = 3;
+    private SearchableSpinner spinner;
+    private ArrayList<String> specialities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,7 @@ public class EditPostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_post);
         init();
     }
+
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
         int height = bm.getHeight();
@@ -76,17 +86,49 @@ public class EditPostActivity extends AppCompatActivity {
         sharedPreferences = getApplication().getSharedPreferences("user", Context.MODE_PRIVATE);
         txtDesc = findViewById(R.id.txtDescEditPost);
         btnSave = findViewById(R.id.btnEditPost);
+        imgPost = findViewById(R.id.imgEditPost);
+        spinner = findViewById(R.id.spinner);
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         position = getIntent().getIntExtra("position",0);
         id = getIntent().getIntExtra("postId",0);
         txtDesc.setText(getIntent().getStringExtra("text"));
 
+        Picasso.get().load(Constant.URL+getIntent().getStringExtra("post_picture")).into(imgPost);
+
         btnSave.setOnClickListener(v->{
             if (!txtDesc.getText().toString().isEmpty()){
                 savePost();
             }
         });
+        getSpecialities();
+    }
+
+    private void getSpecialities(){
+        StringRequest request = new StringRequest(Request.Method.GET,Constant.SPECIALITIES, response ->{
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    JSONArray array = new JSONArray(object.getString("specialities"));
+                    int selectedIndex=0;
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject speciality = array.getJSONObject(i);
+                        specialities.add(speciality.getString("speciality"));
+                        if(speciality.getString("speciality").equals(getIntent().getStringExtra("speciality"))){
+                            selectedIndex=i;
+                        }
+                    }
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(EditPostActivity.this, android.R.layout.simple_spinner_item, specialities);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setSelection(selectedIndex);
+                    spinner.setAdapter(adapter);
+                }
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, Throwable::printStackTrace);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
     }
 
     private void savePost() {
@@ -98,13 +140,9 @@ public class EditPostActivity extends AppCompatActivity {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")){
                     // update the post in recycler view
-                    Post post = HomeFragment.arrayList.get(position);
-                    post.setDesc(txtDesc.getText().toString());
-                    HomeFragment.arrayList.set(position,post);
-                    HomeFragment.recyclerView.getAdapter().notifyItemChanged(position);
-                    HomeFragment.recyclerView.getAdapter().notifyDataSetChanged();
-                    Toast.makeText(this, "Post Edited", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Intent intent = new Intent(getApplicationContext(), ViewPostActivity.class);
+                    intent.putExtra("postId", String.valueOf(id));
+                    startActivity(intent);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -130,6 +168,9 @@ public class EditPostActivity extends AppCompatActivity {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("id",id+"");
                 map.put("desc",txtDesc.getText().toString());
+                map.put("image",bitmapToString(bitmap));
+                map.put("speciality", spinner.getSelectedItem().toString());
+
                 return map;
             }
         };
@@ -140,6 +181,17 @@ public class EditPostActivity extends AppCompatActivity {
 
     public void cancelEdit(View view){
         super.onBackPressed();
+    }
+
+    private String bitmapToString(Bitmap bitmap) {
+        if (bitmap!=null){
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+            byte [] array = byteArrayOutputStream.toByteArray();
+            return Base64.encodeToString(array,Base64.DEFAULT);
+        }
+
+        return "";
     }
 
     public void changePhoto(View view) {
