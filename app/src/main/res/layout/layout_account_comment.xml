@@ -86,6 +86,46 @@
                     android:text="This is the comment body"
                     android:textColor="@color/colorGrey"
                     android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/reviewDangerLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="93dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="You have already reviewed this profile!"
+                            android:textColor="@color/colorDanger"
+                            android:textSize="7pt"
+                            android:textStyle="bold"
+                            app:drawableLeftCompat="@drawable/ic_danger" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp">
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Delete"
+                                    android:id="@+id/btnreviewDangerDelete"/>
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="40dp"
+                                    android:text="Cancel"
+                                    android:id="@+id/btnreviewDangerCancel"/>
+                        </LinearLayout>
+
+                </LinearLayout>
         </LinearLayout>
 
 </LinearLayout>
