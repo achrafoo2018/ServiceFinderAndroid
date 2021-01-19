@@ -57,7 +57,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
-    private TextView txtName,service,speciality,phone_number,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,description, totalReviews, avgRating;
     private Button btnEditAccount;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
@@ -91,7 +91,6 @@ public class ViewProfileActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtAccountName);
         recyclerView = findViewById(R.id.recyclerAccount);
         swipeProfile2 = findViewById(R.id.swipeProfile2);
-        service = findViewById(R.id.service);
         speciality = findViewById(R.id.speciality);
         phone_number = findViewById(R.id.phone_number);
         description = findViewById(R.id.description);
@@ -233,12 +232,6 @@ public class ViewProfileActivity extends AppCompatActivity {
                     //                    Rating here idk
                     Picasso.get().load(Constant.URL+userPref.getString("profile_picture", "")).into(userImg);
 
-                    if(preferences.getString("service","").equals("null")){
-                        service.setText("");
-                    }
-                    else{
-                        service.setText(" " + preferences.getString("service",""));
-                    }
                     if(preferences.getString("speciality","").equals("null")){
                         speciality.setText("");
 
