@@ -100,7 +100,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         circleImageView = findViewById(R.id.imgEditUserInfo);
         btnEditDescription = findViewById(R.id.btnEditDescription);
 
-        if(userPref.getString("type","").equals("Provider")){
+        if(userPref.getString("type","").toLowerCase().equals("provider")){
             btnEditDescription.setVisibility(View.VISIBLE);
         }
 

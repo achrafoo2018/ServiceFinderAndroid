@@ -41,8 +41,8 @@ import static java.security.AccessController.getContext;
 
 public class UserInfoActivity extends AppCompatActivity {
 
-    private TextInputLayout layoutFirstName, layoutLastName;
-    private TextInputEditText txtFirstName, txtLastName;
+    private TextInputLayout layoutFirstName, layoutLastName, layoutPhoneNumber;
+    private TextInputEditText txtFirstName, txtLastName, txtPhoneNumber;
     private TextView txtSelectPhoto;
     private Button btnContinue;
     private CircleImageView circleImageView;
@@ -64,8 +64,10 @@ public class UserInfoActivity extends AppCompatActivity {
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         layoutFirstName = findViewById(R.id.txtLayoutFirstNameUserInfo);
         layoutLastName = findViewById(R.id.txtLayoutLastNameUserInfo);
+        layoutPhoneNumber = findViewById(R.id.txtLayoutPhoneNumberUserInfo);
         txtFirstName = findViewById(R.id.txtFirstNameUserInfo);
         txtLastName = findViewById(R.id.txtLastNameUserInfo);
+        txtPhoneNumber = findViewById(R.id.txtPhoneNumberUserInfo);
         txtSelectPhoto = findViewById(R.id.txtSelectPhoto);
         btnContinue = findViewById(R.id.btnContinue);
         circleImageView = findViewById(R.id.imgUserInfo);
@@ -134,6 +136,11 @@ public class UserInfoActivity extends AppCompatActivity {
             layoutLastName.setError("Last Name is required");
             return false;
         }
+        if (txtPhoneNumber.getText().toString().isEmpty()){
+            layoutPhoneNumber.setErrorEnabled(true);
+            layoutPhoneNumber.setError("Phone Number is required");
+            return false;
+        }
 
         return true;
     }
@@ -143,6 +150,7 @@ public class UserInfoActivity extends AppCompatActivity {
         dialog.show();
         String firstName = txtFirstName.getText().toString().trim();
         String lastName = txtLastName.getText().toString().trim();
+        String phone_number = txtPhoneNumber.getText().toString().trim();
 
         StringRequest request = new StringRequest(Request.Method.POST,Constant.SAVE_USER_INFO, response -> {
 
@@ -153,9 +161,15 @@ public class UserInfoActivity extends AppCompatActivity {
                         JSONObject user = object.getJSONObject("user");
                         editor.putString("first_name",user.getString("first_name"));
                         editor.putString("last_name",user.getString("last_name"));
+                        editor.putString("phone_number",user.getString("phone_number"));
                         editor.putString("profile_picture", user.getString("profile_picture"));
                         editor.apply();
-                        Intent intent = new Intent(UserInfoActivity.this, HomeActivity.class);
+                        Intent intent;
+                        if(user.getString("type").toLowerCase().equals("provider")){
+                            intent = new Intent(UserInfoActivity.this, ProviderInfo.class);
+                        }else{
+                            intent = new Intent(UserInfoActivity.this, HomeActivity.class);
+                        }
                         startActivity(intent);
                         //Toast.makeText(getApplicationContext(), "Register Success", Toast.LENGTH_SHORT).show();
                         finish();
@@ -184,6 +198,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 map.put("id", String.valueOf(userPref.getInt("id", -1)));
                 map.put("first_name", firstName);
                 map.put("last_name", lastName);
+                map.put("phone_number", phone_number);
                 map.put("profile_picture", bitmapToString(bitmap));
                 return map;
             }

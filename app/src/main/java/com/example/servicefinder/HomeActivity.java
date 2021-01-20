@@ -80,16 +80,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_ADD_POST && resultCode==RESULT_OK){
-            Uri imgUri = data.getData();
-            Intent i = new Intent(HomeActivity.this,AddPostActivity.class);
-            i.setData(imgUri);
-            startActivity(i);
-        }
 
-    }
 
 }

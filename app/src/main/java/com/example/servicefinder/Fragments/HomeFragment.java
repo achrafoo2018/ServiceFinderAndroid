@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
     private MaterialToolbar toolbar;
     private SharedPreferences sharedPreferences;
     RelativeLayout myLayout =null;
-    private ArrayList<String> specialities = new ArrayList<>();;
+    private ArrayList<String> specialities = new ArrayList<>();
     private SearchableSpinner spinner;
     private ArrayAdapter<String> adapter;
     public HomeFragment(){}
