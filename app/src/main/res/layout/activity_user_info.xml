@@ -129,7 +129,7 @@
             android:drawableStart="@drawable/phone_number"
             android:drawableLeft="@drawable/phone_number"
             android:drawablePadding="16dp"
-            android:drawableTint="@color/colorPrimary"
+            android:drawableTint="@color/colorBlack"
             android:ems="10"
             android:hint="Phone Number"
             android:inputType="number"
