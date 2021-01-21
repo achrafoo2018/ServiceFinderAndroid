@@ -71,7 +71,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName,speciality,phone_number,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating;
     private ImageView btnComment;
     private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
@@ -81,7 +81,7 @@ public class AccountFragment extends Fragment {
     private String imgUrl = "";
     private NestedScrollView profileScrollView;
     private RatingBar avgBar;
-    private LinearLayout commentsLinearLayout;
+    private LinearLayout commentsLinearLayout,specialityLayout;
 
     public AccountFragment(){}
 
@@ -104,15 +104,20 @@ public class AccountFragment extends Fragment {
         swipeProfile2 = view.findViewById(R.id.swipeProfile2);
         speciality = view.findViewById(R.id.speciality);
         phone_number = view.findViewById(R.id.phone_number);
+        email = view.findViewById(R.id.email);
         description = view.findViewById(R.id.description);
         profileScrollView = view.findViewById(R.id.profileScrollView);
         avgBar = (RatingBar) view.findViewById(R.id.rating_bar_moy);
         totalReviews = view.findViewById(R.id.numberReviews);
         avgRating = view.findViewById(R.id.rating_moy);
         commentsLinearLayout = view.findViewById(R.id.commentsLinearLayout);
+        specialityLayout = view.findViewById(R.id.specialityLayout);
 
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
+        }
+        if(preferences.getString("type","").equals("Client")){
+            specialityLayout.setVisibility(View.GONE);
         }
 
         recyclerView.setHasFixedSize(true);
@@ -177,29 +182,43 @@ public class AccountFragment extends Fragment {
                     user.setFirst_name(userObject.getString("first_name"));
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
+                    user.setType(userObject.getString("type"));
+                    user.setPhone_number(userObject.getString("phone_number"));
+                    user.setEmail(userObject.getString("email"));
+
+                    if(object.has("provider")){
+                        JSONObject providerObject = object.getJSONObject("provider");
+                        user.setDescription(providerObject.getString("description"));
+                        user.setSpeciality(providerObject.getString("speciality"));
+                        if(user.getSpeciality().equals("null")){
+                            speciality.setText("");
+
+                        }
+                        else{
+                            speciality.setText(" " + user.getSpeciality());
+                        }
+                        if(user.getDescription().equals("null")){
+                            description.setText("");
+                        }
+                        else{
+                            description.setText(" " + user.getDescription());
+
+                        }
+                    }
 
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
-                    //                    Rating here idk
 
-                    if(preferences.getString("speciality","").equals("null")){
-                        speciality.setText("");
-
+                    if(user.getEmail().equals("null")){
+                        email.setText("");
                     }
                     else{
-                        speciality.setText(" " + preferences.getString("speciality",""));
+                        email.setText(" " + user.getEmail());
                     }
-                    if(preferences.getString("phone_number","").equals("null")){
+                    if(user.getPhone_number().equals("null")){
                         phone_number.setText("");
                     }
                     else{
-                        phone_number.setText(" " + preferences.getString("phone_number",""));
-                    }
-                    if(preferences.getString("description","").equals("null")){
-                        description.setText("");
-                    }
-                    else{
-                        description.setText(" " + preferences.getString("description",""));
-
+                        phone_number.setText(" " + user.getPhone_number());
                     }
 
                     if (comments.length() != 0) {
@@ -215,6 +234,8 @@ public class AccountFragment extends Fragment {
                         u.setLast_name(uObject.getString("last_name"));
                         u.setPhoto(uObject.getString("profile_picture"));
                         u.setEmail(uObject.getString("email"));
+                        u.setType(userObject.getString("type"));
+
                         Comment comment = new Comment();
                         comment.setUser(u);
                         comment.setId(c.getInt("id"));

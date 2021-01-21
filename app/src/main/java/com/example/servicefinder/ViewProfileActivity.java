@@ -62,7 +62,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
-    private TextView txtName,speciality,phone_number,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating;
     private Button btnEditAccount;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
@@ -77,7 +77,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private SharedPreferences userPref;
     private RatingBar rBar, avgBar;
     private Toolbar profileToolBar;
-    private LinearLayout commentLinearLayout;
+    private LinearLayout commentLinearLayout,specialityLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,12 +98,18 @@ public class ViewProfileActivity extends AppCompatActivity {
         swipeProfile2 = findViewById(R.id.swipeProfile2);
         speciality = findViewById(R.id.speciality);
         phone_number = findViewById(R.id.phone_number);
+        email = findViewById(R.id.email);
         description = findViewById(R.id.description);
         btnComment = findViewById(R.id.btnComment);
         txtComment = findViewById(R.id.txtComment);
+        specialityLayout = findViewById(R.id.specialityLayout);
+
         commenter = (User) getIntent().getSerializableExtra("user");
         if(commenter.getId() == preferences.getInt("id",0)){
             commentLinearLayout.setVisibility(View.GONE);
+        }
+        if(commenter.getType().equals("Client")){
+            specialityLayout.setVisibility(View.GONE);
         }
         userImg = findViewById(R.id.currentUserImgProfile);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -135,78 +141,80 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         btnComment.setOnClickListener(v -> {
 
-            String newComment = txtComment.getText().toString().trim();
+            if(!txtComment.getText().toString().equals("")) {
 
-            StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
+                String newComment = txtComment.getText().toString().trim();
 
-                try {
+                StringRequest request = new StringRequest(Request.Method.POST, Constant.CREATE_COMMENT, response -> {
 
-                    JSONObject object = new JSONObject(response);
-                    if(object.has("success")){
-                    }
-                    else if (object.has("error")){
-                        swipeProfile2.setRefreshing(false);
+                    try {
+
+                        JSONObject object = new JSONObject(response);
+                        if (object.has("success")) {
+                        } else if (object.has("error")) {
+                            swipeProfile2.setRefreshing(false);
 //                        Toast.makeText(ViewProfileActivity.this, object.getString("error"), Toast.LENGTH_LONG).show();
-                        if(object.has("counter")){
+                            if (object.has("counter")) {
 
-                            JSONArray cArrayObject = object.getJSONArray("comment");
-                            JSONObject cObject = cArrayObject.getJSONObject(0);
-                            Comment c = new Comment();
-                            c.setId(cObject.getInt("id"));
-                            c.setComment(cObject.getString("comment"));
-                            c.setRating(cObject.getInt("rating"));
-                            c.setCommenterName(object.getJSONObject("user").getString("first_name")+" "+object.getJSONObject("user").getString("last_name"));
-                            PrettyTime p = new PrettyTime();
-                            String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
-                            DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
-                            String created_at = cObject.getString("created_at");
-                            try{
-                                created_at = p.format(formatter.parse(cObject.getString("created_at")));
-                            }catch(ParseException e){
-                                e.printStackTrace();
+                                JSONArray cArrayObject = object.getJSONArray("comment");
+                                JSONObject cObject = cArrayObject.getJSONObject(0);
+                                Comment c = new Comment();
+                                c.setId(cObject.getInt("id"));
+                                c.setComment(cObject.getString("comment"));
+                                c.setRating(cObject.getInt("rating"));
+                                c.setCommenterName(object.getJSONObject("user").getString("first_name") + " " + object.getJSONObject("user").getString("last_name"));
+                                PrettyTime p = new PrettyTime();
+                                String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+                                DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
+                                String created_at = cObject.getString("created_at");
+                                try {
+                                    created_at = p.format(formatter.parse(cObject.getString("created_at")));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                c.setCommentDate(created_at);
+                                c.setCommenterProfilePicture(object.getJSONObject("user").getString("profile_picture"));
+
+                                DialogFragment reviewDialog = new ReviewAlertDialogFragment(c);
+                                reviewDialog
+                                        .show(getSupportFragmentManager(), "Review");
+                                txtComment.setText(newComment);
                             }
-                            c.setCommentDate(created_at);
-                            c.setCommenterProfilePicture(object.getJSONObject("user").getString("profile_picture"));
-
-                            DialogFragment reviewDialog = new ReviewAlertDialogFragment(c);
-                            reviewDialog
-                                    .show(getSupportFragmentManager(),"Review");
-                            txtComment.setText(newComment);
                         }
+                    } catch (JSONException e) {
+                        Toast.makeText(ViewProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                } catch (JSONException e) {
-                    Toast.makeText(ViewProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
 
-            },error -> {
-                Toast.makeText(ViewProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                }, error -> {
+                    Toast.makeText(ViewProfileActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }){
+                }) {
 
-                @Override
-                public Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String,String> map = new HashMap<>();
-                    map.put("user_id", String.valueOf(preferences.getInt("id",0)));
-                    map.put("provider_id", String.valueOf(commenter.getId()));
-                    map.put("comment", txtComment.getText().toString().trim());
-                    map.put("rating", String.valueOf(rBar.getRating()));
-                    return map;
-                }
+                    @Override
+                    public Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("user_id", String.valueOf(preferences.getInt("id", 0)));
+                        map.put("provider_id", String.valueOf(commenter.getId()));
+                        map.put("comment", txtComment.getText().toString().trim());
+                        map.put("rating", String.valueOf(rBar.getRating()));
+                        return map;
+                    }
 
-            };
+                };
 
-            RequestQueue queue = Volley.newRequestQueue(ViewProfileActivity.this);
-            queue.add(request);
-            txtComment.setText("");
-            swipeProfile2.post(() -> {
-                swipeProfile2.setRefreshing(true);
-                getData();
-                getUserRating();
-                swipeProfile2.setRefreshing(false);
-            });
-            // closing keyboard after clicking on comment
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(swipeProfile2.getWindowToken(), 0);
+                RequestQueue queue = Volley.newRequestQueue(ViewProfileActivity.this);
+                queue.add(request);
+                txtComment.setText("");
+                swipeProfile2.post(() -> {
+                    swipeProfile2.setRefreshing(true);
+                    getData();
+                    getUserRating();
+                    swipeProfile2.setRefreshing(false);
+                });
+                // closing keyboard after clicking on comment
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(swipeProfile2.getWindowToken(), 0);
+            }
         });
 
         //Commenting on profile
@@ -259,30 +267,44 @@ public class ViewProfileActivity extends AppCompatActivity {
                     user.setFirst_name(userObject.getString("first_name"));
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
+                    user.setType(userObject.getString("type"));
+                    user.setPhone_number(userObject.getString("phone_number"));
+                    user.setEmail(userObject.getString("email"));
+                    if(object.has("provider")){
+                        JSONObject providerObject = object.getJSONObject("provider");
+                        user.setDescription(providerObject.getString("description"));
+                        user.setSpeciality(providerObject.getString("speciality"));
+                        if(user.getSpeciality().equals("null")){
+                            speciality.setText("");
+
+                        }
+                        else{
+                            speciality.setText(" " + user.getSpeciality());
+                        }
+                        if(user.getDescription().equals("null")){
+                            description.setText("");
+                        }
+                        else{
+                            description.setText(" " + user.getDescription());
+
+                        }
+                    }
 
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
-                    Picasso.get().load(Constant.URL+userPref.getString("profile_picture", "")).into(userImg);
+                    Picasso.get().load(Constant.URL+user.getPhoto()).into(userImg);
 
-                    if(preferences.getString("speciality","").equals("null")){
-                        speciality.setText("");
-
+                    if(user.getEmail().equals("null")){
+                        email.setText("");
                     }
                     else{
-                        speciality.setText(" " + preferences.getString("speciality",""));
+                        email.setText(" " + user.getEmail());
                     }
-                    if(preferences.getString("phone_number","").equals("null")){
+                    if(user.getPhone_number().equals("null")){
                         phone_number.setText("");
                     }
                     else{
-                        phone_number.setText(" " + preferences.getString("phone_number",""));
-                    }
-                    if(preferences.getString("description","").equals("null")){
-                        description.setText("");
-                    }
-                    else{
-                        description.setText(" " + preferences.getString("description",""));
-
+                        phone_number.setText(" " + user.getPhone_number());
                     }
 
                     if (comments.length() != 0) {

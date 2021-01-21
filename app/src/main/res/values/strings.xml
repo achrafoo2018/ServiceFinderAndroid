@@ -51,5 +51,6 @@
     <string name="comment"><font size="14">Comment your feedback</font></string>
     <string name="review">Review</string>
     <string name="type_your_comment"><font size="14">Ask something</font></string>
+    <string name="email_2">Email :</string>
 
 </resources>
