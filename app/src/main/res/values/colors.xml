@@ -22,4 +22,5 @@
     <color name="colorGrey">#666666</color>
     
     <color name="colorDanger">#df4759</color>
+    <color name="colorSuccess">#22bb33</color>
 </resources>

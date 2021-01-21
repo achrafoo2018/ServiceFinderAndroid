@@ -15,6 +15,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -63,7 +64,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
     private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating;
-    private Button btnEditAccount;
+    private Button btnEditAccount,btnContact,btnDial;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
     private RecyclerView recyclerView;
@@ -103,6 +104,8 @@ public class ViewProfileActivity extends AppCompatActivity {
         btnComment = findViewById(R.id.btnComment);
         txtComment = findViewById(R.id.txtComment);
         specialityLayout = findViewById(R.id.specialityLayout);
+        btnContact = findViewById(R.id.btnContact);
+        btnDial = findViewById(R.id.btnDial);
 
         commenter = (User) getIntent().getSerializableExtra("user");
         if(commenter.getId() == preferences.getInt("id",0)){
@@ -111,6 +114,24 @@ public class ViewProfileActivity extends AppCompatActivity {
         if(commenter.getType().equals("Client")){
             specialityLayout.setVisibility(View.GONE);
         }
+
+        btnContact.setOnClickListener(v->{
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:"+commenter.getEmail())); // only email apps should handle this
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Service Finder");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        });
+        btnDial.setOnClickListener(v->{
+
+            String phone = commenter.getPhone_number();
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+            startActivity(intent);
+
+        });
+
+
         userImg = findViewById(R.id.currentUserImgProfile);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         rBar = (RatingBar) findViewById(R.id.rating_bar);
