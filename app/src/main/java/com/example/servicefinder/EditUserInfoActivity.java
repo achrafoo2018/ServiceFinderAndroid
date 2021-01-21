@@ -167,7 +167,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 map.put("first_name",txtName.getText().toString().trim());
                 map.put("last_name",txtLastname.getText().toString().trim());
                 map.put("email",txtEmail.getText().toString().trim());
-                map.put("phone_number",txtEmail.getText().toString().trim());
+                map.put("phone_number",txtEditPhoneNumberProviderInfo.getText().toString().trim());
                 map.put("profile_picture",bitmapToString(bitmap));
                 return map;
             }
