@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:id="@+id/commenterProfilePicture"
+                            android:src="@color/colorLightGrey"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="6dp"
+                            android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="6dp"
+                                    android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="260dp"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:id="@+id/notification"
+                                    android:textColor="@color/colorBlack"
+                                    android:text="Achraf Ben Soltane commented on your post"/>
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:id="@+id/notificationPostImage"
+                                    android:src="@color/colorLightGrey"/>
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="12dp"
+                                    android:id="@+id/btnPostOption"
+                                    android:background="@android:color/transparent"
+                                    android:layout_gravity="center_vertical"
+                                    app:srcCompat="@drawable/ic_baseline_more_vert_24"
+                                    />
+                                </LinearLayout>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:paddingLeft="6dp"
+
+                                    android:textStyle="bold"
+                                    android:id="@+id/notificationDate"
+                                    android:textColor="@color/colorBlack"
+                                    android:text="Jun 13"/>
+
+
+                        </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+
+</LinearLayout>
