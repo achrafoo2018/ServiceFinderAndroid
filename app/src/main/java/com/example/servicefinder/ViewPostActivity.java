@@ -199,6 +199,7 @@ public class ViewPostActivity extends AppCompatActivity {
         queue.add(request);
     }
     private void getData() {
+        refreshLayout.setRefreshing(true);
         arrayList = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.POST, Constant.COMMENTS_ON_POST, response -> {
 

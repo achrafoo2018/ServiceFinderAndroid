@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:title="" android:id="@+id/item_user_notifications"
+        android:icon="@drawable/bell"
+        app:actionLayout="@layout/custom_notification_layout"
+        app:showAsAction="always"
+        />
     <item android:title="" android:id="@+id/item_account_settings"
         android:icon="@drawable/ic_account_settings"
         app:showAsAction="ifRoom"

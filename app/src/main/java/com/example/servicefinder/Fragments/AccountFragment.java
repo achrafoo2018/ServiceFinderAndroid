@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -48,6 +49,7 @@ import com.example.servicefinder.Models.Post;
 import com.example.servicefinder.Models.Provider;
 import com.example.servicefinder.Models.User;
 import com.example.servicefinder.R;
+import com.example.servicefinder.ViewUserNotifications;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.squareup.picasso.Picasso;
@@ -71,7 +73,7 @@ public class AccountFragment extends Fragment {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile;
-    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating, notificationsCountTxt;
     private ImageView btnComment;
     private SwipeRefreshLayout swipeProfile2;
     private RecyclerView recyclerView;
@@ -112,7 +114,6 @@ public class AccountFragment extends Fragment {
         avgRating = view.findViewById(R.id.rating_moy);
         commentsLinearLayout = view.findViewById(R.id.commentsLinearLayout);
         specialityLayout = view.findViewById(R.id.specialityLayout);
-
         if(preferences.getString("type","").equals("Provider")){
             recyclerView.setVisibility(View.VISIBLE);
         }
@@ -130,6 +131,7 @@ public class AccountFragment extends Fragment {
             public void onRefresh() {
                 getData();
                 getUserRating();
+                getNotificationsCount();
             }
         });
 
@@ -296,9 +298,47 @@ public class AccountFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_account, menu);
+        final MenuItem menuItem = menu.findItem(R.id.item_user_notifications);
+
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        notificationsCountTxt = (TextView) actionView.findViewById(R.id.notification_badge);
+        getNotificationsCount();
+        actionView.setOnClickListener(v -> onOptionsItemSelected(menuItem));
         super.onCreateOptionsMenu(menu, inflater);
     }
-
+    public void getNotificationsCount(){
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.USER_NOTIFICATIONS_COUNT, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+                    int total = object.getInt("total");
+                    if (total == 0) {
+                        if (notificationsCountTxt.getVisibility() != View.GONE) {
+                            notificationsCountTxt.setVisibility(View.GONE);
+                        }
+                    } else {
+                        notificationsCountTxt.setText(String.valueOf(Math.min(total, 99)));
+                        if (notificationsCountTxt.getVisibility() != View.VISIBLE) {
+                            notificationsCountTxt.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        },error -> {
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                String token = preferences.getString("token", "");
+                map.put("Authorization","Bearer "+ token);
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -318,6 +358,11 @@ public class AccountFragment extends Fragment {
                 intent.putExtra("imgUrl", imgUrl);
                 startActivity(intent);
 
+                break;
+            }
+            case R.id.item_user_notifications: {
+                Intent intent = new Intent((HomeActivity)getContext(), ViewUserNotifications.class);
+                startActivity(intent);
                 break;
             }
         }

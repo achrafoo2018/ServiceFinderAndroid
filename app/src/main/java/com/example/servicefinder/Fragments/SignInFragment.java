@@ -163,7 +163,6 @@ public class SignInFragment extends Fragment {
                         JSONObject provider = object.getJSONObject("provider");
                         editor.putString("speciality",provider.getString("speciality"));
                         editor.putString("description",provider.getString("description"));
-                        editor.putString("rating",provider.getString("rating"));
                     }
                     editor.apply();
                     //if success
