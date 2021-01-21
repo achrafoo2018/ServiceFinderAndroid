@@ -63,7 +63,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private View view;
     private MaterialToolbar toolbar;
     private CircleImageView imgProfile, userImg;
-    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating;
+    private TextView txtName,speciality,phone_number,email,description, totalReviews, avgRating, txtRateThis;
     private Button btnEditAccount,btnContact,btnDial;
     private ImageView btnComment;
     private SwipeRefreshLayout refreshLayout,swipeProfile2;
@@ -106,8 +106,11 @@ public class ViewProfileActivity extends AppCompatActivity {
         specialityLayout = findViewById(R.id.specialityLayout);
         btnContact = findViewById(R.id.btnContact);
         btnDial = findViewById(R.id.btnDial);
+        txtRateThis = findViewById(R.id.txtRateThis);
 
         commenter = (User) getIntent().getSerializableExtra("user");
+
+        txtRateThis.setText("Rate this " + commenter.getType().toLowerCase());
         if(commenter.getId() == preferences.getInt("id",0)){
             commentLinearLayout.setVisibility(View.GONE);
         }
