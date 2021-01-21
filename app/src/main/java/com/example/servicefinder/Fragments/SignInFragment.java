@@ -167,7 +167,7 @@ public class SignInFragment extends Fragment {
                     }
                     editor.apply();
                     //if success
-                    Intent intent = new Intent(getActivity().getApplicationContext(), HomeActivity.class);
+                    Intent intent = new Intent(getContext(), HomeActivity.class);
                     startActivity(intent);
                     ((AuthActivity) getContext()).finish();
 

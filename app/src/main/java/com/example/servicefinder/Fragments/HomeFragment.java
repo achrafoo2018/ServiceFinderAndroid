@@ -161,6 +161,7 @@ public class HomeFragment extends Fragment {
                         user.setLast_name(userObject.getString("last_name"));
                         user.setPhoto(userObject.getString("profile_picture"));
                         user.setEmail(userObject.getString("email"));
+                        user.setPhone_number(userObject.getString("phone_number"));
                         user.setType(userObject.getString("type"));
 
                         Post post = new Post();
