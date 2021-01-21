@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -89,6 +90,22 @@ public class ViewPostActivity extends AppCompatActivity {
         });
         getPost();
         getData();
+
+        providerName.setOnClickListener(v->{
+
+            Intent intent = new Intent(this, ViewProfileActivity.class);
+            intent.putExtra("user", post.getUser());
+            startActivity(intent);
+
+        });
+        providerImg.setOnClickListener(v->{
+
+            Intent intent = new Intent(this, ViewProfileActivity.class);
+            intent.putExtra("user", post.getUser());
+            startActivity(intent);
+
+        });
+
         btnComment.setOnClickListener(v -> {
             dialog.setMessage("Commenting");
             dialog.show();
