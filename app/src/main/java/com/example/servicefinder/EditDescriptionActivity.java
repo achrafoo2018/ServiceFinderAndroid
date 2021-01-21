@@ -38,8 +38,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditDescriptionActivity extends AppCompatActivity {
 
-    private TextInputLayout LayoutSpecialityProviderInfo, LayoutPhoneNumberProviderInfo, LayoutDescriptionProviderInfo;
-    private TextInputEditText txtEditSpecialityProviderInfo, txtEditPhoneNumberProviderInfo, txtEditDescriptionProviderInfo;
+    private TextInputLayout LayoutSpecialityProviderInfo, LayoutDescriptionProviderInfo;
+    private TextInputEditText txtEditSpecialityProviderInfo, txtEditDescriptionProviderInfo;
     private Button btnSave;
     private SharedPreferences userPref;
     private ProgressDialog dialog;
@@ -63,11 +63,9 @@ public class EditDescriptionActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         userPref = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         LayoutSpecialityProviderInfo = findViewById(R.id.LayoutSpecialityProviderInfo);
-        LayoutPhoneNumberProviderInfo = findViewById(R.id.LayoutPhoneNumberProviderInfo);
         LayoutDescriptionProviderInfo = findViewById(R.id.LayoutDescriptionProviderInfo);
 
         txtEditSpecialityProviderInfo = findViewById(R.id.txtEditSpecialityProviderInfo);
-        txtEditPhoneNumberProviderInfo = findViewById(R.id.txtEditPhoneNumberProviderInfo);
         txtEditDescriptionProviderInfo = findViewById(R.id.txtEditDescriptionProviderInfo);
 
         btnSave = findViewById(R.id.btnEditSave);
@@ -78,12 +76,6 @@ public class EditDescriptionActivity extends AppCompatActivity {
         }
         else{
             txtEditSpecialityProviderInfo.setText(userPref.getString("speciality",""));
-        }
-        if(userPref.getString("phone_number","").equals("null")){
-            txtEditPhoneNumberProviderInfo.setText("");
-        }
-        else{
-            txtEditPhoneNumberProviderInfo.setText(userPref.getString("phone_number",""));
         }
         if(userPref.getString("description","").equals("null")){
             txtEditDescriptionProviderInfo.setText("");
@@ -104,23 +96,28 @@ public class EditDescriptionActivity extends AppCompatActivity {
 
         dialog.setMessage("Updating");
         dialog.show();
-        StringRequest request = new StringRequest(Request.Method.POST,Constant.SAVE_USER_INFO, res->{
+        StringRequest request = new StringRequest(Request.Method.POST,Constant.SAVE_USER_DESCRIPTION, res->{
 
             try {
                 JSONObject object = new JSONObject(res);
                 if (object.getBoolean("success")){
+                    Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = userPref.edit();
                     editor.putString("speciality",txtEditSpecialityProviderInfo.getText().toString().trim());
-                    editor.putString("phone_number",txtEditPhoneNumberProviderInfo.getText().toString().trim());
                     editor.putString("description",txtEditDescriptionProviderInfo.getText().toString().trim());
                     editor.apply();
                     finish();
                 }
+                else if(object.has("error")){
+                    Toast.makeText(this, ""+object.getString("error"), Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             dialog.dismiss();
         },err->{
+            Toast.makeText(this, ""+err.getMessage(), Toast.LENGTH_SHORT).show();
             err.printStackTrace();
             dialog.dismiss();
         }){
@@ -136,7 +133,6 @@ public class EditDescriptionActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
                 map.put("speciality",txtEditSpecialityProviderInfo.getText().toString().trim());
-                map.put("phone_number",txtEditPhoneNumberProviderInfo.getText().toString().trim());
                 map.put("description",txtEditDescriptionProviderInfo.getText().toString().trim());
                 return map;
             }
@@ -151,11 +147,6 @@ public class EditDescriptionActivity extends AppCompatActivity {
         if (txtEditSpecialityProviderInfo.getText().toString().isEmpty()){
             LayoutSpecialityProviderInfo.setErrorEnabled(true);
             LayoutSpecialityProviderInfo.setError("Speciality is required!");
-            return false;
-        }
-        if (txtEditPhoneNumberProviderInfo.getText().toString().isEmpty()){
-            LayoutPhoneNumberProviderInfo.setErrorEnabled(true);
-            LayoutPhoneNumberProviderInfo.setError("Phone number is required!");
             return false;
         }
         if (txtEditDescriptionProviderInfo.getText().toString().isEmpty()){

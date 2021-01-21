@@ -45,8 +45,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditUserInfoActivity extends AppCompatActivity {
 
-    private TextInputLayout layoutName,layoutLastname,layoutEmail;
-    private TextInputEditText txtName,txtLastname,txtEmail;
+    private TextInputLayout layoutName,layoutLastname,layoutEmail, LayoutPhoneNumberProviderInfo;
+    private TextInputEditText txtName,txtLastname,txtEmail,txtEditPhoneNumberProviderInfo;
     private TextView txtSelectPhoto;
     private Button btnSave, btnEditDescription;
     private CircleImageView circleImageView;
@@ -95,10 +95,13 @@ public class EditUserInfoActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtEditFirstNameUserInfo);
         txtLastname = findViewById(R.id.txtEditLastNameUserInfo);
         txtEmail = findViewById(R.id.txtEditEmailUserInfo);
+        txtEditPhoneNumberProviderInfo = findViewById(R.id.txtEditPhoneNumberProviderInfo);
         txtSelectPhoto = findViewById(R.id.txtEditSelectPhoto);
         btnSave = findViewById(R.id.btnEditSave);
         circleImageView = findViewById(R.id.imgEditUserInfo);
         btnEditDescription = findViewById(R.id.btnEditDescription);
+        LayoutPhoneNumberProviderInfo = findViewById(R.id.LayoutPhoneNumberProviderInfo);
+
 
         if(userPref.getString("type","").toLowerCase().equals("provider")){
             btnEditDescription.setVisibility(View.VISIBLE);
@@ -108,6 +111,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         txtName.setText(userPref.getString("first_name",""));
         txtLastname.setText(userPref.getString("last_name",""));
         txtEmail.setText(userPref.getString("email",""));
+        txtEditPhoneNumberProviderInfo.setText(userPref.getString("phone_number", ""));
 
         txtSelectPhoto.setOnClickListener(v->{
             Intent i = new Intent(Intent.ACTION_PICK);
@@ -136,6 +140,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     editor.putString("first_name",txtName.getText().toString().trim());
                     editor.putString("last_name",txtLastname.getText().toString().trim());
                     editor.putString("email",txtEmail.getText().toString().trim());
+                    editor.putString("phone_number",txtEditPhoneNumberProviderInfo.getText().toString().trim());
                     editor.apply();
                     Toast.makeText(this, "Profile Updated!", Toast.LENGTH_SHORT).show();
                     finish();
@@ -162,6 +167,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 map.put("first_name",txtName.getText().toString().trim());
                 map.put("last_name",txtLastname.getText().toString().trim());
                 map.put("email",txtEmail.getText().toString().trim());
+                map.put("phone_number",txtEmail.getText().toString().trim());
                 map.put("profile_picture",bitmapToString(bitmap));
                 return map;
             }
@@ -203,6 +209,11 @@ public class EditUserInfoActivity extends AppCompatActivity {
         if (txtEmail.getText().toString().isEmpty()){
             layoutEmail.setErrorEnabled(true);
             layoutEmail.setError("Email is required!");
+            return false;
+        }
+        if (txtEditPhoneNumberProviderInfo.getText().toString().isEmpty()){
+            LayoutPhoneNumberProviderInfo.setErrorEnabled(true);
+            LayoutPhoneNumberProviderInfo.setError("Phone number is required!");
             return false;
         }
 

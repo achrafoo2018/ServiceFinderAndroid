@@ -61,7 +61,7 @@ public class ProviderInfo extends AppCompatActivity {
 
             dialog.setMessage("Saving...");
             dialog.show();
-            StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_INFO, res -> {
+            StringRequest request = new StringRequest(Request.Method.POST, Constant.SAVE_USER_DESCRIPTION, res -> {
 
                 try {
                     JSONObject object = new JSONObject(res);
