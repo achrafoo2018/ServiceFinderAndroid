@@ -182,32 +182,36 @@ tools:context=".ViewProfileActivity">
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="14dp">
-                <Button
-                    android:layout_width="60pt"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/colorPrimary"
-                    android:drawableLeft="@drawable/ic_contact_mail"
-                    android:text="Contact"
-                    android:textColor="@color/colorWhite"
-                    android:paddingLeft="10dp"
-                    android:drawablePadding="-10dp"
-                    android:id="@+id/btnContact"/>
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:background="@color/colorSuccess"
                     android:drawableLeft="@drawable/ic_phone"
                     android:text="Dial"
                     android:textColor="@color/colorWhite"
-                    android:paddingLeft="10dp"
-                    android:drawablePadding="-10dp"
+                    android:paddingLeft="50dp"
+                    android:drawablePadding="-50dp"
+                    android:layout_marginRight="30dp"
                     android:id="@+id/btnDial"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:drawableLeft="@drawable/ic_contact_mail"
+                    android:text="Contact"
+                    android:textColor="@color/colorWhite"
+                    android:paddingLeft="30dp"
+                    android:drawablePadding="-30dp"
+                    android:id="@+id/btnContact"
+                    />
 
             </LinearLayout>
 

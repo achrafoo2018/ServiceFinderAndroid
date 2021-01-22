@@ -215,7 +215,7 @@ public class ViewPostActivity extends AppCompatActivity {
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         JSONObject uObject = c.getJSONObject("user");
-                        
+
                         User u = new User();
                         u.setId(uObject.getInt("id"));
                         u.setFirst_name(uObject.getString("first_name"));
