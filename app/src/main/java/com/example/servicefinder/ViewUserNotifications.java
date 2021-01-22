@@ -1,14 +1,23 @@
 package com.example.servicefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,6 +53,7 @@ public class ViewUserNotifications extends AppCompatActivity {
     private RecyclerView recyclerView;
     private NotificationsAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
+    private ImageButton notificationSettings;
 
 
     @Override
@@ -55,12 +65,99 @@ public class ViewUserNotifications extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerNotifications);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        notificationSettings = findViewById(R.id.notificationsSettings);
         refreshLayout = findViewById(R.id.swipeNotifications);
         getUserNotifications();
         refreshLayout.setOnRefreshListener(() ->{
             getUserNotifications();
         });
+        notificationSettings.setOnClickListener(v ->{
+            PopupMenu popupMenu = new PopupMenu(getApplicationContext(), notificationSettings);
+            popupMenu.inflate(R.menu.menu_all_notifications_options);
+            popupMenu.setOnMenuItemClickListener(item -> {
 
+                switch (item.getItemId()){
+                    case R.id.item_markAllAsRead: {
+                        markAllNotificationsAsRead();
+                        return true;
+                    }
+                    case R.id.item_deleteAll: {
+                        deleteAllNotification();
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+            popupMenu.show();
+        });
+
+    }
+    public void markAllNotificationsAsRead(){
+        StringRequest request = new StringRequest(Request.Method.GET, Constant.MARK_ALL_NOTIFICATIONS_AS_READ, response -> {
+            try {
+                JSONObject object = new JSONObject(response);
+                if (object.getBoolean("success")) {
+
+                }else{
+                    System.out.println("==========================================");
+                    System.out.println(object.getString("request"));
+                    System.out.println("==========================================");
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        },error -> {
+
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer "+ preferences.getString("token",""));
+                return map;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+        getUserNotifications();
+    }
+    public void deleteAllNotification(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Confirm");
+        builder.setMessage("Delete All Notification?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StringRequest request = new StringRequest(Request.Method.GET, Constant.DELETE_ALL_NOTIFICATIONS, response -> {
+                    try {
+                        JSONObject object = new JSONObject(response);
+                        if (object.getBoolean("success")) {
+                        } else {
+                            System.out.println("==========================================");
+                            System.out.println(object.getString("request"));
+                            System.out.println("==========================================");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }, error -> {
+
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("Authorization", "Bearer " + preferences.getString("token", ""));
+                        return map;
+                    }
+                };
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                queue.add(request);
+            }
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+
+        });
+        builder.show();
     }
     public void getUserNotifications(){
         refreshLayout.setRefreshing(true);
@@ -69,9 +166,9 @@ public class ViewUserNotifications extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(response);
                 if (object.getBoolean("success")) {
-                 JSONObject notifications = object.getJSONObject("notifications");
-                    for(int i = notifications.length() - 1; i >= 0; i--) {
-                        JSONObject noti = notifications.getJSONObject(""+i);
+                 JSONArray notifications = object.getJSONArray("notifications");
+                    for(int i=0; i < notifications.length();i++) {
+                        JSONObject noti = notifications.getJSONObject(i);
                         JSONObject data = noti.getJSONObject("data");
                         JSONObject userObject = data.getJSONObject("user");
                         JSONObject postObject = data.getJSONObject("post");
@@ -99,6 +196,8 @@ public class ViewUserNotifications extends AppCompatActivity {
                         notf.setDate(created_at);
                         notf.setPost(post);
                         notf.setUser(user);
+                        notf.setRead(!noti.getString("read_at").equals("null"));
+                        notf.setId(noti.getString("id"));
                         arrayList.add(notf);
                     }
                     adapter = new NotificationsAdapter(this, arrayList);
@@ -124,4 +223,5 @@ public class ViewUserNotifications extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
+
 }
