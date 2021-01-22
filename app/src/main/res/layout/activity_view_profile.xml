@@ -111,7 +111,9 @@ tools:context=".ViewProfileActivity">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingStart="25dp"
-            android:paddingLeft="25dp">
+            android:paddingLeft="25dp"
+            android:paddingEnd="25dp"
+            android:paddingRight="25dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -185,7 +187,7 @@ tools:context=".ViewProfileActivity">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="14dp">
+                >
 
                 <Button
                     android:layout_width="0dp"
@@ -195,8 +197,8 @@ tools:context=".ViewProfileActivity">
                     android:drawableLeft="@drawable/ic_phone"
                     android:text="Dial"
                     android:textColor="@color/colorWhite"
-                    android:paddingLeft="50dp"
-                    android:drawablePadding="-50dp"
+                    android:paddingLeft="40dp"
+                    android:drawablePadding="-40dp"
                     android:layout_marginRight="30dp"
                     android:id="@+id/btnDial"/>
 
@@ -208,8 +210,8 @@ tools:context=".ViewProfileActivity">
                     android:drawableLeft="@drawable/ic_contact_mail"
                     android:text="Contact"
                     android:textColor="@color/colorWhite"
-                    android:paddingLeft="30dp"
-                    android:drawablePadding="-30dp"
+                    android:paddingLeft="20dp"
+                    android:drawablePadding="-20dp"
                     android:id="@+id/btnContact"
                     />
 
