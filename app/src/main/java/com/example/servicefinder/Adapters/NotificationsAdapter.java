@@ -76,7 +76,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         holder.notification.setText(text);
         holder.txtCommentDate.setText(notif.getDate());
         if(!notif.isRead()){
-            holder.notifLayout.setBackgroundColor(Color.parseColor("#95F2FF"));
+            holder.notifLayout.setBackgroundColor(context.getResources().getColor(R.color.colorNotification));
         }else{
             holder.notifLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
