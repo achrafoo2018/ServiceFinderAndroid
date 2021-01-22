@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <item android:id="@+id/item_markAsRead" android:title="Mark As Read" app:showAsAction="never" android:icon="@drawable/done"/>
+        <item android:id="@+id/item_delete" android:title="Delete" app:showAsAction="never" android:icon="@drawable/delete_all"/>
+</menu>

@@ -4,7 +4,8 @@ public class Notification {
     private User user;
     private Post post;
     private String date;
-
+    private boolean read;
+    private String id;
     public User getUser() {
         return user;
     }
@@ -27,5 +28,21 @@ public class Notification {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
