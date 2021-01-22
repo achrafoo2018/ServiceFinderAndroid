@@ -80,7 +80,7 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
             intent.putExtra("user", comment.getUser());
             context.startActivity(intent);
         });
-        if(comment.getCommenterName().equals(name)){
+        if(comment.getUser().getId() == preferences.getInt("id",0)){
             holder.btnPostOption.setVisibility(View.VISIBLE);
             holder.btnPostOption.setOnClickListener(v -> {
                 PopupMenu menuComment = new PopupMenu(context, holder.btnPostOption);
