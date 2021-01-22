@@ -154,6 +154,9 @@ public class ViewPostActivity extends AppCompatActivity {
                     user.setFirst_name(userObject.getString("first_name"));
                     user.setLast_name(userObject.getString("last_name"));
                     user.setPhoto(userObject.getString("profile_picture"));
+                    user.setEmail(userObject.getString("email"));
+                    user.setPhone_number(userObject.getString("phone_number"));
+                    user.setType(userObject.getString("type"));
 
                     post.setId(postObject.getInt("id"));
                     post.setUser(user);
@@ -212,12 +215,16 @@ public class ViewPostActivity extends AppCompatActivity {
                     for (int i = 0; i < comments.length(); i++){
                         JSONObject c = comments.getJSONObject(i);
                         JSONObject uObject = c.getJSONObject("user");
+                        
                         User u = new User();
                         u.setId(uObject.getInt("id"));
                         u.setFirst_name(uObject.getString("first_name"));
                         u.setLast_name(uObject.getString("last_name"));
                         u.setPhoto(uObject.getString("profile_picture"));
                         u.setEmail(uObject.getString("email"));
+                        u.setPhone_number(uObject.getString("phone_number"));
+                        u.setType(uObject.getString("type"));
+
                         Comment comment = new Comment();
                         comment.setUser(u);
                         comment.setId(c.getInt("id"));
