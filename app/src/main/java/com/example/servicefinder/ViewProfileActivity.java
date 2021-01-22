@@ -341,6 +341,16 @@ public class ViewProfileActivity extends AppCompatActivity {
                         comment.setComment(c.getString("comment"));
                         comment.setRating(c.getInt("rating"));
                         comment.setCommenterName(c.getJSONObject("user").getString("first_name")+" "+c.getJSONObject("user").getString("last_name"));
+                        User user_ = new User();
+                        JSONObject userObj = c.getJSONObject("user");
+                        user_.setId(userObj.getInt("id"));
+                        user_.setFirst_name(userObj.getString("first_name"));
+                        user_.setLast_name(userObj.getString("last_name"));
+                        user_.setPhoto(userObj.getString("profile_picture"));
+                        user_.setType(userObj.getString("type"));
+                        user_.setPhone_number(userObj.getString("phone_number"));
+                        user_.setEmail(userObj.getString("email"));
+                        comment.setUser(user_);
                         PrettyTime p = new PrettyTime();
                         String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
                         DateFormat formatter = new SimpleDateFormat(DEFAULT_PATTERN);
