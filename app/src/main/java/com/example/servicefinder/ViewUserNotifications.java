@@ -82,7 +82,7 @@ public class ViewUserNotifications extends AppCompatActivity {
                         return true;
                     }
                     case R.id.item_deleteAll: {
-                        deleteAllNotification();
+                        deleteAllNotifications();
                         return true;
                     }
                 }
@@ -121,8 +121,8 @@ public class ViewUserNotifications extends AppCompatActivity {
         queue.add(request);
         getUserNotifications();
     }
-    public void deleteAllNotification(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+    public void deleteAllNotifications(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm");
         builder.setMessage("Delete All Notification?");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -152,6 +152,9 @@ public class ViewUserNotifications extends AppCompatActivity {
                 };
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                 queue.add(request);
+                refreshLayout.post(()->{
+                    getUserNotifications();
+                });
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> {

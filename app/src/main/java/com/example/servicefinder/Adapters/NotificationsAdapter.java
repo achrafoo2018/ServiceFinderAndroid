@@ -173,11 +173,8 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
                 queue.add(request);
             }
     });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
 
-            }
         });
         builder.show();
     }
