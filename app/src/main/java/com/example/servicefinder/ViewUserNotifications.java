@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,7 +58,7 @@ public class ViewUserNotifications extends AppCompatActivity {
     private SwipeRefreshLayout refreshLayout;
     private ImageButton notificationSettings;
     private Toolbar profileToolBar;
-
+    private TextView noNotificationFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class ViewUserNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_view_user_notifications);
         profileToolBar = findViewById(R.id.toolbarViewProfile);
         setSupportActionBar(profileToolBar);
-
+        noNotificationFound = findViewById(R.id.noNotificationFound);
         slidr = Slidr.attach(this);
         preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         recyclerView = findViewById(R.id.recyclerNotifications);
@@ -209,8 +210,14 @@ public class ViewUserNotifications extends AppCompatActivity {
                         notf.setId(noti.getString("id"));
                         arrayList.add(notf);
                     }
+                    if(arrayList.size() == 0) {
+                        recyclerView.setVisibility(View.GONE);
+                        noNotificationFound.setVisibility(View.VISIBLE);
+                    }
                     adapter = new NotificationsAdapter(this, arrayList);
                     recyclerView.setAdapter(adapter);
+                }else{
+                    noNotificationFound.setVisibility(View.VISIBLE);
                 }
             }catch(JSONException e){
                 e.printStackTrace();

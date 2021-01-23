@@ -54,12 +54,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-
+            <TextView
+                android:id="@+id/noNotificationFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="56dp"
+                android:gravity="center"
+                android:text="You don't have any notifications"
+                android:textSize="18sp"
+                android:visibility="invisible" />
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
                 android:id="@+id/swipeNotifications"
                 android:layout_height="match_parent">
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/recyclerNotifications"
