@@ -119,6 +119,7 @@ public class AccountFragment extends Fragment {
         }
         if(preferences.getString("type","").equals("Client")){
             specialityLayout.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
         }
 
         recyclerView.setHasFixedSize(true);
