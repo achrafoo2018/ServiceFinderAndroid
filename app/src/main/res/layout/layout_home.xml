@@ -73,7 +73,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/recyclerHome"
-            android:background="@color/colorWhite"
             android:layout_height="match_parent"
             android:paddingBottom="57dp"
             android:clipToPadding="false"/>
