@@ -114,7 +114,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         if(commenter.getId() == preferences.getInt("id",0)){
             commentLinearLayout.setVisibility(View.GONE);
         }
-        if(commenter.getType().equals("Client")){
+        if(commenter.getType().toLowerCase().equals("client")){
             specialityLayout.setVisibility(View.GONE);
         }
 

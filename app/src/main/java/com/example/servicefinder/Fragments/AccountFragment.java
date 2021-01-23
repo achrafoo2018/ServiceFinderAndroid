@@ -236,7 +236,7 @@ public class AccountFragment extends Fragment {
                         u.setLast_name(uObject.getString("last_name"));
                         u.setPhoto(uObject.getString("profile_picture"));
                         u.setEmail(uObject.getString("email"));
-                        u.setType(userObject.getString("type"));
+                        u.setType(uObject.getString("type"));
 
                         Comment comment = new Comment();
                         comment.setUser(u);
