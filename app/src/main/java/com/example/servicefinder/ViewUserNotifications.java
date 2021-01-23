@@ -42,6 +42,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,6 +83,21 @@ public class ViewUserNotifications extends AppCompatActivity {
         notificationSettings.setOnClickListener(v ->{
             PopupMenu popupMenu = new PopupMenu(getApplicationContext(), notificationSettings);
             popupMenu.inflate(R.menu.menu_all_notifications_options);
+            try {
+                Field[] fields = popupMenu.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mPopup".equals(field.getName())) {
+                        field.setAccessible(true);
+                        Object menuPopupHelper = field.get(popupMenu);
+                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                        setForceIcons.invoke(menuPopupHelper, true);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             popupMenu.setOnMenuItemClickListener(item -> {
 
                 switch (item.getItemId()){

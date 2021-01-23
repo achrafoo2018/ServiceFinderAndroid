@@ -34,6 +34,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +87,22 @@ public class AccountCommentAdapter extends RecyclerView.Adapter<AccountCommentAd
             holder.btnPostOption.setOnClickListener(v -> {
                 PopupMenu menuComment = new PopupMenu(context, holder.btnPostOption);
                 menuComment.getMenuInflater().inflate(R.menu.menu_comment, menuComment.getMenu());
+
+                try {
+                    Field[] fields = menuComment.getClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        if ("mPopup".equals(field.getName())) {
+                            field.setAccessible(true);
+                            Object menuPopupHelper = field.get(menuComment);
+                            Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                            Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                            setForceIcons.invoke(menuPopupHelper, true);
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 menuComment.setOnMenuItemClickListener(item -> {
                     switch(item.getItemId()){
