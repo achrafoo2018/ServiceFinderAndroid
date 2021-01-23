@@ -11,24 +11,21 @@
         android:id="@+id/myLayout"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical">
-
-        <com.google.android.material.appbar.MaterialToolbar
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarViewProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbarHome"
-            android:elevation="1dp"
-            android:theme="@style/AppTheme.BottomAppbar"
-            app:title=" ">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/service_finder"
-                android:fontFamily="@font/leckerlione_regular"
-                android:textSize="20sp"
-                android:textColor="@color/colorBlack"/>
-
-        </com.google.android.material.appbar.MaterialToolbar>
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            android:fontFamily="@font/leckerlione_regular"
+            app:title="Back To Profile"
+            android:theme="@style/AppTheme.BottomAppbar" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGrey"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

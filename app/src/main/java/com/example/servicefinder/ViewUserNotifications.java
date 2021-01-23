@@ -1,7 +1,9 @@
 package com.example.servicefinder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -54,12 +56,16 @@ public class ViewUserNotifications extends AppCompatActivity {
     private NotificationsAdapter adapter;
     private SwipeRefreshLayout refreshLayout;
     private ImageButton notificationSettings;
+    private Toolbar profileToolBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_user_notifications);
+        profileToolBar = findViewById(R.id.toolbarViewProfile);
+        setSupportActionBar(profileToolBar);
+
         slidr = Slidr.attach(this);
         preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
         recyclerView = findViewById(R.id.recyclerNotifications);
@@ -226,5 +232,12 @@ public class ViewUserNotifications extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 }

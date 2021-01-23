@@ -316,7 +316,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                     txtName.setText(user.getFirst_name()+" "+user.getLast_name());
                     //                    Rating here idk
-                    Picasso.get().load(Constant.URL+user.getPhoto()).into(userImg);
+                    Picasso.get().load(Constant.URL+preferences.getString("profile_picture", "")).into(userImg);
 
                     if(user.getEmail().equals("null")){
                         email.setText("");
