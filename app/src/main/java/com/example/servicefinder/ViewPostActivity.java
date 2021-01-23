@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,8 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +44,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +64,7 @@ public class ViewPostActivity extends AppCompatActivity {
     private SlidrInterface slidr;
     private ArrayList<Comment> arrayList;
     private RecyclerView recyclerView;
+    private ImageButton btnPostOption;
 
     private Post post = new Post();
 
@@ -76,6 +83,7 @@ public class ViewPostActivity extends AppCompatActivity {
         postDesc = findViewById(R.id.txtPostDesc);
         PostDate = findViewById(R.id.txtPostDate);
         btnComment = findViewById(R.id.btnComment);
+        btnPostOption = findViewById(R.id.btnPostOption);
         recyclerView = findViewById(R.id.recyclerPost);
         txtComment = findViewById(R.id.txtComment);
         refreshLayout = findViewById(R.id.swipePost);
@@ -88,6 +96,7 @@ public class ViewPostActivity extends AppCompatActivity {
                 getPost();
                 getData();
         });
+
         getPost();
         getData();
 
@@ -137,6 +146,50 @@ public class ViewPostActivity extends AppCompatActivity {
         });
 
         //Commenting on post
+        btnPostOption.setOnClickListener(v->{
+            PopupMenu popupMenu = new PopupMenu(this, btnPostOption);
+            popupMenu.inflate(R.menu.menu_post_options);
+            try {
+                Field[] fields = popupMenu.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if ("mPopup".equals(field.getName())) {
+                        field.setAccessible(true);
+                        Object menuPopupHelper = field.get(popupMenu);
+                        Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                        Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                        setForceIcons.invoke(menuPopupHelper, true);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.item_edit: {
+                        Intent i = new Intent(ViewPostActivity.this, EditPostActivity.class);
+                        i.putExtra("postId",post.getId());
+                        i.putExtra("text",post.getDesc());
+                        i.putExtra("position",0);
+                        i.putExtra("post_picture",post.getPost_picture());
+                        i.putExtra("speciality",post.getSpeciality());
+                        startActivity(i);
+                        return true;
+                    }
+                    case R.id.item_delete: {
+                        deletePost(post.getId());
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        });
+        popupMenu.show();
+    });
     }
 
     private void getPost() {
@@ -157,6 +210,11 @@ public class ViewPostActivity extends AppCompatActivity {
                     user.setEmail(userObject.getString("email"));
                     user.setPhone_number(userObject.getString("phone_number"));
                     user.setType(userObject.getString("type"));
+
+                    if(user.getId() != userPref.getInt("id", 0))
+                    {
+                        btnPostOption.setVisibility(View.GONE);
+                    }
 
                     post.setId(postObject.getInt("id"));
                     post.setUser(user);
@@ -279,5 +337,57 @@ public class ViewPostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deletePost(int postId){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Delete post?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StringRequest request = new StringRequest(Request.Method.POST,Constant.DELETE_POST, response -> {
+
+                    try {
+                        JSONObject object = new JSONObject(response);
+
+                        if (object.getBoolean("success")){
+                            finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                },error -> {
+
+                }){
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String token = userPref.getString("token","");
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("Authorization","Bearer "+token);
+                        return map;
+                    }
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String,String> map = new HashMap<>();
+                        map.put("id",postId+"");
+                        return map;
+                    }
+                };
+
+                RequestQueue queue = Volley.newRequestQueue(ViewPostActivity.this);
+                queue.add(request);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+        builder.show();
     }
 }
