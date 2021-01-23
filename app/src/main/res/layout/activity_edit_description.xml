@@ -20,8 +20,8 @@
             app:title="Back"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorPrimary"/>
+            android:layout_height="1dp"
+            android:background="@color/colorLightGrey"/>
         <LinearLayout
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"

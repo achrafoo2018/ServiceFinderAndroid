@@ -29,6 +29,10 @@ tools:context=".ViewProfileActivity">
             android:fontFamily="@font/leckerlione_regular"
             app:title="Achraf Ben Soltane's Profile"
             android:theme="@style/AppTheme.BottomAppbar" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGrey"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
