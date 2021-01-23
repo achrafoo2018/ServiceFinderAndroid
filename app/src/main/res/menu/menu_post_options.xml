@@ -4,30 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".HomeActivity">
 
+
     <item
-        android:id="@+id/overflowMenu"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        android:title=""
-        android:orderInCategory="100"
-        app:showAsAction="always">
+        android:id="@+id/item_edit"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/edit" />
 
-        <menu>
+    <item
+        android:id="@+id/item_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete"
+        />
 
-            <item
-                android:id="@+id/item_edit"
-                android:icon="@drawable/ic_edit"
-                android:title="@string/edit"
-                app:showAsAction="never"
-                />
-            <item
-                android:id="@+id/item_delete"
-                android:icon="@drawable/ic_delete"
-                android:title="@string/delete"
-                app:showAsAction="never"
-                />
-
-        </menu>
-
-    </item>
 
 </menu>

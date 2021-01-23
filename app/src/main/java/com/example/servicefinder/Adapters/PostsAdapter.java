@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -85,6 +87,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
         return new PostsHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void onBindViewHolder(@NonNull PostsHolder holder, int position) {
         Post post = list.get(position);
@@ -124,6 +127,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsHolder>
         holder.btnPostOption.setOnClickListener(v->{
             PopupMenu popupMenu = new PopupMenu(context,holder.btnPostOption);
             popupMenu.inflate(R.menu.menu_post_options);
+            popupMenu.setForceShowIcon(true);
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
