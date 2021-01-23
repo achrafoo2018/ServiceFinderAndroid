@@ -3,7 +3,8 @@
 
 
     <item
-        android:title="Delete"
-        android:id="@+id/item_delete"/>
+        android:id="@+id/item_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="Delete" />
 
 </menu>
