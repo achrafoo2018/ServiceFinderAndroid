@@ -99,7 +99,10 @@ public class AddPostActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         btnPost.setOnClickListener(v->{
             if(!txtDesc.getText().toString().isEmpty()){
-                post();
+                if(bitmap != null )
+                    post();
+                else
+                    Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(this, "Post description is required", Toast.LENGTH_SHORT).show();
             }
