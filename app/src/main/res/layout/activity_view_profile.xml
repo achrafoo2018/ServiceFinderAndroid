@@ -100,8 +100,6 @@ tools:context=".ViewProfileActivity">
                         android:id="@+id/numberReviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorLightGrey"
-                        android:textStyle="bold"
                         android:text="(600 reviews)"/>
                 </LinearLayout>
             </LinearLayout>
@@ -138,6 +136,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:id="@+id/speciality"/>
             </LinearLayout>
@@ -161,6 +160,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:id="@+id/email"/>
             </LinearLayout>
@@ -183,6 +183,7 @@ tools:context=".ViewProfileActivity">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="16dp"
                     android:textColor="@color/colorBlack"
                     android:id="@+id/phone_number"/>
             </LinearLayout>

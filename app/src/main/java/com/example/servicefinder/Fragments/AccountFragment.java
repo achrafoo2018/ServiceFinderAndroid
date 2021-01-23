@@ -151,7 +151,7 @@ public class AccountFragment extends Fragment {
                     }
                     int totalRev = object.getInt("total");
                     avgBar.setRating(AvgRating);
-                    totalReviews.setText("(" + totalRev + " reviews)");
+                    totalReviews.setText("(" + totalRev + " review"+(totalRev == 1 ? "":"s")+")");
                     avgRating.setText(""+AvgRating);
 
                 }
@@ -221,7 +221,11 @@ public class AccountFragment extends Fragment {
                         phone_number.setText("");
                     }
                     else{
-                        phone_number.setText(" " + user.getPhone_number());
+                        String phoneNb = user.getPhone_number();
+                        if(phoneNb.length() == 8){
+                            phoneNb = phoneNb.substring(0, 2) + " " + phoneNb.substring(2, 5) + " " + phoneNb.substring(5);
+                        }
+                        phone_number.setText(" " + phoneNb);
                     }
 
                     if (comments.length() != 0) {
