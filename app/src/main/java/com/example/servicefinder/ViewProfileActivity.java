@@ -116,6 +116,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         }
         if(commenter.getType().toLowerCase().equals("client")){
             specialityLayout.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
         }
 
         btnContact.setOnClickListener(v->{
