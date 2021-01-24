@@ -173,7 +173,6 @@ public class ViewPostActivity extends AppCompatActivity {
                         Intent i = new Intent(ViewPostActivity.this, EditPostActivity.class);
                         i.putExtra("postId",post.getId());
                         i.putExtra("text",post.getDesc());
-                        i.putExtra("position",0);
                         i.putExtra("post_picture",post.getPost_picture());
                         i.putExtra("speciality",post.getSpeciality());
                         startActivity(i);
@@ -228,6 +227,7 @@ public class ViewPostActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     post.setDate(created_at);
+                    post.setSpeciality(postObject.getString("speciality"));
                     post.setDesc(postObject.getString("desc"));
                     post.setPost_picture(postObject.getString("post_image"));
                     Picasso.get().load(Constant.URL+post.getUser().getPhoto()).into(providerImg);

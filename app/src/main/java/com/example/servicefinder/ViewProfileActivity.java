@@ -130,7 +130,8 @@ public class ViewProfileActivity extends AppCompatActivity {
         btnDial.setOnClickListener(v->{
 
             String phone = commenter.getPhone_number();
-            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.fromParts("tel", phone, null));
             startActivity(intent);
 
         });
