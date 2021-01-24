@@ -49,7 +49,7 @@ import java.util.Map;
 
 public class EditPostActivity extends AppCompatActivity {
 
-    private int position =0, id= 0;
+    private int id= 0;
     private EditText txtDesc;
     private Button btnSave;
     private Bitmap bitmap = null;
@@ -95,7 +95,6 @@ public class EditPostActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
-        position = getIntent().getIntExtra("position",0);
         id = getIntent().getIntExtra("postId",0);
         txtDesc.setText(getIntent().getStringExtra("text"));
         extras = getIntent().getExtras();

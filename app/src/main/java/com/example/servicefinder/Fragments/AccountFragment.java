@@ -242,7 +242,7 @@ public class AccountFragment extends Fragment {
                         u.setPhoto(uObject.getString("profile_picture"));
                         u.setEmail(uObject.getString("email"));
                         u.setType(uObject.getString("type"));
-
+                        u.setPhone_number(uObject.getString("phone_number"));
                         Comment comment = new Comment();
                         comment.setUser(u);
                         comment.setId(c.getInt("id"));
